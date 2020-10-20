@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Items;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,19 +8,25 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+	[Header("Player Stats")]
 	[SerializeField] private float m_JumpForce = 400f;
 	[Range(1, 20f)] [SerializeField] private float m_Speed = 10f;
-	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
+	public PlayerConfiguration config;
 
+	[Header("Movement")]
+	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
 	[SerializeField] private float turnSmoothTime = .1f;
 	private float turnSmoothVelocity;
-
-	const float k_GroundedRadius = .2f;
 	private bool m_Grounded;
 	private Rigidbody m_Rigidbody;
 	private Vector3 m_Velocity = Vector3.zero;
-
 	private Vector2 moveDirection = Vector2.zero;
+
+	[Header("Aiming")]
+	public Transform aimingIndicator;
+	private bool isAiming = false;
+	[Range(0, 120f)] public float aimingRange = 70f;
+	public PlayerWeapon weapon;
 
 	[Header("Events")]
 	[Space]
@@ -36,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Start()
 	{
-		DynamicMultiTargetCamera.instance.targets.Add(this.transform);
+		config = FindObjectOfType<GameManager>().RegisterPlayerAndGetConfiguration(this);
 	}
 
 	private void OnDestroy()
@@ -46,7 +53,15 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
-		Move(moveDirection.x);
+		if (isAiming)
+		{
+			Aim(moveDirection);
+			Move(0f);
+		}
+		else
+		{
+			Move(moveDirection.x);
+		}
 	}
 
 	private bool m_WasGrounded;
@@ -67,19 +82,7 @@ public class PlayerController : MonoBehaviour
 		Vector3 targetVelocity = new Vector2(move * m_Speed, m_Rigidbody.velocity.y);
 		m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
-		float targetAngle = 0f;
-
-		if (move > 0)
-		{
-			targetAngle = -90;
-		}
-		else if (move < 0)
-		{
-			targetAngle = 90;
-
-		}
-		float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-		transform.rotation = Quaternion.Euler(0f, angle, 0f);
+		AdjustPlayerRotation(moveDirection.x);
 	}
 
 	public void Jump(bool jump)
@@ -92,15 +95,60 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void OnMovePerformed(InputAction.CallbackContext moveContext)
+	public void OnMovePerformed(InputAction.CallbackContext context)
 	{
-		moveDirection = moveContext.ReadValue<Vector2>();
+		moveDirection = context.ReadValue<Vector2>();
 	}
 
-	public void OnJumpPerformed(InputAction.CallbackContext moveContext)
+	public void OnJumpPerformed(InputAction.CallbackContext context)
 	{
-		var jump = moveContext.ReadValue<float>();
+		var jump = context.ReadValue<float>();
 		Debug.Log("OnJumpPerformed " + jump);
 		Jump(jump >= 1);
+	}
+
+	private bool wasAiming = false;
+	public void OnShootPerformed(InputAction.CallbackContext context)
+	{
+		var shootButtonDown = context.ReadValue<float>() >= 1;
+
+		if (!shootButtonDown && wasAiming != shootButtonDown)
+			weapon.Shoot();
+
+		isAiming = shootButtonDown;
+		wasAiming = isAiming;
+	}
+
+	public void OnPlayerHasBeenShot(PlayerController fromPlayer)
+	{
+
+	}
+
+	public void Aim(Vector2 direction)
+	{
+		aimingIndicator.gameObject.SetActive(true);
+
+		aimingIndicator.transform.eulerAngles = new Vector3(
+			aimingRange * moveDirection.y,
+			aimingIndicator.transform.eulerAngles.y,
+			aimingIndicator.transform.eulerAngles.z
+			);
+	}
+
+	private void AdjustPlayerRotation(float directionX)
+	{
+		float targetAngle = 0f;
+
+		if (directionX > 0)
+		{
+			targetAngle = -90;
+		}
+		else if (directionX < 0)
+		{
+			targetAngle = 90;
+		}
+
+		float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+		transform.rotation = Quaternion.Euler(0f, angle, 0f);
 	}
 }

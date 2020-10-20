@@ -14,6 +14,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Shoot",
+                    "type": "Button",
+                    "id": "baab444a-cc76-4b1a-840d-675c0922505b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Move",
                     "type": "Value",
                     "id": "a94a9871-0212-4ac0-b49d-eea7e997e777",
@@ -110,6 +118,28 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "97d76c53-df14-4f0d-a251-df604d1b1df0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "df8685d2-f5a7-450d-813e-02ddfd731ffc",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 201622991324454894}
   - component: {fileID: 2454032773482704596}
   - component: {fileID: 5976953995508696064}
+  - component: {fileID: -6576065184372797081}
   m_Layer: 0
   m_Name: CollectableProjectile
   m_TagString: Untagged
@@ -168,5 +169,18 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 24
   m_CollisionDetection: 0
+--- !u!114 &-6576065184372797081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201622991324454895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f4be7c3501fe9d408ddf834755a036a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secondsInterval: 2

@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float m_JumpForce = 400f;
 	[Range(1, 20f)] [SerializeField] private float m_Speed = 10f;
 	public PlayerConfiguration config;
+	public float shotKnockBack = 5f;
+	public float shotKnockUpwardsForce = 5f;
 
 	[Header("Movement")]
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
@@ -27,6 +29,8 @@ public class PlayerController : MonoBehaviour
 	private bool isAiming = false;
 	[Range(0, 120f)] public float aimingRange = 70f;
 	public PlayerWeapon weapon;
+	public int shootCoolDown = 5;
+	private int shootCoolDownCounter = 5;
 
 	[Header("Events")]
 	[Space]
@@ -39,6 +43,8 @@ public class PlayerController : MonoBehaviour
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
+
+		shootCoolDownCounter = shootCoolDown;
 	}
 
 	private void Start()
@@ -49,6 +55,12 @@ public class PlayerController : MonoBehaviour
 	private void OnDestroy()
 	{
 		DynamicMultiTargetCamera.instance.targets.Remove(this.transform);
+	}
+
+	private void FixedUpdate()
+	{
+		if (shootCoolDownCounter > 0)
+			shootCoolDownCounter--;
 	}
 
 	private void Update()
@@ -110,18 +122,33 @@ public class PlayerController : MonoBehaviour
 	private bool wasAiming = false;
 	public void OnShootPerformed(InputAction.CallbackContext context)
 	{
+		if (shootCoolDownCounter > 0)
+		{
+			isAiming = false;
+			wasAiming = isAiming;
+			return;
+		}
+
 		var shootButtonDown = context.ReadValue<float>() >= 1;
 
 		if (!shootButtonDown && wasAiming != shootButtonDown)
+		{
+			InstantlyAdjustPlayerRotation();
 			weapon.Shoot();
+			shootCoolDownCounter = shootCoolDown;
+		}
 
 		isAiming = shootButtonDown;
 		wasAiming = isAiming;
 	}
 
-	public void OnPlayerHasBeenShot(PlayerController fromPlayer)
+	public void OnPlayerHasBeenShot(PlayerController fromPlayer, Vector3 shotPoint)
 	{
+		var forceDirection = (transform.position - shotPoint).normalized;
+		if (forceDirection.y < shotKnockUpwardsForce)
+			forceDirection.y = shotKnockUpwardsForce;
 
+		m_Rigidbody.AddForce(forceDirection * shotKnockBack);
 	}
 
 	public void Aim(Vector2 direction)
@@ -137,7 +164,7 @@ public class PlayerController : MonoBehaviour
 
 	private void AdjustPlayerRotation(float directionX)
 	{
-		float targetAngle = 0f;
+		float targetAngle = transform.eulerAngles.y;
 
 		if (directionX > 0)
 		{
@@ -150,5 +177,22 @@ public class PlayerController : MonoBehaviour
 
 		float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 		transform.rotation = Quaternion.Euler(0f, angle, 0f);
+	}
+
+	private void InstantlyAdjustPlayerRotation()
+	{
+		float targetAngle = transform.eulerAngles.y < 0 || transform.eulerAngles.y > 180
+			? -90
+			: 90;
+
+		transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+	}
+
+	private void OnDrawGizmos()
+	{
+		if (isAiming)
+		{
+			Gizmos.DrawLine(weapon.shootPoint.position, weapon.shootPoint.position + weapon.shootPoint.transform.forward);
+		}
 	}
 }

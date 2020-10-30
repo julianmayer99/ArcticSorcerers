@@ -437,13 +437,26 @@ MonoBehaviour:
   m_Speed: 10
   shotKnockBack: 150
   shotKnockUpwardsForce: 0.2
+  playerStats:
+    ammunitionLeft: 5
+    health: 100
+    jumps: 0
+    distanceCovered: 0
   m_MovementSmoothing: 0.05
   turnSmoothTime: 0.1
   aimingIndicator: {fileID: 2300725086826037871}
   aimingRange: 89.9
   weapon: {fileID: 4909147058716611585}
   shootCoolDown: 5
+  playerUI: {fileID: 0}
+  playerUiPreFab: {fileID: 6849645304746582524, guid: b5c1888277421164689c94576915c101, type: 3}
   OnLandEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerWasShot:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerDied:
     m_PersistentCalls:
       m_Calls: []
 --- !u!136 &3576540009171542645

@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 	public PlayerConfiguration config;
 	public float shotKnockBack = 5f;
 	public float shotKnockUpwardsForce = 5f;
+	public PlayerStats playerStats = new PlayerStats();
 
 	[Header("Movement")]
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
@@ -32,10 +33,17 @@ public class PlayerController : MonoBehaviour
 	public int shootCoolDown = 5;
 	private int shootCoolDownCounter = 5;
 
+	[Header("UI")]
+	[Space]
+	[HideInInspector] public FloatingPlayerGuiHandler playerUI;
+	public GameObject playerUiPreFab;
+
 	[Header("Events")]
 	[Space]
 
 	public UnityEvent OnLandEvent;
+	public UnityEvent OnPlayerWasShot;
+	public UnityEvent OnPlayerDied;
 
 	private void Awake()
 	{
@@ -43,6 +51,10 @@ public class PlayerController : MonoBehaviour
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
+		if (OnPlayerWasShot == null)
+			OnPlayerWasShot = new UnityEvent();
+		if (OnPlayerDied == null)
+			OnPlayerDied = new UnityEvent();
 
 		shootCoolDownCounter = shootCoolDown;
 	}
@@ -50,6 +62,22 @@ public class PlayerController : MonoBehaviour
 	private void Start()
 	{
 		config = FindObjectOfType<GameManager>().RegisterPlayerAndGetConfiguration(this);
+		playerUI = Instantiate(playerUiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<FloatingPlayerGuiHandler>();
+
+		playerUI.SetUpFloatingGui(this, FindObjectOfType<GameManager>().dynamicCamera.GetComponent<Camera>());
+		InvokeRepeating(nameof(RecalculateDistanceCovered), 1f, 1f);
+	}
+
+	private Vector3 distanceMeasurementLastPosition;
+	private void RecalculateDistanceCovered()
+	{
+		if (distanceMeasurementLastPosition == null)
+			distanceMeasurementLastPosition = transform.position;
+
+		float newDistance = Vector3.Distance(transform.position, distanceMeasurementLastPosition);
+
+		distanceMeasurementLastPosition = transform.position;
+		playerStats.distanceCovered += newDistance;
 	}
 
 	private void OnDestroy()
@@ -104,6 +132,7 @@ public class PlayerController : MonoBehaviour
 		{
 			m_Grounded = false;
 			m_Rigidbody.AddForce(new Vector2(0f, m_JumpForce));
+			playerStats.jumps++;
 		}
 	}
 
@@ -122,7 +151,7 @@ public class PlayerController : MonoBehaviour
 	private bool wasAiming = false;
 	public void OnShootPerformed(InputAction.CallbackContext context)
 	{
-		if (shootCoolDownCounter > 0)
+		if (shootCoolDownCounter > 0 || playerStats.ammunitionLeft < 1)
 		{
 			isAiming = false;
 			wasAiming = isAiming;
@@ -135,11 +164,18 @@ public class PlayerController : MonoBehaviour
 		{
 			InstantlyAdjustPlayerRotation();
 			weapon.Shoot();
+			ChangeAmmunnitionReserve(-1);
 			shootCoolDownCounter = shootCoolDown;
 		}
 
 		isAiming = shootButtonDown;
 		wasAiming = isAiming;
+	}
+
+	public void ChangeAmmunnitionReserve(int add)
+	{
+		playerStats.ammunitionLeft += add;
+		playerUI.UpdateAmmunitionReserveCount(playerStats.ammunitionLeft);
 	}
 
 	public void OnPlayerHasBeenShot(PlayerController fromPlayer, Vector3 shotPoint)
@@ -149,6 +185,8 @@ public class PlayerController : MonoBehaviour
 			forceDirection.y = shotKnockUpwardsForce;
 
 		m_Rigidbody.AddForce(forceDirection * shotKnockBack);
+
+		OnPlayerWasShot.Invoke();
 	}
 
 	public void Aim(Vector2 direction)

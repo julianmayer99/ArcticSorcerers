@@ -8,6 +8,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+	//Status of the Player
+	private enum status { Idle, Waddle, Attack}
+
+
 	[Header("Player Stats")]
 	[SerializeField] private float m_JumpForce = 400f;
 	[Range(1, 20f)] [SerializeField] private float m_Speed = 10f;

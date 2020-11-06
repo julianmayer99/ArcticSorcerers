@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6813780175386464332}
-  - component: {fileID: 5450965687796589715}
   - component: {fileID: 4186218218802202741}
   m_Layer: 5
   m_Name: Knob (4)
@@ -37,14 +36,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 15, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &5450965687796589715
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 925077666439801311}
-  m_CullTransparentMesh: 0
 --- !u!114 &4186218218802202741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,7 +75,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7570654393274015622}
-  - component: {fileID: 961950298168378912}
   - component: {fileID: 9107266585143936977}
   m_Layer: 5
   m_Name: Knob
@@ -112,14 +102,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 15, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &961950298168378912
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2160204347988481630}
-  m_CullTransparentMesh: 0
 --- !u!114 &9107266585143936977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,7 +141,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 436238087263825829}
-  - component: {fileID: 3417889930817192446}
   - component: {fileID: 8033006902447261050}
   m_Layer: 5
   m_Name: Knob (1)
@@ -187,14 +168,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 15, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &3417889930817192446
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3717463362244283439}
-  m_CullTransparentMesh: 0
 --- !u!114 &8033006902447261050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +207,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5594749753745633443}
-  - component: {fileID: 5377907085366786249}
   - component: {fileID: 6575426268278250489}
   m_Layer: 5
   m_Name: Knob (3)
@@ -262,14 +234,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 15, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &5377907085366786249
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5063863446521188043}
-  m_CullTransparentMesh: 0
 --- !u!114 &6575426268278250489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +273,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 477113207162209491}
-  - component: {fileID: 5956832852973040083}
   - component: {fileID: 3849182629915409111}
   m_Layer: 5
   m_Name: Knob (2)
@@ -337,14 +300,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 15, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &5956832852973040083
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5463138403007917659}
-  m_CullTransparentMesh: 0
 --- !u!114 &3849182629915409111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,7 +397,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6849645304827838615}
-  - component: {fileID: 6849645304827838613}
   - component: {fileID: 6849645304827838614}
   m_Layer: 5
   m_Name: Text-Player-Name
@@ -470,14 +424,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -5.178711, y: -3.9837027}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &6849645304827838613
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6849645304827838608}
-  m_CullTransparentMesh: 0
 --- !u!114 &6849645304827838614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,7 +522,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6849645305017287601}
-  - component: {fileID: 6849645305017287607}
   - component: {fileID: 6849645305017287600}
   m_Layer: 5
   m_Name: Panel-Player-Name-Overlay
@@ -605,14 +550,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 25.7}
   m_SizeDelta: {x: 84.31543, y: 19.928333}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &6849645305017287607
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6849645305017287602}
-  m_CullTransparentMesh: 0
 --- !u!114 &6849645305017287600
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,9 +8,12 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-	//Status of the Player
-	private enum status { Idle, Waddle, Attack}
+	//component acces
+	private PlayerAnimationController ac;
 
+	//Status of the Player
+	private enum Status { Idle, Waddle, Attack}
+	private Status currentStatus = Status.Idle; //currentStatus keeps track of the Status the player is currently in.
 
 	[Header("Player Stats")]
 	[SerializeField] private float m_JumpForce = 400f;
@@ -51,7 +54,9 @@ public class PlayerController : MonoBehaviour
 
 	private void Awake()
 	{
+		//Component acces
 		m_Rigidbody = GetComponent<Rigidbody>();
+		ac = GetComponent<PlayerAnimationController>();
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
@@ -131,7 +136,6 @@ public class PlayerController : MonoBehaviour
 
 	public void Jump(bool jump)
 	{
-		Debug.Log("Jump called.");
 		if (m_Grounded && jump)
 		{
 			m_Grounded = false;
@@ -148,38 +152,86 @@ public class PlayerController : MonoBehaviour
 	public void OnJumpPerformed(InputAction.CallbackContext context)
 	{
 		var jump = context.ReadValue<float>();
-		Debug.Log("OnJumpPerformed " + jump);
 		Jump(jump >= 1);
 	}
 
 	private bool wasAiming = false;
 	public void OnShootPerformed(InputAction.CallbackContext context)
 	{
-		if (shootCoolDownCounter > 0 || playerStats.ammunitionLeft < 1)
+		//Context value
+		//var shootButtonDown = context.ReadValue<float>() = 1;
+		if (context.ReadValue<float>() == 1)
+        {
+			//Button pressed
+			if (currentStatus != Status.Attack && shootCoolDownCounter <= 0 && playerStats.ammunitionLeft > 0)
+            {
+				AttackInit();
+            }
+        }
+        else if (context.ReadValue<float>() == 0)
 		{
-			isAiming = false;
-			wasAiming = isAiming;
-			return;
-		}
-
-		var shootButtonDown = context.ReadValue<float>() >= 1;
-
-		if (!shootButtonDown && wasAiming != shootButtonDown)
-		{
-			InstantlyAdjustPlayerRotation();
-			weapon.Shoot();
-			ChangeAmmunnitionReserve(-1);
-			shootCoolDownCounter = shootCoolDown;
-		}
-
-		isAiming = shootButtonDown;
-		wasAiming = isAiming;
+			//Button released
+			if (currentStatus == Status.Attack)
+			{
+				AttackShoot();
+				AttackExit();
+				IdleInit();
+			}
+        }
 	}
+
+	public void AttackInit()
+    {
+		Debug.Log("AttackInit");
+		//Initializing the Attack Status
+		currentStatus = Status.Attack;
+		ac.StartAttack();
+
+		isAiming = true;
+	}
+
+	public void AttackStatus()
+    {
+		//Durig the Attack Status
+
+    }
+
+	public void AttackShoot()
+	{
+		Debug.Log("AttackShoot");
+		InstantlyAdjustPlayerRotation();
+		weapon.Shoot();
+		ChangeAmmunnitionReserve(-1);
+		shootCoolDownCounter = shootCoolDown;
+	}
+
+	public void AttackExit()
+	{
+		Debug.Log("AttackExit");
+		//Leaving the Attack Status
+		isAiming = false;
+		wasAiming = false;
+	}
+
+	public void IdleInit()
+	{
+		//Initializing the Idle Status
+		currentStatus = Status.Idle;
+		ac.StartIdle();
+	}
+	public void IdleStatus()
+    {
+		//During Idle
+    }
+	public void IdleExit()
+    {
+		//Leaving Idle
+    }
 
 	public void ChangeAmmunnitionReserve(int add)
 	{
 		playerStats.ammunitionLeft += add;
-		playerUI.UpdateAmmunitionReserveCount(playerStats.ammunitionLeft);
+		//playerUI.UpdateAmmunitionReserveCount(playerStats.ammunitionLeft);
 	}
 
 	public void OnPlayerHasBeenShot(PlayerController fromPlayer, Vector3 shotPoint)

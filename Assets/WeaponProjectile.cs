@@ -41,7 +41,7 @@ public class WeaponProjectile : MonoBehaviour
         var player = collision.gameObject.GetComponent<PlayerController>();
         if (player != null)
         {
-            if (player.config.playerId == shotFromPlayer.config.playerId)
+            if (player.config.PlayerIndex == shotFromPlayer.config.PlayerIndex)
             {
                 // Is players own bullet
                 return;

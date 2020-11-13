@@ -28,6 +28,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Back",
+                    "type": "Button",
+                    "id": "b6ce32ae-3970-4ebf-9147-8f4a3517dd2a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -140,43 +148,11 @@
                     "action": "Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "SelectPlayer",
-            "id": "3f65af5b-b238-4565-aa72-415c28a5b414",
-            "actions": [
-                {
-                    "name": "Back",
-                    "type": "Button",
-                    "id": "0e5f7b40-66b2-4f2e-9471-0b273dc6d6f7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 },
-                {
-                    "name": "Forward",
-                    "type": "Button",
-                    "id": "d0c96040-1897-467a-ad04-c2b83e22acf4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Confirm",
-                    "type": "Button",
-                    "id": "1f606cf9-b62b-47f2-911d-e20aefc3ad0b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
                 {
                     "name": "",
-                    "id": "3385dbe9-8c63-4f0e-b681-0db2af2434d9",
-                    "path": "<Gamepad>/leftStick/left",
+                    "id": "2b9651b0-575f-415f-9e17-9deb9fc0f7d8",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -186,45 +162,12 @@
                 },
                 {
                     "name": "",
-                    "id": "408fdc35-417d-45cb-be63-e065c5932aef",
-                    "path": "<Gamepad>/dpad/left",
+                    "id": "4d1b9035-9dcc-4264-8720-1dc00bb22533",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Back",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "51396db1-b0c8-486b-b7b0-8cf28f479f60",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Forward",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c0235699-388e-4f90-b75d-974c2601acfb",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Forward",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8aaf3164-de00-4410-84b3-baee3bd85bf7",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Confirm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

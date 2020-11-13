@@ -3,35 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public PlayerInputManager inputManager;
     public DynamicMultiTargetCamera dynamicCamera;
-    public List<PlayerController> players;
+    public GameObject playerPrefab;
+    [SerializeField] private Transform playerSpawnsContainer;
+    [HideInInspector] public Transform[] spawns;
+    public static GameManager Instance{ get; set; }
 
-    public PlayerConfiguration RegisterPlayerAndGetConfiguration(PlayerController player)
+    private void Awake()
     {
-        // Developoment data
-        var config = new PlayerConfiguration
+        Instance = this;
+
+        spawns = playerSpawnsContainer.GetComponentsInChildren<Transform>();
+
+        if (PlayerConfigurationManager.Instance == null)
         {
-            playerId = (byte)players.Count,
-            playerName = "Player " + (players.Count + 1)
-        };
-
-        dynamicCamera.targets.Add(player.transform);
-        players.Add(player);
-        return config;
+            SpawnDevelopementPlayerManager();
+            return;
+        }
     }
 
-    public void OnLocalPlayerJoined(PlayerInput playerInput)
+    void SpawnDevelopementPlayerManager()
     {
-
+        SceneManager.LoadScene("PlayerJoin");
     }
-
-    public void OnLocalPlayerLeft(PlayerInput playerInput)
-    {
-
-    }
-
 }

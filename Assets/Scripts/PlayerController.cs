@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 	private Rigidbody m_Rigidbody;
 	private Vector3 m_Velocity = Vector3.zero;
 	private Vector2 moveDirection = Vector2.zero;
+	[HideInInspector] public InteractableObject selectedInteractable;
 
 	[Header("Aiming")]
 	public Transform aimingIndicator;
@@ -52,9 +53,10 @@ public class PlayerController : MonoBehaviour
 	public UnityEvent OnPlayerWasShot;
 	public UnityEvent OnPlayerDied;
 
+	[HideInInspector] public UnityEvent OnBackActionTriggered;
+
 	private void Awake()
 	{
-		//Component acces
 		m_Rigidbody = GetComponent<Rigidbody>();
 		ac = GetComponent<PlayerAnimationController>();
 
@@ -64,16 +66,32 @@ public class PlayerController : MonoBehaviour
 			OnPlayerWasShot = new UnityEvent();
 		if (OnPlayerDied == null)
 			OnPlayerDied = new UnityEvent();
+		if (OnBackActionTriggered == null)
+			OnBackActionTriggered= new UnityEvent();
 
 		shootCoolDownCounter = shootCoolDown;
 	}
 
+	public void Initialize(PlayerConfiguration config)
+	{
+		this.config = config;
+	}
+
+	private void OnEnable()
+	{
+		DynamicMultiTargetCamera.instance.targets.Add(transform);
+	}
+
+	private void OnDisable()
+	{
+		DynamicMultiTargetCamera.instance.targets.Remove(transform);
+	}
+
 	private void Start()
 	{
-		config = FindObjectOfType<GameManager>().RegisterPlayerAndGetConfiguration(this);
 		playerUI = Instantiate(playerUiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<FloatingPlayerGuiHandler>();
 
-		playerUI.SetUpFloatingGui(this, FindObjectOfType<GameManager>().dynamicCamera.GetComponent<Camera>());
+		playerUI.SetUpFloatingGui(this, FindObjectOfType<DynamicMultiTargetCamera>().GetComponent<Camera>());
 		InvokeRepeating(nameof(RecalculateDistanceCovered), 1f, 1f);
 	}
 
@@ -87,11 +105,6 @@ public class PlayerController : MonoBehaviour
 
 		distanceMeasurementLastPosition = transform.position;
 		playerStats.distanceCovered += newDistance;
-	}
-
-	private void OnDestroy()
-	{
-		DynamicMultiTargetCamera.instance.targets.Remove(this.transform);
 	}
 
 	private void FixedUpdate()
@@ -151,11 +164,21 @@ public class PlayerController : MonoBehaviour
 
 	public void OnJumpPerformed(InputAction.CallbackContext context)
 	{
-		var jump = context.ReadValue<float>();
-		Jump(jump >= 1);
+		var jump = context.ReadValue<float>() >= 1;
+		if (selectedInteractable == null)
+			Jump(jump);
+		else
+			selectedInteractable.OnPlayerInteracted.Invoke(this);
 	}
 
-	private bool wasAiming = false;
+	public void OnBackActionPerformed(InputAction.CallbackContext context)
+	{
+		var buttonDown = context.ReadValue<float>() >= 1;
+
+		if (!buttonDown) // => OnButtonUp Event
+			OnBackActionTriggered.Invoke();
+	}
+
 	public void OnShootPerformed(InputAction.CallbackContext context)
 	{
 		//Context value
@@ -210,7 +233,6 @@ public class PlayerController : MonoBehaviour
 		Debug.Log("AttackExit");
 		//Leaving the Attack Status
 		isAiming = false;
-		wasAiming = false;
 	}
 
 	public void IdleInit()
@@ -219,10 +241,12 @@ public class PlayerController : MonoBehaviour
 		currentStatus = Status.Idle;
 		ac.StartIdle();
 	}
+
 	public void IdleStatus()
     {
 		//During Idle
     }
+
 	public void IdleExit()
     {
 		//Leaving Idle
@@ -231,7 +255,7 @@ public class PlayerController : MonoBehaviour
 	public void ChangeAmmunnitionReserve(int add)
 	{
 		playerStats.ammunitionLeft += add;
-		//playerUI.UpdateAmmunitionReserveCount(playerStats.ammunitionLeft);
+		playerUI.UpdateAmmunitionReserveCount(playerStats.ammunitionLeft);
 	}
 
 	public void OnPlayerHasBeenShot(PlayerController fromPlayer, Vector3 shotPoint)

@@ -13,7 +13,7 @@ public class SpawnPlayerSetupMenu : MonoBehaviour
 
     private void Awake()
     {
-        rootMenu = FindObjectOfType<Canvas>().transform.GetChild(0).gameObject;
+        rootMenu = FindObjectOfType<JoinScreenController>().playerSelectContainer;
 
         if (rootMenu != null)
         {
@@ -26,5 +26,15 @@ public class SpawnPlayerSetupMenu : MonoBehaviour
             menu.actionConfirm = input.currentActionMap.FindAction("Confirm");
             menu.SetListeners();
         }
+
+        FindObjectOfType<PlayerConfigurationManager>().HandlePlayerJoin(input);
+
+        input.onActionTriggered += LogInputAction;
+        Debug.Log("Action listener injected.");
+    }
+
+    void LogInputAction(InputAction.CallbackContext context)
+    {
+        Debug.Log("Action triggered: " + context.action.name + " on device: " + context.control.device.name);
     }
 }

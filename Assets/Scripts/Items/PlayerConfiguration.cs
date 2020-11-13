@@ -7,13 +7,12 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Items
 {
+    [Serializable]
     public class PlayerConfiguration
     {
         public string playerName;
-        public byte playerId;
 
-
-        public PlayerInput Input { get; private set; }
+        public PlayerInput Input { get; set; }
         public int PlayerIndex { get; private set; }
         public int Character { get; set; }
         public bool isReady { get; set; }
@@ -30,6 +29,11 @@ namespace Assets.Scripts.Items
         }
 
         public PlayerConfiguration() {  }
+
+        public PlayerConfiguration(int playerId)
+        {
+            this.PlayerIndex = playerId;
+        }
 
         public PlayerConfiguration(PlayerInput pi)
         {

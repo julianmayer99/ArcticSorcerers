@@ -303,7 +303,6 @@ GameObject:
   - component: {fileID: 3576540009171542644}
   - component: {fileID: 3991892608125098250}
   - component: {fileID: 4872127632236555329}
-  - component: {fileID: -8807585630843858557}
   - component: {fileID: 2028882459}
   m_Layer: 0
   m_Name: Player
@@ -402,6 +401,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: baab444a-cc76-4b1a-840d-675c0922505b
     m_ActionName: Player/Shoot[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3576540009171542539}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnBackActionPerformed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b6ce32ae-3970-4ebf-9147-8f4a3517dd2a
+    m_ActionName: Player/Back[/Keyboard/escape,/DualShock4GamepadHID/buttonEast,/DualShock4GamepadHID/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -437,6 +452,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_JumpForce: 1000
   m_Speed: 10
+  config:
+    playerName: 
   shotKnockBack: 150
   shotKnockUpwardsForce: 0.2
   playerStats:
@@ -446,6 +463,7 @@ MonoBehaviour:
     distanceCovered: 0
   m_MovementSmoothing: 0.05
   turnSmoothTime: 0.1
+  selectedInteractable: {fileID: 0}
   aimingIndicator: {fileID: 2300725086826037871}
   aimingRange: 89.9
   weapon: {fileID: 4909147058716611585}
@@ -459,6 +477,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnPlayerDied:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBackActionTriggered:
     m_PersistentCalls:
       m_Calls: []
 --- !u!136 &3576540009171542645
@@ -501,19 +522,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &4872127632236555329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3576540009171542542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f4be7c3501fe9d408ddf834755a036a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  secondsInterval: 2
---- !u!114 &-8807585630843858557
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

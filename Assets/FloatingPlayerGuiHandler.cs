@@ -34,7 +34,7 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
     {
         if (followObject != null)
         {
-            transform.position = sceneCamera.WorldToScreenPoint(followObject.position) + guiOffset;
+            transform.position = sceneCamera.WorldToScreenPoint(followObject.position + guiOffset);
         }
     }
 

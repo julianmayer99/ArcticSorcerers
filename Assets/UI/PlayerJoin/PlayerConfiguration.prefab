@@ -97,6 +97,6 @@ MonoBehaviour:
     m_ActionName: SelectPlayer/Confirm[/DualShock4GamepadHID/buttonSouth,/DualShock4GamepadHID/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: SelectPlayer
+  m_DefaultActionMap: a5a6d666-276a-4bc2-9bb4-670e547b59fe
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

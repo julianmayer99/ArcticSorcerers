@@ -13,9 +13,11 @@ public class PlayerSetupMenuController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI titleText;
     [SerializeField] private SwipeMenu swipeMenu;
+    [SerializeField] private GameObject readyPanel;
 
     private float ignoreInputTime = 1.5f;
     private bool inputEnabled;
+    private bool isReady = false;
 
     public InputAction actionLeft;
     public InputAction actionRight;
@@ -54,41 +56,61 @@ public class PlayerSetupMenuController : MonoBehaviour
     {
         if (!inputEnabled) { return; }
 
+        if (isReady)
+        {
+            PlayerConfigurationManager.Instance.AttemptGameStart(playerIndex);
+            return;
+        }
+
+        isReady = true;
+
+        readyPanel.SetActive(true);
         PlayerConfigurationManager.Instance.ReadyPlayer(playerIndex);
+    }
+
+    private void OnActionLeftPerformed(InputAction.CallbackContext context)
+    {
+        bool buttonDown = context.ReadValue<float>() > 0;
+        if (buttonDown)
+            PickPreviousCharaacter();
+    }
+    private void OnActionRightPerformed(InputAction.CallbackContext context)
+    {
+        bool buttonDown = context.ReadValue<float>() > 0;
+        if (buttonDown)
+            PickNextCharaacter();
+    }
+
+    private void OnPerformActionPerformed(InputAction.CallbackContext context)
+    {
+        bool buttonDown = context.ReadValue<float>() > 0;
+        if (buttonDown)
+        {
+            ReadyPlayer();
+            Debug.Log("Show previous");
+        }
     }
 
     public void SetListeners()
     {
-        actionLeft.performed += (context) =>
-        {
-            bool buttonDown = context.ReadValue<float>() > 0;
-            if (buttonDown)
-                PickPreviousCharaacter();
-        };
-
-        actionRight.performed += (context) =>
-        {
-            bool buttonDown = context.ReadValue<float>() > 0;
-            if (buttonDown)
-            {
-                PickNextCharaacter();
-                Debug.Log("Show next");
-            }
-        };
-
-        actionConfirm.performed += (context) =>
-        {
-            bool buttonDown = context.ReadValue<float>() > 0;
-            if (buttonDown)
-            {
-                ReadyPlayer();
-                Debug.Log("Show previous");
-            }
-        };
+        actionLeft.performed += OnActionLeftPerformed;
+        actionRight.performed += OnActionRightPerformed;
+        actionConfirm.performed += OnPerformActionPerformed;
 
         actionLeft.Enable();
         actionRight.Enable();
         actionConfirm.Enable();
+    }
+
+    private void OnDisable()
+    {
+        actionLeft.performed -= OnActionLeftPerformed;
+        actionRight.performed -= OnActionRightPerformed;
+        actionConfirm.performed -= OnPerformActionPerformed;
+
+        actionLeft.Disable();
+        actionRight.Disable();
+        actionConfirm.Disable();
     }
 
     public void PickNextCharaacter() => swipeMenu.ShowNext();

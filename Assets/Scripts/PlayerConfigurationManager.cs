@@ -9,7 +9,7 @@ using System.Linq;
 public class PlayerConfigurationManager : MonoBehaviour
 {
 
-    private List<PlayerConfiguration> playerConfigs;
+    private List<PlayerController> players;
 
     [SerializeField]
     private int MaxPlayers = 2;
@@ -26,7 +26,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(Instance);
-            playerConfigs = new List<PlayerConfiguration>();
+            players = new List<PlayerController>();
         }
 
     }
@@ -36,33 +36,58 @@ public class PlayerConfigurationManager : MonoBehaviour
         Debug.Log("player joined " + pi.playerIndex);
         pi.transform.SetParent(transform);
 
-        if (!playerConfigs.Any(p => p.PlayerIndex == pi.playerIndex))
+        if (!players.Any(p => p.config.PlayerIndex == pi.playerIndex))
         {
-            playerConfigs.Add(new PlayerConfiguration(pi));
+            var player = pi.GetComponent<PlayerController>();
+
+            players.Add(player);
+
+            var config = new PlayerConfiguration(pi.playerIndex);
+            config.playerName = "Player " + (config.PlayerIndex + 1); // Developoment data
+            config.Input = pi;
+
+            players.Add(player);
+
+            player.config = config;
         }
     }
 
-    public List<PlayerConfiguration> GetPlayerConfigs()
-    {
-        return playerConfigs;
-    }
+    public List<PlayerController> Players => players;
+
 
     public void SetPlayerColor(int index, PlayerConfiguration.PlayerColor color)
     {
-        playerConfigs[index].color = color;
+        players[index].config.color = color;
     }
 
     public void SetPlayerCharacter(int index, int characterIndex)
     {
-        playerConfigs[index].Character = characterIndex;
+        players[index].config.Character = characterIndex;
     }
 
     public void ReadyPlayer(int index)
     {
-        playerConfigs[index].isReady = true;
-        if (playerConfigs.Count == MaxPlayers && playerConfigs.All(p => p.isReady))
+        players[index].config.isReady = true;
+        if (players.Count == MaxPlayers && players.All(p => p.config.isReady))
+        {
+            FindObjectOfType<JoinScreenController>().dialogueWindow_startGame.SetActive(true);
+        }
+    }
+
+    public void AttemptGameStart(int playerIndex)
+    {
+        if (FindObjectOfType<JoinScreenController>().dialogueWindow_startGame.activeSelf)
         {
             SceneManager.LoadScene("Level");
         }
+        else
+        {
+            FindObjectOfType<JoinScreenController>().dialogueWindow_startGame.SetActive(true);
+        }
+    }
+
+    public void LoadLevel()
+    {
+        SceneManager.LoadScene("Level");
     }
 }

@@ -114,7 +114,6 @@ public class SwipeMenu : MonoBehaviour
 
     void MenuItemChanged()
     {
-        Debug.Log($"Item changed to {new_i}");
         OnSwipeMenuSelectionChanged.Invoke(new_i);
     }
 }

@@ -266,7 +266,13 @@ public class PlayerController : MonoBehaviour
 
 		m_Rigidbody.AddForce(forceDirection * shotKnockBack);
 
-		OnPlayerWasShot.Invoke();
+		PlayerControllerInteractionManager.Instance.OnPlayerHitOtherPlayer.Invoke(fromPlayer, this);
+
+		playerStats.health -= 100;
+		if (playerStats.health <= 0)
+		{
+			PlayerControllerInteractionManager.Instance.OnPlayerKilledOtherPlayer.Invoke(fromPlayer, this);
+		}
 	}
 
 	public void Aim(Vector2 direction)
@@ -312,5 +318,10 @@ public class PlayerController : MonoBehaviour
 		{
 			Gizmos.DrawLine(weapon.shootPoint.position, weapon.shootPoint.position + weapon.shootPoint.transform.forward);
 		}
+	}
+
+	public void VisualizeTakingDamage()
+	{
+		// TODO: Spieler kurz rot werden lassen oder so
 	}
 }

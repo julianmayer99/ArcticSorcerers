@@ -12,7 +12,7 @@ public class DynamicMultiTargetCamera : MonoBehaviour
     public float minimumZoom = 40f;
     public float maximumZoom = 10f;
     public float zoomLimiter = 50f;
-    private Camera cam;
+    [HideInInspector] public Camera cam;
 
     public static DynamicMultiTargetCamera instance;
 

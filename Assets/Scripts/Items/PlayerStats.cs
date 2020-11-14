@@ -12,6 +12,16 @@ namespace Assets.Scripts.Items
         public int ammunitionLeft = 5;
         public int health = 100;
         public int jumps = 0;
+        public int kills = 0;
+        public int deaths = 0;
+        public int hitsTaken = 0;
+        public int hitsGiven = 0;
         public float distanceCovered = 0f;
+
+        public void ResetStatsOnPlayerDeath()
+        {
+            health = 100;
+            ammunitionLeft = 5;
+        }
     }
 }

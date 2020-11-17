@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
 	private Rigidbody m_Rigidbody;
 	private Vector3 m_Velocity = Vector3.zero;
 	private Vector2 moveDirection = Vector2.zero;
+	private float m_threshhold = 0.2f;
+	private float m_animMaxSpeed = 3f;
 	[HideInInspector] public InteractableObject selectedInteractable;
 
 	[Header("Aiming")]
@@ -115,15 +117,21 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
-		if (isAiming)
-		{
-			Aim(moveDirection);
-			Move(0f);
-		}
-		else
-		{
-			Move(moveDirection.x);
-		}
+		switch (currentStatus)
+        {
+			default:
+				IdleStatus();
+				break;
+
+			case Status.Waddle:
+				WaddleStatus();
+				break;
+
+			case Status.Attack:
+				AttackStatus();
+				break;
+
+        }
 	}
 
 	private bool m_WasGrounded;
@@ -188,6 +196,15 @@ public class PlayerController : MonoBehaviour
 			//Button pressed
 			if (currentStatus != Status.Attack && shootCoolDownCounter <= 0 && playerStats.ammunitionLeft > 0)
             {
+				//Exit current State
+				if (currentStatus == Status.Waddle)
+                {
+					WaddleExit();
+                }
+				if (currentStatus == Status.Waddle)
+				{
+					IdleExit();
+				}
 				AttackInit();
             }
         }
@@ -216,8 +233,9 @@ public class PlayerController : MonoBehaviour
 	public void AttackStatus()
     {
 		//Durig the Attack Status
-
-    }
+		Aim(moveDirection);
+		Move(0f);
+	}
 
 	public void AttackShoot()
 	{
@@ -245,12 +263,50 @@ public class PlayerController : MonoBehaviour
 	public void IdleStatus()
     {
 		//During Idle
+		Move(0f);
+
+		//StartWaddle
+		if (Mathf.Abs(moveDirection.x) > m_threshhold)
+        {
+			WaddleInit();
+        }
     }
 
 	public void IdleExit()
     {
-		//Leaving Idle
+		//Leaving Idles
     }
+	public void WaddleInit()
+    {
+		//Initializing the Waddle Status
+		currentStatus = Status.Waddle;
+		ac.StartWaddle();
+	}
+
+	public void WaddleStatus()
+    {
+		//During Waddle
+
+		//Movement
+		Move(moveDirection.x);
+
+		//Animation
+		ac.SetSpeed(Mathf.Abs(moveDirection.x) * m_animMaxSpeed);
+
+		//StartIdle
+		if (Mathf.Abs(moveDirection.x) < m_threshhold)
+		{
+			IdleInit();
+			WaddleExit();
+		}
+	}
+
+	public void WaddleExit()
+    {
+		//ResetSpeed
+		ac.SetSpeed(1f);
+	}
+
 
 	public void ChangeAmmunnitionReserve(int add)
 	{

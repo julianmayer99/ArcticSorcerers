@@ -26,4 +26,9 @@ public class PlayerAnimationController : MonoBehaviour
         penguinAnimator.SetTrigger("Attack");
     }
 
+    public void SetSpeed(float s)
+    {
+        penguinAnimator.speed = s;
+    }
+
 }

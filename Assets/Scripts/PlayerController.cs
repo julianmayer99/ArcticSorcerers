@@ -124,14 +124,12 @@ public class PlayerController : MonoBehaviour
 		playerStats.distanceCovered += newDistance;
 	}
 
+
 	private void FixedUpdate()
 	{
 		if (shootCoolDownCounter > 0)
 			shootCoolDownCounter--;
-	}
 
-	private void Update()
-	{
 		switch (currentStatus)
         {
 			default:
@@ -237,7 +235,6 @@ public class PlayerController : MonoBehaviour
 
 	public void AttackInit()
     {
-		Debug.Log("AttackInit");
 		//Initializing the Attack Status
 		currentStatus = Status.Attack;
 		ac.StartAttack();
@@ -254,7 +251,6 @@ public class PlayerController : MonoBehaviour
 
 	public void AttackShoot()
 	{
-		Debug.Log("AttackShoot");
 		InstantlyAdjustPlayerRotation();
 		weapon.Shoot();
 		ChangeAmmunnitionReserve(-1);
@@ -263,7 +259,6 @@ public class PlayerController : MonoBehaviour
 
 	public void AttackExit()
 	{
-		Debug.Log("AttackExit");
 		//Leaving the Attack Status
 		isAiming = false;
 	}
@@ -326,7 +321,7 @@ public class PlayerController : MonoBehaviour
 	public void ChangeAmmunnitionReserve(int add)
 	{
 		playerStats.ammunitionLeft += add;
-		playerUI.UpdateAmmunitionReserveCount(playerStats.ammunitionLeft);
+		//playerUI.UpdateAmmunitionReserveCount(playerStats.ammunitionLeft); //AUSKOMMENTIERT WEIL ERROR
 	}
 
 	public void OnPlayerHasBeenShot(PlayerController fromPlayer, Vector3 shotPoint)

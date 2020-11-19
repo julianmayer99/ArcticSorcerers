@@ -82,11 +82,26 @@ public class PlayerController : MonoBehaviour
 	private void OnEnable()
 	{
 		DynamicMultiTargetCamera.instance.targets.Add(transform);
+
+		if (playerUI != null)
+		{
+			playerUI.gameObject.SetActive(true);
+		}
 	}
 
 	private void OnDisable()
 	{
 		DynamicMultiTargetCamera.instance.targets.Remove(transform);
+
+		if (playerUI != null)
+		{
+			playerUI.gameObject.SetActive(false);
+		}
+	}
+
+	private void OnDestroy()
+	{
+		Destroy(playerUI.gameObject);
 	}
 
 	private void Start()

@@ -12,14 +12,17 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
     private PlayerController attatchedPlayer;
     private Camera sceneCamera;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void SetUpFloatingGui(PlayerController player, Camera camera)
     {
         this.followObject = player.transform;
         this.sceneCamera = camera;
 
         txt_playerName.text = player.config.playerName;
-
-        player.OnPlayerWasShot.AddListener(OnPlayerHasBeenShot);
     }
 
     public void UpdateAmmunitionReserveCount(int shotsLeft)
@@ -36,16 +39,5 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
         {
             transform.position = sceneCamera.WorldToScreenPoint(followObject.position + guiOffset);
         }
-    }
-
-    private void OnPlayerHasBeenShot()
-    {
-
-    }
-
-    private void OnDisable()
-    {
-        if (attatchedPlayer != null)
-            attatchedPlayer.OnPlayerWasShot.RemoveListener(OnPlayerHasBeenShot);
     }
 }

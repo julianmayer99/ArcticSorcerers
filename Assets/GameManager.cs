@@ -28,6 +28,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        foreach (var player in PlayerConfigurationManager.Instance.Players)
+        {
+            DynamicMultiTargetCamera.instance.targets.Add(player.transform);
+        }
+    }
+
     private void OnEnable()
     {
         PlayerControllerInteractionManager.Instance.OnPlayerHitOtherPlayer.AddListener(OnPlayerHitOtherPlayer);

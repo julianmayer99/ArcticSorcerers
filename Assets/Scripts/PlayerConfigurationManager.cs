@@ -88,6 +88,11 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     public void LoadLevel()
     {
+        foreach (var player in players)
+        {
+            player.gameObject.SetActive(false);
+        }
+
         SceneManager.LoadScene("Level");
     }
 }

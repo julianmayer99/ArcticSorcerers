@@ -357,7 +357,7 @@ MonoBehaviour:
   - {fileID: 1383255459601256821}
   - {fileID: 7665965876328396763}
   - {fileID: 3874581815345193570}
-  guiOffset: {x: 0, y: 40, z: 0}
+  guiOffset: {x: 0, y: 0.8, z: 0}
 --- !u!1 &6849645304827838608
 GameObject:
   m_ObjectHideFlags: 0

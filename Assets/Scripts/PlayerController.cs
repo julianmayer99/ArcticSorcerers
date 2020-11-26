@@ -83,9 +83,18 @@ public class PlayerController : MonoBehaviour
 	{
 		DynamicMultiTargetCamera.instance.targets.Add(transform);
 
-		if (playerUI != null)
+		if (playerUI == null)
 		{
-			playerUI.gameObject.SetActive(true);
+			playerUI = Instantiate(playerUiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<FloatingPlayerGuiHandler>();
+
+		}
+
+		playerUI.SetUpFloatingGui(this, FindObjectOfType<DynamicMultiTargetCamera>().GetComponent<Camera>());
+		playerUI.gameObject.SetActive(true);
+
+		if (GameSettings.gameHasStarted)
+		{
+			InvokeRepeating(nameof(RecalculateDistanceCovered), 1f, 1f);
 		}
 	}
 
@@ -97,19 +106,14 @@ public class PlayerController : MonoBehaviour
 		{
 			playerUI.gameObject.SetActive(false);
 		}
+
+		CancelInvoke(nameof(RecalculateDistanceCovered));
 	}
 
 	private void OnDestroy()
 	{
-		Destroy(playerUI.gameObject);
-	}
-
-	private void Start()
-	{
-		playerUI = Instantiate(playerUiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<FloatingPlayerGuiHandler>();
-
-		playerUI.SetUpFloatingGui(this, FindObjectOfType<DynamicMultiTargetCamera>().GetComponent<Camera>());
-		InvokeRepeating(nameof(RecalculateDistanceCovered), 1f, 1f);
+		if (playerUI.gameObject != null)
+			Destroy(playerUI.gameObject);
 	}
 
 	private Vector3 distanceMeasurementLastPosition;

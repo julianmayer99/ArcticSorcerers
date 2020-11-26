@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
         foreach (var player in PlayerConfigurationManager.Instance.Players)
         {
             DynamicMultiTargetCamera.instance.targets.Add(player.transform);
+            player.gameObject.SetActive(true);
         }
     }
 

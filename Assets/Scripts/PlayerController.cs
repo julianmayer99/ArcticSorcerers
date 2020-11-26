@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
 	[Space]
 	[HideInInspector] public FloatingPlayerGuiHandler playerUI;
 	public GameObject playerUiPreFab;
+	public SkinnedMeshRenderer scarfMeshRenderer;
 
 	[Header("Events")]
 	[Space]
@@ -85,17 +86,20 @@ public class PlayerController : MonoBehaviour
 
 		if (playerUI == null)
 		{
-			playerUI = Instantiate(playerUiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<FloatingPlayerGuiHandler>();
-
+			RespawnUI();
 		}
-
-		playerUI.SetUpFloatingGui(this, FindObjectOfType<DynamicMultiTargetCamera>().GetComponent<Camera>());
-		playerUI.gameObject.SetActive(true);
 
 		if (GameSettings.gameHasStarted)
 		{
 			InvokeRepeating(nameof(RecalculateDistanceCovered), 1f, 1f);
 		}
+	}
+
+	public void RespawnUI()
+	{
+		playerUI = Instantiate(playerUiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<FloatingPlayerGuiHandler>();
+		playerUI.SetUpFloatingGui(this, FindObjectOfType<DynamicMultiTargetCamera>().GetComponent<Camera>());
+		playerUI.gameObject.SetActive(true);
 	}
 
 	private void OnDisable()
@@ -110,10 +114,12 @@ public class PlayerController : MonoBehaviour
 		CancelInvoke(nameof(RecalculateDistanceCovered));
 	}
 
-	private void OnDestroy()
+	public void OnColorChanged()
 	{
-		if (playerUI.gameObject != null)
-			Destroy(playerUI.gameObject);
+		scarfMeshRenderer.material = config.Color.material;
+		scarfMeshRenderer.materials = new Material[] { config.Color.material };
+		scarfMeshRenderer.sharedMaterials = new Material[] { config.Color.material };
+		playerUI.OnPlayerColorChanged();
 	}
 
 	private Vector3 distanceMeasurementLastPosition;
@@ -192,7 +198,9 @@ public class PlayerController : MonoBehaviour
 		var jump = context.ReadValue<float>() >= 1;
 		if (selectedInteractable == null)
 			Jump(jump);
-		else
+		else if (jump && selectedInteractable.isButtonDownEvent) // => On button down
+			selectedInteractable.OnPlayerInteracted.Invoke(this);
+		else if (!jump && !selectedInteractable.isButtonDownEvent) // => On button up
 			selectedInteractable.OnPlayerInteracted.Invoke(this);
 	}
 

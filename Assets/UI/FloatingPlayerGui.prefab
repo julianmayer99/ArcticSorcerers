@@ -351,6 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt_playerName: {fileID: 6849645304827838614}
+  img_nameTextBackground: {fileID: 5832394579978327329}
   ammunitionKnobs:
   - {fileID: 3307442549017678430}
   - {fileID: 5607571198355645608}
@@ -442,7 +443,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 18.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -528,7 +529,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 25.7}
-  m_SizeDelta: {x: 84.31543, y: 19.928333}
+  m_SizeDelta: {x: 102.53418, y: 24.234417}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3090594627296762294
 CanvasRenderer:

@@ -9,6 +9,9 @@ public class InteractableObject : MonoBehaviour
     [System.Serializable]
     public class PlayerControllerEvent : UnityEvent<PlayerController> { };
 
+    [Tooltip("If unchecked, this be be a \"On Button Up\"-Event")]
+    public bool isButtonDownEvent = true;
+    [Space]
     public PlayerControllerEvent OnPlayerEnters;
     public PlayerControllerEvent OnPlayerLeaves;
     [Space]

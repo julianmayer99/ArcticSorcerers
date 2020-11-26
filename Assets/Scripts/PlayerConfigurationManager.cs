@@ -49,15 +49,27 @@ public class PlayerConfigurationManager : MonoBehaviour
             players.Add(player);
 
             player.config = config;
+            StartCoroutine(SetPlayerColorAfterPlayerEnableCall(player));
         }
+    }
+
+    IEnumerator SetPlayerColorAfterPlayerEnableCall(PlayerController player)
+    {
+        yield return new WaitForEndOfFrame();
+        ChangePlayerColor(player); // Auto assign on first launch
     }
 
     public List<PlayerController> Players => players;
 
-
-    public void SetPlayerColor(int index, PlayerConfiguration.PlayerColor color)
+    public void ChangePlayerColor(PlayerController player)
     {
-        players[index].config.color = color;
+        player.config.ChangePlayerColorToNextFree();
+        player.OnColorChanged();
+    }
+
+    public void SetPlayerColor(int index, ColorManager.PlayerColor color)
+    {
+        players[index].config.Color = color;
     }
 
     public void SetPlayerCharacter(int index, int characterIndex)
@@ -88,10 +100,11 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     public void LoadLevel()
     {
+        /*
         foreach (var player in players)
         {
             player.gameObject.SetActive(false);
-        }
+        } */
 
         SceneManager.LoadScene("Level");
     }

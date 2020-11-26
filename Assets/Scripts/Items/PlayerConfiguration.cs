@@ -11,21 +11,27 @@ namespace Assets.Scripts.Items
     public class PlayerConfiguration
     {
         public string playerName;
-
         public PlayerInput Input { get; set; }
         public int PlayerIndex { get; private set; }
         public int Character { get; set; }
         public bool isReady { get; set; }
-        public PlayerColor color { get; set; }
+        public ColorManager.PlayerColor Color { get; set; }
 
-        public enum PlayerColor
+        private int selectedColorIndex = 0;
+        /// <summary>
+        /// OnColorChanged() must be called after on the attached PlayerController
+        /// </summary>
+        public void ChangePlayerColorToNextFree()
         {
-            Red,
-            Green,
-            Blue,
-            Yellow,
-            Orange,
-            Cyan
+            var colors = ColorManager.Instance.UnoccupiedPlayerColors.ToArray();
+            selectedColorIndex %= colors.Length;
+
+            if (Color != null)
+                Color.isInUse = false;
+
+            Color = colors[selectedColorIndex];
+            Color.isInUse = true;
+            selectedColorIndex++;
         }
 
         public PlayerConfiguration() {  }

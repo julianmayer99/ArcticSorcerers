@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
 public class ColorManager : MonoBehaviour
@@ -10,6 +12,8 @@ public class ColorManager : MonoBehaviour
     public Color bg_FloatingUIObject;
     public Color txt_FloatingUIObject_Highlightet;
     public Color txt_FloatingUIObject;
+
+    public PlayerColor[] playerColors;
 
     private void Awake()
     {
@@ -24,6 +28,18 @@ public class ColorManager : MonoBehaviour
         Txt_FloatingUIObject_Highlightet,
         Txt_FloatingUIObject
     }
+
+    [System.Serializable]
+    public class PlayerColor
+    {
+        public string name;
+        public Material material;
+        public Color ui_color_dark;
+        public Color ui_color_normal;
+        [HideInInspector] public bool isInUse = false;
+    }
+
+    public IEnumerable<PlayerColor> UnoccupiedPlayerColors => playerColors.Where(c => !c.isInUse);
 
     public Color GetColor(ColorField color)
     {

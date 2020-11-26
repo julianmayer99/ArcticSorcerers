@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &190372565916972344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 190372565916972346}
+  - component: {fileID: 190372565916972347}
+  m_Layer: 0
+  m_Name: ColorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &190372565916972346
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190372565916972344}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &190372565916972347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190372565916972344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea785802d1061b149b8f83f4e188fc3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bg_FloatingUIObject_Highlightet: {r: 0.745283, g: 0.37408453, b: 0.0187492, a: 0.78431374}
+  bg_FloatingUIObject: {r: 0, g: 0, b: 0, a: 0.7058824}
+  txt_FloatingUIObject_Highlightet: {r: 1, g: 1, b: 1, a: 1}
+  txt_FloatingUIObject: {r: 1, g: 1, b: 1, a: 1}
+  playerColors:
+  - name: Blue
+    material: {fileID: 2100000, guid: 4725548f68baa99478392e436e4113cd, type: 2}
+    ui_color_dark: {r: 0.0626557, g: 0.12675577, b: 0.4528302, a: 1}
+    ui_color_normal: {r: 0.15266399, g: 0.25622225, b: 0.7830189, a: 1}
+    isInUse: 0
+  - name: Red
+    material: {fileID: 2100000, guid: a4a180dce37f17d4e84cd022a075ef7b, type: 2}
+    ui_color_dark: {r: 0.4509804, g: 0.06274509, b: 0.065801136, a: 1}
+    ui_color_normal: {r: 0.78431374, g: 0.15294117, b: 0.15294117, a: 1}
+    isInUse: 0
+  - name: Green
+    material: {fileID: 2100000, guid: d713b156db427a8419b789285ea084d1, type: 2}
+    ui_color_dark: {r: 0.06274509, g: 0.4509804, b: 0.14490801, a: 1}
+    ui_color_normal: {r: 0.15294117, g: 0.78431374, b: 0.2897386, a: 1}
+    isInUse: 0
+  - name: Yellow
+    material: {fileID: 2100000, guid: 3177854f2ce87ea4fb21e8d914595f17, type: 2}
+    ui_color_dark: {r: 0.4509804, g: 0.37040386, b: 0.06274509, a: 1}
+    ui_color_normal: {r: 0.78431374, g: 0.6580393, b: 0.15294117, a: 1}
+    isInUse: 0
+  - name: Orange
+    material: {fileID: 2100000, guid: 61fcf8b423b0920438d10f076a1c6873, type: 2}
+    ui_color_dark: {r: 0.4509804, g: 0.21516979, b: 0.06274509, a: 1}
+    ui_color_normal: {r: 0.78431374, g: 0.40549022, b: 0.15294117, a: 1}
+    isInUse: 0
+  - name: Purple
+    material: {fileID: 2100000, guid: e110a68341b183241aaf346d71fcfa5b, type: 2}
+    ui_color_dark: {r: 0.32712564, g: 0.06274509, b: 0.4509804, a: 1}
+    ui_color_normal: {r: 0.58437914, g: 0.15294117, b: 0.78431374, a: 1}
+    isInUse: 0

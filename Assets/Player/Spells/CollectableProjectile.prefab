@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -6576065184372797081}
   - component: {fileID: 603485797759405114}
   - component: {fileID: 127767470117082448}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CollectableProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 8
   m_CollisionDetection: 0
 --- !u!65 &127767470117082448
 BoxCollider:
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 7165652791299473527}
   - component: {fileID: 7130275433322380615}
   - component: {fileID: 3854030453768048864}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8789703894959452792}
   serializedVersion: 6
-  lengthInSec: 1
+  lengthInSec: 1000
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -1065,7 +1065,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 0
+        scalar: 100
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -1509,13 +1509,13 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
-    mode: 0
-    timeMode: 0
+    enabled: 1
+    mode: 1
+    timeMode: 1
     fps: 30
     frameOverTime:
       serializedVersion: 2
-      minMaxState: 1
+      minMaxState: 0
       scalar: 0.9999
       minScalar: 0.9999
       maxCurve:
@@ -1628,7 +1628,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 0}
+    - sprite: {fileID: 21300000, guid: 490b2615c8d676041ac30ac6791a510f, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -4914,7 +4914,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0a86588ca019f8642a940022e075b007, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5018,6 +5018,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: dcc8b5776f9055f4abffafcd259d3ff5, type: 3}
       propertyPath: m_Name
       value: SpellIceDrop
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dcc8b5776f9055f4abffafcd259d3ff5, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: dcc8b5776f9055f4abffafcd259d3ff5, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcc8b5776f9055f4abffafcd259d3ff5, type: 3}

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using Assets.Scripts.Gamemodes;
 
 public class PlayerConfigurationManager : MonoBehaviour
 {
@@ -100,11 +101,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     public void LoadLevel()
     {
-        /*
-        foreach (var player in players)
-        {
-            player.gameObject.SetActive(false);
-        } */
+        GameSettings.gameMode = new GamemodeTeamDeathmatch();
 
         SceneManager.LoadScene("Level");
     }

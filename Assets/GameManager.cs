@@ -39,17 +39,25 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerControllerInteractionManager.Instance.OnPlayerHitOtherPlayer.AddListener(OnPlayerHitOtherPlayer);
-        PlayerControllerInteractionManager.Instance.OnPlayerKilledOtherPlayer.AddListener(OnPlayerKilledOtherPlayer);
+        PlayerControllerInteractionManager.Instance.OnPlayerHitOtherPlayer.AddListener(OnPlayerHitOtherPlayer_Basic_GamemodeIndependent);
+        PlayerControllerInteractionManager.Instance.OnPlayerKilledOtherPlayer.AddListener(OnPlayerKilledOtherPlayer_Basic_GamemodeIndependent);
+
+        PlayerControllerInteractionManager.Instance.OnPlayerKilledOtherPlayer.AddListener(GameSettings.gameMode.OnPlayerKilledOtherPlayer);
+        PlayerControllerInteractionManager.Instance.OnPlayerStartedObjective.AddListener(GameSettings.gameMode.OnPlayerStartedObjective);
+        PlayerControllerInteractionManager.Instance.OnPlayerScoredObjective.AddListener(GameSettings.gameMode.OnPlayerScoredObjective);
     }
 
     private void OnDisable()
     {
-        PlayerControllerInteractionManager.Instance.OnPlayerHitOtherPlayer.RemoveListener(OnPlayerHitOtherPlayer);
-        PlayerControllerInteractionManager.Instance.OnPlayerKilledOtherPlayer.RemoveListener(OnPlayerKilledOtherPlayer);
+        PlayerControllerInteractionManager.Instance.OnPlayerHitOtherPlayer.RemoveListener(OnPlayerHitOtherPlayer_Basic_GamemodeIndependent);
+        PlayerControllerInteractionManager.Instance.OnPlayerKilledOtherPlayer.RemoveListener(OnPlayerKilledOtherPlayer_Basic_GamemodeIndependent);
+
+        PlayerControllerInteractionManager.Instance.OnPlayerKilledOtherPlayer.RemoveListener(GameSettings.gameMode.OnPlayerKilledOtherPlayer);
+        PlayerControllerInteractionManager.Instance.OnPlayerStartedObjective.RemoveListener(GameSettings.gameMode.OnPlayerStartedObjective);
+        PlayerControllerInteractionManager.Instance.OnPlayerScoredObjective.RemoveListener(GameSettings.gameMode.OnPlayerScoredObjective);
     }
 
-    private void OnPlayerKilledOtherPlayer(PlayerController attacker, PlayerController victim)
+    private void OnPlayerKilledOtherPlayer_Basic_GamemodeIndependent(PlayerController attacker, PlayerController victim)
     {
         attacker.playerStats.kills++;
         victim.playerStats.deaths++;
@@ -58,11 +66,12 @@ public class GameManager : MonoBehaviour
 
         var popUp = Instantiate(popUpPlusTextPreFab.gameObject, FindObjectOfType<Canvas>().transform)
             .GetComponent<PlusTextPopup>();
+
         popUp.SetValue("+1");
         popUp.transform.position = dynamicCamera.cam.WorldToScreenPoint(attacker.transform.position + popUp.offset);
     }
 
-    private void OnPlayerHitOtherPlayer(PlayerController attacker, PlayerController victim)
+    private void OnPlayerHitOtherPlayer_Basic_GamemodeIndependent(PlayerController attacker, PlayerController victim)
     {
         attacker.playerStats.hitsGiven++;
         victim.playerStats.hitsTaken++;

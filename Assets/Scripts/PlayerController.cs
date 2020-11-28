@@ -402,4 +402,14 @@ public class PlayerController : MonoBehaviour
 	{
 		// TODO: Spieler kurz rot werden lassen oder so
 	}
+
+	public void OnPlayerStartedObjective()
+	{
+		PlayerControllerInteractionManager.Instance.OnPlayerStartedObjective.Invoke(this);
+	}
+
+	public void OnPlayerScoredObjective()
+	{
+		PlayerControllerInteractionManager.Instance.OnPlayerScoredObjective.Invoke(this);
+	}
 }

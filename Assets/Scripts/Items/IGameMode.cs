@@ -7,7 +7,8 @@ namespace Assets.Scripts.Items
     {
         UnityEvent OnGameEnd { get; set; }
         UnityEvent OnRoundEnd { get; set; }
-        void Initialize();
+        IGameModeUi GameModeUi { get; set; }
+        void Initialize(IGameModeUi ui);
         /// <summary>
         /// Resets stats such as timer, flag positions etc in modes like snd or ctf when the next round should start
         /// </summary>

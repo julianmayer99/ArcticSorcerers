@@ -24,8 +24,9 @@ namespace Assets.Scripts.Gamemodes
         public UnityEvent OnGameEnd { get; set; }
         public UnityEvent OnRoundEnd { get; set; }
 
-        public void Initialize()
+        public void Initialize(IGameModeUi ui)
         {
+            GameModeUi = ui;
             roundsLeftToPlay = RoundLimit;
 
             if (OnGameEnd == null)
@@ -52,6 +53,7 @@ namespace Assets.Scripts.Gamemodes
         {
             player.config.Team.score += pointsForScoringObjective;
             CheckIfATeamHasWon();
+            GameModeUi.UpdateUI();
         }
 
         public void OnPlayerStartedObjective(PlayerController player)
@@ -100,5 +102,7 @@ namespace Assets.Scripts.Gamemodes
                 return false;
             }
         }
+
+        public IGameModeUi GameModeUi { get; set; }
     }
 }

@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.Items
 {
     public interface IGameMode
     {
+        UnityEvent OnGameEnd { get; set; }
+        UnityEvent OnRoundEnd { get; set; }
         void Initialize();
+        /// <summary>
+        /// Resets stats such as timer, flag positions etc in modes like snd or ctf when the next round should start
+        /// </summary>
+        void ResetForNextRound();
         List<Team> TeamScores { get; set; }
         int ScoreLimit { get; set; }
         int RoundLimit{ get; set; }

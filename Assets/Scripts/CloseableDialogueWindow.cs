@@ -33,7 +33,7 @@ public class CloseableDialogueWindow : MonoBehaviour
         invokedPlayer.OnBackActionTriggered.RemoveListener(CloseWindow);
     }
 
-    void CloseWindow()
+    public void CloseWindow()
     {
         OnBackButtonClickedWhenActive.Invoke();
     }

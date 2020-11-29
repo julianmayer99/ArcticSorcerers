@@ -6,6 +6,7 @@ public class ArcticSorcerersMap : MonoBehaviour
 {
     [SerializeField] private Transform spawnContainer;
     [HideInInspector] public Transform[] spawns;
+    public Transform[] ctfFlagSpawns = new Transform[2];
 
     private void Awake()
     {

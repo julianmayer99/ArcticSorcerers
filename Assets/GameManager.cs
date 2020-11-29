@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
             DynamicMultiTargetCamera.instance.targets.Add(player.transform);
             player.RespawnUI();
         }
+
+        GameSettings.gameMode.Initialize();
     }
 
     private void OnEnable()

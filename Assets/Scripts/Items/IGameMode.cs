@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine;
 
 namespace Assets.Scripts.Items
 {
     public interface IGameMode
     {
+        GameObject @GameObject { get; }
+        PlayerConfigurationManager.Gamemode ModeName { get; set; }
         UnityEvent OnGameEnd { get; set; }
         UnityEvent OnRoundEnd { get; set; }
         IGameModeUi GameModeUi { get; set; }
-        void Initialize(IGameModeUi ui);
+        void Initialize();
         /// <summary>
         /// Resets stats such as timer, flag positions etc in modes like snd or ctf when the next round should start
         /// </summary>

@@ -13,7 +13,7 @@ namespace Assets.Scripts.Items
         public string playerName;
         public PlayerInput Input { get; set; }
         public int PlayerIndex { get; private set; }
-        public Team Team { get; set; }
+        public Team Team { get; set; } = new Team();
         public int Character { get; set; }
         public bool isReady { get; set; }
         public ColorManager.PlayerColor Color { get; set; }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Assets.Scripts.Gamemodes
@@ -12,21 +13,38 @@ namespace Assets.Scripts.Gamemodes
     /// Two (or more) teams fight each other. A kill will score a point for the killers team.
     /// The team to reach the score limit first, wins the game/round.
     /// </summary>
-    public class GamemodeTeamDeathmatch : IGameMode
+    public class GamemodeTeamDeathmatch : MonoBehaviour, IGameMode
     {
         public int pointsForScoringObjective = 1;
         public int pointsForLoosingObjective = 0;
 
-        public List<Team> TeamScores { get; set; } = new List<Team>();
+        public GameObject uiPreFab;
+
+        public PlayerConfigurationManager.Gamemode ModeName { get; set; } = PlayerConfigurationManager.Gamemode.TeamDeathmatch;
+        public List<Team> TeamScores { get; set; }
         public int ScoreLimit { get; set; } = 15;
         public int RoundLimit { get; set; } = 1;
         private int roundsLeftToPlay;
         public UnityEvent OnGameEnd { get; set; }
         public UnityEvent OnRoundEnd { get; set; }
 
-        public void Initialize(IGameModeUi ui)
+        private void Start()
         {
-            GameModeUi = ui;
+            AutoAssignTeams();
+        }
+
+        void AutoAssignTeams()
+        {
+            for (int i = 0; i < PlayerConfigurationManager.Instance.Players.Count; i++)
+            {
+                PlayerConfigurationManager.Instance.Players[i].config.Team.teamId = i % 2;
+            }
+        }
+
+        public void Initialize()
+        {
+            TeamScores = new List<Team>();
+            GameModeUi = Instantiate(uiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<IGameModeUi>();
             roundsLeftToPlay = RoundLimit;
 
             if (OnGameEnd == null)
@@ -41,6 +59,8 @@ namespace Assets.Scripts.Gamemodes
                 if (team == null)
                     TeamScores.Add(player.config.Team);
             }
+
+            GameModeUi.InitializeUI(TeamScores);
         }
 
         public void OnPlayerKilledOtherPlayer(PlayerController attacker, PlayerController victim)
@@ -69,11 +89,13 @@ namespace Assets.Scripts.Gamemodes
                 if (roundsLeftToPlay <= 0)
                 {
                     OnGameEnd.Invoke();
+                    GameModeUi.ShowGameEndScreen();
                 }
                 else
                 {
                     OnRoundEnd.Invoke();
                     ResetForNextRound();
+                    GameModeUi.ShowRoundEndScreen();
                 }
             }
         }
@@ -104,5 +126,6 @@ namespace Assets.Scripts.Gamemodes
         }
 
         public IGameModeUi GameModeUi { get; set; }
+        public GameObject GameObject => gameObject;
     }
 }

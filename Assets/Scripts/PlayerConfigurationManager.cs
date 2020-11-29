@@ -9,6 +9,7 @@ using Assets.Scripts.Gamemodes;
 
 public class PlayerConfigurationManager : MonoBehaviour
 {
+    public GameObject[] gameModePreFabs;
 
     private List<PlayerController> players;
 
@@ -30,6 +31,8 @@ public class PlayerConfigurationManager : MonoBehaviour
             players = new List<PlayerController>();
         }
 
+        if (GameSettings.gameMode == null)
+            ChangeGamemode(Maybers.Prefs.Get("last gamemode", 0));
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
@@ -101,8 +104,45 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     public void LoadLevel()
     {
-        GameSettings.gameMode = new GamemodeTeamDeathmatch();
+        DontDestroyOnLoad(GameSettings.gameMode.GameObject);
 
         SceneManager.LoadScene("Level");
+    }
+
+    public void ChangeGamemode(Gamemode mode)
+    {
+        if (GameSettings.gameMode != null)
+            Destroy(GameSettings.gameMode.GameObject);
+
+        var modeInQuestion = gameModePreFabs.SingleOrDefault(m => m.GetComponent<IGameMode>().ModeName == mode);
+        if (modeInQuestion != null)
+        {
+            GameSettings.gameMode = Instantiate(modeInQuestion).GetComponent<IGameMode>();   
+        }
+        else
+            Debug.LogError("Gamemode " + mode + " was not found.");
+
+        Maybers.Prefs.Set("last gamemode", (int)mode);
+    }
+
+    public void ChangeGamemode(int id)
+    {
+        ChangeGamemode((Gamemode)id);
+    }
+
+    /// <summary>
+    /// @see: classes than implement the interface <see cref="IGameMode"/>
+    /// </summary>
+    [System.Serializable]
+    public enum Gamemode
+    {
+        TeamDeathmatch = 0,
+        CaptureTheFlag = 1,
+        LastManStanding = 2,
+        KingOfTheHill = 3,
+        CoinCollectors = 4,
+        FreeForAll = 5,
+        SearchAndDestroy = 6,
+        Domination = 7
     }
 }

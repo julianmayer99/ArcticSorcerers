@@ -78,3 +78,10 @@ MonoBehaviour:
     ui_color_dark: {r: 0.32712564, g: 0.06274509, b: 0.4509804, a: 1}
     ui_color_normal: {r: 0.58437914, g: 0.15294117, b: 0.78431374, a: 1}
     isInUse: 0
+  teamColors:
+  - name: Green
+    ui_color_normal: {r: 0.55918854, g: 1, b: 0.27843142, a: 1}
+    isInUse: 0
+  - name: Blue
+    ui_color_normal: {r: 0.76466066, g: 0.41176474, b: 1, a: 1}
+    isInUse: 0

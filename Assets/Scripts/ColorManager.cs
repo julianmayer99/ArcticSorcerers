@@ -14,6 +14,7 @@ public class ColorManager : MonoBehaviour
     public Color txt_FloatingUIObject;
 
     public PlayerColor[] playerColors;
+    public TeamColor[] teamColors;
 
     private void Awake()
     {
@@ -35,6 +36,14 @@ public class ColorManager : MonoBehaviour
         public string name;
         public Material material;
         public Color ui_color_dark;
+        public Color ui_color_normal;
+        [HideInInspector] public bool isInUse = false;
+    }
+
+    [System.Serializable]
+    public class TeamColor
+    {
+        public string name;
         public Color ui_color_normal;
         [HideInInspector] public bool isInUse = false;
     }

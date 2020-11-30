@@ -9,30 +9,37 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts.Gamemodes
 {
-    /// <summary>
-    /// Two (or more) teams fight each other. A kill will score a point for the killers team.
-    /// The team to reach the score limit first, wins the game/round.
-    /// </summary>
-    public class GamemodeTeamDeathmatch : MonoBehaviour, IGameMode
+    public abstract class GamemodeBase : IGameMode
     {
+        public abstract IGameModeUi GameModeUi { get; set; }
+
         public int pointsForScoringObjective = 1;
         public int pointsForLoosingObjective = 0;
-
         public GameObject uiPreFab;
 
-        public PlayerConfigurationManager.Gamemode ModeName { get; set; } = PlayerConfigurationManager.Gamemode.TeamDeathmatch;
+        public abstract GameObject GameObject { get; }
+        public abstract PlayerConfigurationManager.Gamemode ModeName { get; set; }
+
+        public abstract bool IsTeamBased { get; }
+
+        public int NumberOfTeams => throw new NotImplementedException();
+
+        public UnityEvent OnGameEnd { get; set; }
+        public UnityEvent OnRoundEnd { get; set; }
         public List<Team> TeamScores { get; set; }
         public int ScoreLimit { get; set; } = 15;
         public int RoundLimit { get; set; } = 1;
+
         private int roundsLeftToPlay;
-        public UnityEvent OnGameEnd { get; set; }
-        public UnityEvent OnRoundEnd { get; set; }
+
+        public abstract void InstantiateGamemodeUI();
 
         public void InitializeInLevel()
         {
+
             TeamScores = new List<Team>();
-            GameModeUi = Instantiate(uiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<IGameModeUi>();
             roundsLeftToPlay = RoundLimit;
+            InstantiateGamemodeUI();
 
             if (OnGameEnd == null)
                 OnGameEnd = new UnityEvent();
@@ -50,6 +57,11 @@ namespace Assets.Scripts.Gamemodes
             GameModeUi.InitializeUI(TeamScores);
         }
 
+        public void OnModeSpawnedInJoinRoom()
+        {
+            AutoAssignTeams();
+        }
+
         public void OnPlayerKilledOtherPlayer(PlayerController attacker, PlayerController victim)
         {
             victim.config.Team.score += pointsForLoosingObjective;
@@ -65,6 +77,24 @@ namespace Assets.Scripts.Gamemodes
 
         public void OnPlayerStartedObjective(PlayerController player)
         {
+        }
+
+        public void ResetForNextRound()
+        {
+            foreach (var player in PlayerConfigurationManager.Instance.Players)
+            {
+                player.transform.position = GameManager.Instance.map.GetGoodGameStartSpawnPoint(player);
+                player.playerStats.ResetStatsOnPlayerDeath();
+            }
+        }
+
+        void AutoAssignTeams()
+        {
+            for (int i = 0; i < PlayerConfigurationManager.Instance.Players.Count; i++)
+            {
+                PlayerConfigurationManager.Instance.Players[i].config.Team.teamId = i % 2;
+                PlayerConfigurationManager.Instance.Players[i].playerUI.UpdateTeamColor();
+            }
         }
 
         void CheckIfATeamHasWon()
@@ -86,30 +116,6 @@ namespace Assets.Scripts.Gamemodes
                 }
             }
         }
-
-        public void ResetForNextRound()
-        {
-            foreach (var player in PlayerConfigurationManager.Instance.Players)
-            {
-                player.transform.position = GameManager.Instance.map.GetGoodGameStartSpawnPoint(player);
-                player.playerStats.ResetStatsOnPlayerDeath();
-            }
-        }
-
-        public void OnModeSpawnedInJoinRoom()
-        {
-            AutoAssignTeams();
-        }
-
-        void AutoAssignTeams()
-        {
-            for (int i = 0; i < PlayerConfigurationManager.Instance.Players.Count; i++)
-            {
-                PlayerConfigurationManager.Instance.Players[i].config.Team.teamId = i % 2;
-                PlayerConfigurationManager.Instance.Players[i].playerUI.UpdateTeamColor();
-            }
-        }
-
         bool ATeamHasPassedTheScoreLimit
         {
             get
@@ -125,12 +131,5 @@ namespace Assets.Scripts.Gamemodes
                 return false;
             }
         }
-
-        public IGameModeUi GameModeUi { get; set; }
-        public GameObject GameObject => gameObject;
-
-        public bool IsTeamBased => true;
-
-        public int NumberOfTeams => 2;
     }
 }

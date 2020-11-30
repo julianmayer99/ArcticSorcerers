@@ -27,6 +27,18 @@ namespace Assets.Scripts.Items
             }
 
         }
+        public static bool TeamDamage
+        {
+            get
+            {
+                return Maybers.Prefs.Get("gamesettings - team damage", false);
+            }
+            set
+            {
+                Maybers.Prefs.Set("gamesettings - team damage", value);
+            }
+
+        }
 
         public static IGameMode gameMode;
     }

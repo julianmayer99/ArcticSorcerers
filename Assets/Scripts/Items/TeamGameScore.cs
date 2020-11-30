@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Items
 {
+    [System.Serializable]
     public class Team
     {
         public List<PlayerController> players = new List<PlayerController>();

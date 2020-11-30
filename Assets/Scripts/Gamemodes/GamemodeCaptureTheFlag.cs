@@ -26,7 +26,7 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
     public UnityEvent OnGameEnd { get; set; }
     public UnityEvent OnRoundEnd { get; set; }
 
-    public void Initialize()
+    public void InitializeInLevel()
     {
         GameModeUi = Instantiate(uiPreFab.GameObject, FindObjectOfType<Canvas>().transform).GetComponent<IGameModeUi>();
         roundsLeftToPlay = RoundLimit;
@@ -96,6 +96,11 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
         }
     }
 
+    public void OnModeSpawnedInJoinRoom()
+    {
+        throw new System.NotImplementedException();
+    }
+
     bool ATeamHasPassedTheScoreLimit
     {
         get
@@ -114,4 +119,8 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
 
     public IGameModeUi GameModeUi { get; set; }
     public GameObject GameObject => gameObject;
+
+    public bool IsTeamBased => throw new System.NotImplementedException();
+
+    public int NumberOfTeams => throw new System.NotImplementedException();
 }

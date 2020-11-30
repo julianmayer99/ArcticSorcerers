@@ -44,8 +44,6 @@ public class PlayerConfigurationManager : MonoBehaviour
         {
             var player = pi.GetComponent<PlayerController>();
 
-            players.Add(player);
-
             var config = new PlayerConfiguration(pi.playerIndex);
             config.playerName = "Player " + (config.PlayerIndex + 1); // Developoment data
             config.Input = pi;
@@ -69,6 +67,13 @@ public class PlayerConfigurationManager : MonoBehaviour
     {
         player.config.ChangePlayerColorToNextFree();
         player.OnColorChanged();
+    }
+
+    public void ChangeTeam(PlayerController player)
+    {
+        player.config.Team.teamId += 1;
+        player.config.Team.teamId %= GameSettings.gameMode.NumberOfTeams;
+        player.playerUI.UpdateTeamColor();
     }
 
     public void SetPlayerColor(int index, ColorManager.PlayerColor color)
@@ -117,7 +122,8 @@ public class PlayerConfigurationManager : MonoBehaviour
         var modeInQuestion = gameModePreFabs.SingleOrDefault(m => m.GetComponent<IGameMode>().ModeName == mode);
         if (modeInQuestion != null)
         {
-            GameSettings.gameMode = Instantiate(modeInQuestion).GetComponent<IGameMode>();   
+            GameSettings.gameMode = Instantiate(modeInQuestion).GetComponent<IGameMode>();
+            GameSettings.gameMode.OnModeSpawnedInJoinRoom();
         }
         else
             Debug.LogError("Gamemode " + mode + " was not found.");

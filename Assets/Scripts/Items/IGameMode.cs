@@ -8,10 +8,23 @@ namespace Assets.Scripts.Items
     {
         GameObject @GameObject { get; }
         PlayerConfigurationManager.Gamemode ModeName { get; set; }
+        bool IsTeamBased { get; }
+        /// <summary>
+        /// Can be ignored, if <see cref="IsTeamBased"/> is set to false.
+        /// </summary>
+        int NumberOfTeams { get; }
         UnityEvent OnGameEnd { get; set; }
         UnityEvent OnRoundEnd { get; set; }
         IGameModeUi GameModeUi { get; set; }
-        void Initialize();
+        /// <summary>
+        /// Will be called after the Object was instantialed in the Join room. Similar to Start().
+        /// Used e.g. for team ui initialization.
+        /// </summary>
+        void OnModeSpawnedInJoinRoom();
+        /// <summary>
+        /// Called from <see cref="GameManager"/> in Start().
+        /// </summary>
+        void InitializeInLevel();
         /// <summary>
         /// Resets stats such as timer, flag positions etc in modes like snd or ctf when the next round should start
         /// </summary>

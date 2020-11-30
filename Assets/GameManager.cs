@@ -33,10 +33,10 @@ public class GameManager : MonoBehaviour
         foreach (var player in PlayerConfigurationManager.Instance.Players)
         {
             DynamicMultiTargetCamera.instance.targets.Add(player.transform);
-            player.RespawnUI();
+            player.CheckRespawnOrEnableUI();
         }
 
-        GameSettings.gameMode.Initialize();
+        GameSettings.gameMode.InitializeInLevel();
     }
 
     private void OnEnable()

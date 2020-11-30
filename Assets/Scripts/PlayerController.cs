@@ -84,10 +84,7 @@ public class PlayerController : MonoBehaviour
 	{
 		DynamicMultiTargetCamera.instance.targets.Add(transform);
 
-		if (playerUI == null)
-		{
-			RespawnUI();
-		}
+		CheckRespawnOrEnableUI();
 
 		if (GameSettings.gameHasStarted)
 		{
@@ -95,10 +92,13 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void RespawnUI()
+	public void CheckRespawnOrEnableUI()
 	{
-		playerUI = Instantiate(playerUiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<FloatingPlayerGuiHandler>();
-		playerUI.SetUpFloatingGui(this, FindObjectOfType<DynamicMultiTargetCamera>().GetComponent<Camera>());
+		if (playerUI == null)
+		{
+			playerUI = Instantiate(playerUiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<FloatingPlayerGuiHandler>();
+			playerUI.SetUpFloatingGui(this, FindObjectOfType<DynamicMultiTargetCamera>().GetComponent<Camera>());
+		}
 		playerUI.gameObject.SetActive(true);
 	}
 
@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
 		scarfMeshRenderer.material = config.Color.material;
 		scarfMeshRenderer.materials = new Material[] { config.Color.material };
 		scarfMeshRenderer.sharedMaterials = new Material[] { config.Color.material };
-		playerUI.OnPlayerColorChanged();
+		playerUI.UpdatePlayerColor();
 	}
 
 	private Vector3 distanceMeasurementLastPosition;
@@ -195,13 +195,26 @@ public class PlayerController : MonoBehaviour
 
 	public void OnJumpPerformed(InputAction.CallbackContext context)
 	{
+		if (!context.performed)
+		{
+			return;
+		}
+
 		var jump = context.ReadValue<float>() >= 1;
 		if (selectedInteractable == null)
 			Jump(jump);
-		else if (jump && selectedInteractable.isButtonDownEvent) // => On button down
+		else if (jump && selectedInteractable.isButtonDownEvent)
+		{
+			// => On button down
 			selectedInteractable.OnPlayerInteracted.Invoke(this);
-		else if (!jump && !selectedInteractable.isButtonDownEvent) // => On button up
+			Debug.Log("Button down Event called for interactable");
+		}
+		else if (!jump && !selectedInteractable.isButtonDownEvent)
+		{
+			// => On button up
 			selectedInteractable.OnPlayerInteracted.Invoke(this);
+			Debug.Log("Button up Event called for interactable");
+		}
 	}
 
 	public void OnBackActionPerformed(InputAction.CallbackContext context)

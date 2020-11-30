@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Items;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,8 +37,20 @@ public class WeaponProjectile : MonoBehaviour
         }
     }
 
+    private bool collisionAlreadyProcessed = false;
+
     private void OnCollisionEnter(Collision collision)
     {
+        if (collisionAlreadyProcessed)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // This bool variable is nescessary to prevent
+        // multi-collisions as Destroy takes some time
+        collisionAlreadyProcessed = true;
+
         var player = collision.gameObject.GetComponent<PlayerController>();
         if (player != null)
         {
@@ -47,7 +60,12 @@ public class WeaponProjectile : MonoBehaviour
                 return;
             }
 
-            player.OnPlayerHasBeenShot(shotFromPlayer, collision.contacts[0].point);
+            if (player.config.Team.teamId != shotFromPlayer.config.Team.teamId || GameSettings.TeamDamage)
+            {
+                // Players are not in the same team or team damage is turned on
+                player.OnPlayerHasBeenShot(shotFromPlayer, collision.contacts[0].point);
+            }
+
         }
 
         Instantiate(collectablePreFab, transform.position, Quaternion.identity);

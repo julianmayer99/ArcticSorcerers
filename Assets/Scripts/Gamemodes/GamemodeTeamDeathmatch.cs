@@ -48,6 +48,7 @@ namespace Assets.Scripts.Gamemodes
             }
 
             GameModeUi.InitializeUI(TeamScores);
+            ResetForNextRound();
         }
 
         public void OnPlayerKilledOtherPlayer(PlayerController attacker, PlayerController victim)

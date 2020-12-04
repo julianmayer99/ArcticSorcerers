@@ -12,5 +12,6 @@ namespace Assets.Scripts.Items
         public List<PlayerController> players = new List<PlayerController>();
         public int teamId;
         public int score;
+        public string Name => "Team " + teamId;
     }
 }

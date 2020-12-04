@@ -2,13 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using System.Linq;
 using UnityEngine;
 
 public class GamemodeTeamDeathmatchUI : MonoBehaviour, IGameModeUi
 {
     public TeamNamePanel[] teamPanels;
-    public GameObject roundEndPanel;
-    public GameObject gameEndPanel;
+    public DialogueWindow roundEndPanelPreFab;
+    public DialogueWindow gameEndPanelPreFab;
+    
+    private DialogueWindow roundEndPanel;
+    private DialogueWindow gameEndPanel;
 
     public List<Team> CorrespondingTeams { get; set; }
     public GameObject GameObject => gameObject;
@@ -25,17 +29,24 @@ public class GamemodeTeamDeathmatchUI : MonoBehaviour, IGameModeUi
                 teamPanels[i].InitializeUI(CorrespondingTeams[i]);
             }
         }
+
+        gameEndPanel = Instantiate(gameEndPanelPreFab.gameObject, FindObjectOfType<Canvas>().transform).GetComponent<DialogueWindow>();
+        gameEndPanel.gameObject.SetActive(false);
+        // TODO: spawn round end screen
     }
 
     public void ShowGameEndScreen()
     {
-        roundEndPanel.SetActive(true);
         // TODO: Select() a button for controller navigation
+        gameEndPanel.gameObject.SetActive(true);
+        var teamWithMorePoints = GameSettings.gameMode.TeamScores.OrderByDescending(t => t.score).First();
+        gameEndPanel.SetTitle(teamWithMorePoints.Name + " hat das Spiel gewonnen.");
     }
 
     public void ShowRoundEndScreen()
     {
-        gameEndPanel.SetActive(true);
+
+        // roundEndPanelPreFab.gameObject.SetActive(true);
         // TODO: Select() a button for controller navigation
     }
 

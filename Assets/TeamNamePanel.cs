@@ -14,6 +14,7 @@ public class TeamNamePanel : MonoBehaviour
     {
         correspondingTeam = team;
         txt_TeamName.text = "Team " + team.teamId; // TODO:
+        GetComponent<UnityEngine.UI.Image>().color = ColorManager.Instance.teamColors[team.teamId].ui_color_dark;
     }
 
     public void UpdateUI()

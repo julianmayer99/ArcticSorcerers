@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
 	public UnityEvent OnPlayerDied;
 
 	[HideInInspector] public UnityEvent OnBackActionTriggered;
+	[HideInInspector] public UnityEvent OnShowScoreboardActionTriggered;
 
 	private void Awake()
 	{
@@ -70,7 +71,10 @@ public class PlayerController : MonoBehaviour
 		if (OnPlayerDied == null)
 			OnPlayerDied = new UnityEvent();
 		if (OnBackActionTriggered == null)
-			OnBackActionTriggered= new UnityEvent();
+			OnBackActionTriggered = new UnityEvent();
+		if (OnShowScoreboardActionTriggered == null)
+			OnShowScoreboardActionTriggered = new UnityEvent();
+
 
 		shootCoolDownCounter = shootCoolDown;
 	}
@@ -256,6 +260,14 @@ public class PlayerController : MonoBehaviour
 				IdleInit();
 			}
         }
+	}
+
+	public void OnShowScoreboardActionPerformed(InputAction.CallbackContext context)
+	{
+		var buttonDown = context.ReadValue<float>() >= 1;
+
+		if (buttonDown) // => OnButtonDown Event
+			OnShowScoreboardActionTriggered.Invoke();
 	}
 
 	public void AttackInit()

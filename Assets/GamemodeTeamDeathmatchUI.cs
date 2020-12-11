@@ -17,6 +17,29 @@ public class GamemodeTeamDeathmatchUI : MonoBehaviour, IGameModeUi
     public List<Team> CorrespondingTeams { get; set; }
     public GameObject GameObject => gameObject;
 
+    public string GetScoreBoardColumnHeader(int columnIndex)
+    {
+        switch (columnIndex)
+        {
+            // TODO: I18n
+            case 0: return "Kills";
+            case 1: return "Treffer";
+            case 2: return "Tode";
+            default: return "-";
+        }
+    }
+
+    public string GetScoreBoardRowValueForPlayer(PlayerController forPlayer, int columnIndex)
+    {
+        switch (columnIndex)
+        {
+            case 0: return forPlayer.playerStats.kills.ToString();
+            case 1: return forPlayer.playerStats.hitsGiven.ToString();
+            case 2: return forPlayer.playerStats.deaths.ToString();
+            default: return string.Empty;
+        }
+    }
+
     public void InitializeUI(List<Team> teams)
     {
         CorrespondingTeams = teams;

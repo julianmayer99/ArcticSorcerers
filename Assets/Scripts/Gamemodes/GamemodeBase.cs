@@ -20,27 +20,26 @@ namespace Assets.Scripts.Gamemodes
         public int ScoreLimit { get; set; } = 15;
         public int RoundLimit { get; set; } = 1;
 
-        public static void InitializeInLevel(IGameMode mode)
+        public static void InitializeInLevel()
         {
+            GameSettings.gameMode.TeamScores = new List<Team>();
+            GameSettings.gameMode.RoundsLeftToPlay = GameSettings.gameMode.RoundLimit;
 
-            mode.TeamScores = new List<Team>();
-            mode.RoundsLeftToPlay = mode.RoundLimit;
-            mode.InstantiateGamemodeUI();
+            if (GameSettings.gameMode.OnGameEnd == null)
+                GameSettings.gameMode.OnGameEnd = new UnityEvent();
 
-            if (mode.OnGameEnd == null)
-                mode.OnGameEnd = new UnityEvent();
-
-            if (mode.OnRoundEnd == null)
-                mode.OnRoundEnd = new UnityEvent();
+            if (GameSettings.gameMode.OnRoundEnd == null)
+                GameSettings.gameMode.OnRoundEnd = new UnityEvent();
 
             foreach (var player in PlayerConfigurationManager.Instance.Players)
             {
-                var team = mode.TeamScores.SingleOrDefault(t => t.teamId == player.config.Team.teamId);
+                var team = GameSettings.gameMode.TeamScores.SingleOrDefault(t => t.teamId == player.config.Team.teamId);
                 if (team == null)
-                    mode.TeamScores.Add(player.config.Team);
+                    GameSettings.gameMode.TeamScores.Add(player.config.Team);
             }
 
-            mode.GameModeUi.InitializeUI(mode.TeamScores);
+            GameSettings.gameMode.GameModeUi.InitializeUI(GameSettings.gameMode.TeamScores);
+            GameSettings.gameMode.ResetForNextRound();
         }
 
         public void OnModeSpawnedInJoinRoom()
@@ -48,24 +47,14 @@ namespace Assets.Scripts.Gamemodes
             AutoAssignTeams();
         }
 
-        public void OnPlayerKilledOtherPlayer(PlayerController attacker, PlayerController victim)
-        {
-            victim.config.Team.score += pointsForLoosingObjective;
-            OnPlayerScoredObjective(attacker);
-        }
-
-        public void OnPlayerScoredObjective(PlayerController player)
+        public static void OnPlayerScoredObjective(PlayerController player, int pointsForScoringObjective = 1)
         {
             player.config.Team.score += pointsForScoringObjective;
             CheckIfATeamHasWon();
-            GameModeUi.UpdateUI();
+            GameSettings.gameMode.GameModeUi.UpdateUI();
         }
 
-        public void OnPlayerStartedObjective(PlayerController player)
-        {
-        }
-
-        public void ResetForNextRound()
+        public static void ResetForNextRound()
         {
             foreach (var player in PlayerConfigurationManager.Instance.Players)
             {
@@ -74,41 +63,48 @@ namespace Assets.Scripts.Gamemodes
             }
         }
 
-        void AutoAssignTeams()
+        public static void AutoAssignTeams()
         {
+            GameSettings.gameMode.TeamScores = new List<Team>();
+            for (int i = 0; i < GameSettings.gameMode.NumberOfTeams; i++)
+            {
+                GameSettings.gameMode.TeamScores.Add(new Team { teamId = i });
+            }
+
             for (int i = 0; i < PlayerConfigurationManager.Instance.Players.Count; i++)
             {
-                PlayerConfigurationManager.Instance.Players[i].config.Team.teamId = i % 2;
+                PlayerConfigurationManager.Instance.Players[i].config.Team = GameSettings.gameMode.TeamScores[i % 2];
                 PlayerConfigurationManager.Instance.Players[i].playerUI.UpdateTeamColor();
             }
         }
 
-        void CheckIfATeamHasWon()
+        public static void CheckIfATeamHasWon()
         {
             if (ATeamHasPassedTheScoreLimit)
             {
-                roundsLeftToPlay--;
+                GameSettings.gameMode.RoundsLeftToPlay--;
 
-                if (roundsLeftToPlay <= 0)
+                if (GameSettings.gameMode.RoundsLeftToPlay <= 0)
                 {
-                    OnGameEnd.Invoke();
-                    GameModeUi.ShowGameEndScreen();
+                    GameSettings.gameMode.OnGameEnd.Invoke();
+                    GameSettings.gameMode.GameModeUi.ShowGameEndScreen();
                 }
                 else
                 {
-                    OnRoundEnd.Invoke();
-                    ResetForNextRound();
-                    GameModeUi.ShowRoundEndScreen();
+                    GameSettings.gameMode.OnRoundEnd.Invoke();
+                    GameSettings.gameMode.ResetForNextRound();
+                    GameSettings.gameMode.GameModeUi.ShowRoundEndScreen();
                 }
             }
         }
-        bool ATeamHasPassedTheScoreLimit
+
+        static bool ATeamHasPassedTheScoreLimit
         {
             get
             {
-                foreach (var team in TeamScores)
+                foreach (var team in GameSettings.gameMode.TeamScores)
                 {
-                    if (team.score >= ScoreLimit)
+                    if (team.score >= GameSettings.gameMode.ScoreLimit)
                     {
                         return true;
                     }

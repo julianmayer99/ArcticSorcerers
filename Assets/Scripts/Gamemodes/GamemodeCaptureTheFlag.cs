@@ -120,7 +120,9 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
     public IGameModeUi GameModeUi { get; set; }
     public GameObject GameObject => gameObject;
 
-    public bool IsTeamBased => throw new System.NotImplementedException();
+    public bool IsTeamBased => true;
 
-    public int NumberOfTeams => throw new System.NotImplementedException();
+    public int NumberOfTeams => 2;
+
+    public int RoundsLeftToPlay { get; set; }
 }

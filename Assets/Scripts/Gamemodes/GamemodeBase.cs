@@ -9,52 +9,38 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts.Gamemodes
 {
-    public abstract class GamemodeBase : IGameMode
+    /// <summary>
+    /// Provides generic implementations that are valid for all gamemodes
+    /// </summary>
+    public class GamemodeBase
     {
-        public abstract IGameModeUi GameModeUi { get; set; }
-
         public int pointsForScoringObjective = 1;
         public int pointsForLoosingObjective = 0;
-        public GameObject uiPreFab;
 
-        public abstract GameObject GameObject { get; }
-        public abstract PlayerConfigurationManager.Gamemode ModeName { get; set; }
-
-        public abstract bool IsTeamBased { get; }
-
-        public int NumberOfTeams => throw new NotImplementedException();
-
-        public UnityEvent OnGameEnd { get; set; }
-        public UnityEvent OnRoundEnd { get; set; }
-        public List<Team> TeamScores { get; set; }
         public int ScoreLimit { get; set; } = 15;
         public int RoundLimit { get; set; } = 1;
 
-        private int roundsLeftToPlay;
-
-        public abstract void InstantiateGamemodeUI();
-
-        public void InitializeInLevel()
+        public static void InitializeInLevel(IGameMode mode)
         {
 
-            TeamScores = new List<Team>();
-            roundsLeftToPlay = RoundLimit;
-            InstantiateGamemodeUI();
+            mode.TeamScores = new List<Team>();
+            mode.RoundsLeftToPlay = mode.RoundLimit;
+            mode.InstantiateGamemodeUI();
 
-            if (OnGameEnd == null)
-                OnGameEnd = new UnityEvent();
+            if (mode.OnGameEnd == null)
+                mode.OnGameEnd = new UnityEvent();
 
-            if (OnRoundEnd == null)
-                OnRoundEnd = new UnityEvent();
+            if (mode.OnRoundEnd == null)
+                mode.OnRoundEnd = new UnityEvent();
 
             foreach (var player in PlayerConfigurationManager.Instance.Players)
             {
-                var team = TeamScores.SingleOrDefault(t => t.teamId == player.config.Team.teamId);
+                var team = mode.TeamScores.SingleOrDefault(t => t.teamId == player.config.Team.teamId);
                 if (team == null)
-                    TeamScores.Add(player.config.Team);
+                    mode.TeamScores.Add(player.config.Team);
             }
 
-            GameModeUi.InitializeUI(TeamScores);
+            mode.GameModeUi.InitializeUI(mode.TeamScores);
         }
 
         public void OnModeSpawnedInJoinRoom()

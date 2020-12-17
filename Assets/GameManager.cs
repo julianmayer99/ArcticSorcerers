@@ -5,9 +5,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Universal UI")]
+    [Space]
+    public GameObject scoreBoardPanel;
+
     public ArcticSorcerersMap map; // TODO: Sollte später gespawnt werden je nach GameSettings
     public DynamicMultiTargetCamera dynamicCamera;
     public GameObject playerPrefab;
@@ -47,6 +52,11 @@ public class GameManager : MonoBehaviour
         PlayerControllerInteractionManager.Instance.OnPlayerKilledOtherPlayer.AddListener(GameSettings.gameMode.OnPlayerKilledOtherPlayer);
         PlayerControllerInteractionManager.Instance.OnPlayerStartedObjective.AddListener(GameSettings.gameMode.OnPlayerStartedObjective);
         PlayerControllerInteractionManager.Instance.OnPlayerScoredObjective.AddListener(GameSettings.gameMode.OnPlayerScoredObjective);
+
+        foreach (var player in PlayerConfigurationManager.Instance.Players)
+        {
+            player.OnShowScoreboardActionTriggered.AddListener(ToggleScoreBoardVisibility);
+        }
     }
 
     private void OnDisable()
@@ -57,6 +67,11 @@ public class GameManager : MonoBehaviour
         PlayerControllerInteractionManager.Instance.OnPlayerKilledOtherPlayer.RemoveListener(GameSettings.gameMode.OnPlayerKilledOtherPlayer);
         PlayerControllerInteractionManager.Instance.OnPlayerStartedObjective.RemoveListener(GameSettings.gameMode.OnPlayerStartedObjective);
         PlayerControllerInteractionManager.Instance.OnPlayerScoredObjective.RemoveListener(GameSettings.gameMode.OnPlayerScoredObjective);
+
+        foreach (var player in PlayerConfigurationManager.Instance.Players)
+        {
+            player.OnShowScoreboardActionTriggered.RemoveListener(ToggleScoreBoardVisibility);
+        }
     }
 
     private void OnPlayerKilledOtherPlayer_Basic_GamemodeIndependent(PlayerController attacker, PlayerController victim)
@@ -94,5 +109,10 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
         player.transform.position = map.GetGoodSpawnPoint(player);
 
+    }
+
+    public void ToggleScoreBoardVisibility()
+    {
+        scoreBoardPanel.SetActive(!scoreBoardPanel.activeSelf);
     }
 }

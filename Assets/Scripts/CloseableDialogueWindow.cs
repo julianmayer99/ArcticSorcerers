@@ -8,6 +8,7 @@ public class CloseableDialogueWindow : MonoBehaviour
 {
     public InputAction BackAction;
     public UnityEvent OnBackButtonClickedWhenActive;
+    [SerializeField] private bool injectBackActionListeners = true;
 
     private PlayerController invokedPlayer;
 
@@ -25,12 +26,14 @@ public class CloseableDialogueWindow : MonoBehaviour
 
     private void OnEnable()
     {
-        invokedPlayer.OnBackActionTriggered.AddListener(CloseWindow);
+        if (injectBackActionListeners)
+            invokedPlayer.OnBackActionTriggered.AddListener(CloseWindow);
     }
 
     private void OnDisable()
     {
-        invokedPlayer.OnBackActionTriggered.RemoveListener(CloseWindow);
+        if (injectBackActionListeners)
+            invokedPlayer.OnBackActionTriggered.RemoveListener(CloseWindow);
     }
 
     public void CloseWindow()

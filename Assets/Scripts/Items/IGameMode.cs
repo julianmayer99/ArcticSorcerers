@@ -32,6 +32,7 @@ namespace Assets.Scripts.Items
         List<Team> TeamScores { get; set; }
         int ScoreLimit { get; set; }
         int RoundLimit{ get; set; }
+        int RoundsLeftToPlay{ get; set; }
         /// <summary>
         /// Inject listener from GameManager.cs. Call whenever a kill is made.
         /// This function has to automatically call <see cref="OnPlayerScoredObjective(PlayerController)"/>

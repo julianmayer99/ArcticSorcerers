@@ -15,6 +15,7 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
     private Transform followObject;
     private PlayerController attatchedPlayer;
     private Camera sceneCamera;
+    public Transform aimIndicator;
 
     public void SetUpFloatingGui(PlayerController player, Camera camera)
     {
@@ -61,5 +62,15 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
     public void UpdatePlayerColor()
     {
         img_nameTextBackground.color = attatchedPlayer.config.Color.ui_color_dark;
+    }
+
+    public void StartAiming()
+    {
+        aimIndicator.gameObject.SetActive(true);
+    }
+
+    public void StopAiming()
+    {
+        aimIndicator.gameObject.SetActive(false);
     }
 }

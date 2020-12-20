@@ -2706,6 +2706,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  injectBackActionListeners: 1
 --- !u!1001 &1777798426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3320,8 +3321,8 @@ MonoBehaviour:
   targets: []
   offset: {x: 0, y: 6, z: -40}
   smoothTime: 0.5
-  minimumZoom: 15
-  maximumZoom: 20
+  minimumZoom: 40
+  maximumZoom: 15
   zoomLimiter: 50
   cam: {fileID: 0}
 --- !u!114 &2008951246

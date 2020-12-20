@@ -56,6 +56,7 @@ public class GamemodeTeamDeathmatchUI : MonoBehaviour, IGameModeUi
         gameEndPanel = Instantiate(gameEndPanelPreFab.gameObject, FindObjectOfType<Canvas>().transform).GetComponent<DialogueWindow>();
         gameEndPanel.gameObject.SetActive(false);
         // TODO: spawn round end screen
+        Debug.Log("<color=green>Gamemode Ui Initialized: Team Deathmatch</color>");
     }
 
     public void ShowGameEndScreen()

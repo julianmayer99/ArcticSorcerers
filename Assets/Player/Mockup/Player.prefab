@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5114659060946823190}
   - component: {fileID: 5271726978378747671}
   - component: {fileID: 1885351583162102093}
-  - component: {fileID: 1243085344031004096}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -82,19 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &1243085344031004096
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2273618682530791467}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3576540007879241915
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,7 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_JumpForce: 1000
-  m_Speed: 10
+  m_Speed: 7
   config:
     playerName: 
   shotKnockBack: 150
@@ -582,14 +568,13 @@ GameObject:
   - component: {fileID: 8956567794707472602}
   - component: {fileID: 7241472538122392745}
   - component: {fileID: 1238226368843799133}
-  - component: {fileID: 7034074355394830493}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8956567794707472602
 Transform:
   m_ObjectHideFlags: 0
@@ -654,20 +639,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7034074355394830493
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4744238817268084649}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &5352478199806032247
 GameObject:
   m_ObjectHideFlags: 0

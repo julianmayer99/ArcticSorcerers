@@ -189,6 +189,28 @@
                     "action": "Scoreboard",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99aa432a-c299-491a-a765-d3ce5b7ba001",
+                    "path": "<DualShockGamepad>/touchpadButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scoreboard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e4ec3c34-f466-4358-8472-2c9aaa19478d",
+                    "path": "<XInputController>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scoreboard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

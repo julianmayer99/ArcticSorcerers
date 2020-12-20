@@ -51,6 +51,12 @@ public class PlayerConfigurationManager : MonoBehaviour
             players.Add(player);
 
             player.config = config;
+
+            if (GameSettings.gameMode.IsTeamBased)
+            {
+                player.config.Team = GameSettings.gameMode.TeamScores[player.config.PlayerIndex % GameSettings.gameMode.NumberOfTeams];
+            }
+
             StartCoroutine(SetPlayerColorAfterPlayerEnableCall(player));
         }
     }
@@ -59,6 +65,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         ChangePlayerColor(player); // Auto assign on first launch
+        player.playerUI.UpdateTeamColor();
     }
 
     public List<PlayerController> Players => players;
@@ -71,8 +78,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     public void ChangeTeam(PlayerController player)
     {
-        player.config.Team.teamId += 1;
-        player.config.Team.teamId %= GameSettings.gameMode.NumberOfTeams;
+        player.config.Team = GameSettings.gameMode.TeamScores[(player.config.Team.teamId + 1) % GameSettings.gameMode.NumberOfTeams];
         player.playerUI.UpdateTeamColor();
     }
 

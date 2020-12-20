@@ -5,6 +5,7 @@ using UnityEngine;
 public class AdjustZPositionInFixedTimeIntervals : MonoBehaviour
 {
     public float secondsInterval = 2f;
+    public bool setZToZero = true;
     private Vector3 initialPosition;
     private Transform ownTransform;
 
@@ -13,6 +14,8 @@ public class AdjustZPositionInFixedTimeIntervals : MonoBehaviour
         initialPosition = transform.position;
         InvokeRepeating(nameof(ResetZPosition), secondsInterval, secondsInterval);
         ownTransform = transform;
+        if (setZToZero)
+            initialPosition.z = 0;
     }
 
     void ResetZPosition()

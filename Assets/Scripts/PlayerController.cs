@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
 	[Header("Aiming")]
 	public Transform aimingIndicator;
 	private bool isAiming = false;
+	private bool wasAiming = false;
 	[Range(0, 120f)] public float aimingRange = 70f;
 	public PlayerWeapon weapon;
 	public int shootCoolDown = 5;
@@ -180,6 +181,16 @@ public class PlayerController : MonoBehaviour
 		m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
 		AdjustPlayerRotation(moveDirection.x);
+
+		if (isAiming != wasAiming)
+		{
+			if (!isAiming)
+				playerUI.StopAiming();
+			else
+				playerUI.StartAiming();
+		}
+		
+		isAiming = wasAiming;
 	}
 
 	public void Jump(bool jump)
@@ -386,6 +397,12 @@ public class PlayerController : MonoBehaviour
 			aimingRange * moveDirection.y,
 			aimingIndicator.transform.eulerAngles.y,
 			aimingIndicator.transform.eulerAngles.z
+			);
+
+		playerUI.aimIndicator.eulerAngles = new Vector3(
+			playerUI.aimIndicator.eulerAngles.x,
+			playerUI.aimIndicator.eulerAngles.y,
+			(aimingRange * moveDirection.y) - 90
 			);
 	}
 

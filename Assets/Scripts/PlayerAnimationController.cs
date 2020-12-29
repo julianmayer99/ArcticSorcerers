@@ -7,10 +7,15 @@ public class PlayerAnimationController : MonoBehaviour
     [SerializeField]
     private GameObject penguin;
     private Animator penguinAnimator;
+    [Space]
+    [SerializeField]
+    private bool dynamicTransformAnimation = true;
+    private Animator dynamicPenguinTransformAnimator;
 
     private void Awake()
     {
         penguinAnimator = penguin.GetComponent<Animator>();
+        dynamicPenguinTransformAnimator = GetComponent<Animator>();
     }
     public void StartIdle()
     {
@@ -29,6 +34,18 @@ public class PlayerAnimationController : MonoBehaviour
     public void SetSpeed(float s)
     {
         penguinAnimator.speed = s;
+    }
+
+    public void Jump()
+    {
+        if (dynamicTransformAnimation)
+            dynamicPenguinTransformAnimator.SetTrigger("jump");
+    }
+
+    public void Land()
+    {
+        if (dynamicTransformAnimation)
+            dynamicPenguinTransformAnimator.SetTrigger("land");
     }
 
 }

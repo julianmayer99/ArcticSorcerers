@@ -169,6 +169,7 @@ public class PlayerController : MonoBehaviour
 		if (!m_WasGrounded)
 		{
 			OnLandEvent.Invoke();
+			ac.Land();
 		}
 
 		m_Grounded = true;
@@ -200,6 +201,8 @@ public class PlayerController : MonoBehaviour
 			m_Grounded = false;
 			m_Rigidbody.AddForce(new Vector2(0f, m_JumpForce));
 			playerStats.jumps++;
+			ac.Jump();
+			m_WasGrounded = m_Grounded;
 		}
 	}
 

@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
 
 	[HideInInspector] public UnityEvent OnBackActionTriggered;
 	[HideInInspector] public UnityEvent OnShowScoreboardActionTriggered;
+	[HideInInspector] public UnityEvent OnCancelActionTriggered;
 
 	private void Awake()
 	{
@@ -75,6 +76,8 @@ public class PlayerController : MonoBehaviour
 			OnBackActionTriggered = new UnityEvent();
 		if (OnShowScoreboardActionTriggered == null)
 			OnShowScoreboardActionTriggered = new UnityEvent();
+		if (OnCancelActionTriggered == null)
+			OnCancelActionTriggered = new UnityEvent();
 
 
 		shootCoolDownCounter = shootCoolDown;
@@ -284,6 +287,14 @@ public class PlayerController : MonoBehaviour
 			OnShowScoreboardActionTriggered.Invoke();
 	}
 
+	public void OnCancelActionPerformed(InputAction.CallbackContext context)
+	{
+		var buttonDown = context.ReadValue<float>() >= 1;
+
+		if (buttonDown) // => OnButtonDown Event
+			OnCancelActionTriggered.Invoke();
+	}
+
 	public void AttackInit()
     {
 		//Initializing the Attack Status
@@ -372,7 +383,7 @@ public class PlayerController : MonoBehaviour
 	public void ChangeAmmunnitionReserve(int add)
 	{
 		playerStats.ammunitionLeft += add;
-		//playerUI.UpdateAmmunitionReserveCount(playerStats.ammunitionLeft); //AUSKOMMENTIERT WEIL ERROR
+		playerUI.UpdateAmmunitionReserveCount(playerStats.ammunitionLeft);
 	}
 
 	public void OnPlayerHasBeenShot(PlayerController fromPlayer, Vector3 shotPoint)

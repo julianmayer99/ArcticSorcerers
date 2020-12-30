@@ -116,7 +116,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     public void LoadLevel()
     {
         DontDestroyOnLoad(GameSettings.gameMode.GameObject);
-
+        ResponseVisualizer.Instance.TintScreenBlackOnLongWaitTime();
         SceneManager.LoadScene("Level");
     }
 

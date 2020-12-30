@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [Header("Universal UI")]
     [Space]
     public GameObject scoreBoardPanel;
+    public GameObject gamePausedPanel;
 
     public ArcticSorcerersMap map; // TODO: Sollte später gespawnt werden je nach GameSettings
     public DynamicMultiTargetCamera dynamicCamera;
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
         foreach (var player in PlayerConfigurationManager.Instance.Players)
         {
             player.OnShowScoreboardActionTriggered.AddListener(ToggleScoreBoardVisibility);
+            player.OnCancelActionTriggered.AddListener(PauseOrResumeGame);
         }
     }
 
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour
         foreach (var player in PlayerConfigurationManager.Instance.Players)
         {
             player.OnShowScoreboardActionTriggered.RemoveListener(ToggleScoreBoardVisibility);
+            player.OnCancelActionTriggered.RemoveListener(PauseOrResumeGame);
         }
     }
 
@@ -114,5 +117,27 @@ public class GameManager : MonoBehaviour
     public void ToggleScoreBoardVisibility()
     {
         scoreBoardPanel.SetActive(!scoreBoardPanel.activeSelf);
+    }
+
+    private bool gameIsPaused = false;
+    public void PauseOrResumeGame()
+    {
+        if (gameIsPaused)
+        {
+            gameIsPaused = false;
+            Time.timeScale = 1f;
+        }
+        else
+        {
+            gameIsPaused = true;
+            Time.timeScale = 0f;
+        }
+        gamePausedPanel.SetActive(gameIsPaused);
+    }
+
+    public void QuitGame()
+    {
+        ResponseVisualizer.Instance.TintScreenBlackOnLongWaitTime();
+        SceneManager.LoadScene("JoinRoom");
     }
 }

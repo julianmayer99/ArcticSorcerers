@@ -122,14 +122,13 @@ public class GameManager : MonoBehaviour
     private bool gameIsPaused = false;
     public void PauseOrResumeGame()
     {
+        gameIsPaused = !gameIsPaused;
         if (gameIsPaused)
         {
-            gameIsPaused = false;
             Time.timeScale = 1f;
         }
         else
         {
-            gameIsPaused = true;
             Time.timeScale = 0f;
         }
         gamePausedPanel.SetActive(gameIsPaused);

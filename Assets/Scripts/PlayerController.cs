@@ -217,9 +217,7 @@ public class PlayerController : MonoBehaviour
 	public void OnJumpPerformed(InputAction.CallbackContext context)
 	{
 		if (!context.performed)
-		{
 			return;
-		}
 
 		var jump = context.ReadValue<float>() >= 1;
 		if (selectedInteractable == null)
@@ -281,6 +279,9 @@ public class PlayerController : MonoBehaviour
 
 	public void OnShowScoreboardActionPerformed(InputAction.CallbackContext context)
 	{
+		if (!context.performed)
+			return;
+
 		var buttonDown = context.ReadValue<float>() >= 1;
 
 		if (buttonDown) // => OnButtonDown Event
@@ -289,6 +290,9 @@ public class PlayerController : MonoBehaviour
 
 	public void OnCancelActionPerformed(InputAction.CallbackContext context)
 	{
+		if (!context.performed)
+			return;
+
 		var buttonDown = context.ReadValue<float>() >= 1;
 
 		if (buttonDown) // => OnButtonDown Event

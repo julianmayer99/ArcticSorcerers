@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CloseableDialogueWindow : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class CloseableDialogueWindow : MonoBehaviour
     public UnityEvent OnBackButtonClickedWhenActive;
     [SerializeField] private bool injectBackActionListeners = true;
     [SerializeField] private bool injectForAllPlayer = false;
+    public Button autoSelectWhenOpened;
 
     private List<PlayerController> invokedPlayers = new List<PlayerController>();
 
@@ -41,6 +43,7 @@ public class CloseableDialogueWindow : MonoBehaviour
         if (injectBackActionListeners)
             foreach (var player in invokedPlayers)
                 player.OnBackActionTriggered.AddListener(CloseWindow);
+        StartCoroutine(ActivateButtonOnEndOfFrame());
     }
 
     private void OnDisable()
@@ -48,6 +51,13 @@ public class CloseableDialogueWindow : MonoBehaviour
         if (injectBackActionListeners)
             foreach (var player in invokedPlayers)
                 player.OnBackActionTriggered.RemoveListener(CloseWindow);
+    }
+
+    IEnumerator ActivateButtonOnEndOfFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        if (autoSelectWhenOpened != null)
+            autoSelectWhenOpened.Select();
     }
 
     public void CloseWindow()

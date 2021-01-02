@@ -37,6 +37,11 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     public void HandlePlayerJoin(PlayerInput pi)
     {
+        if (pi.playerIndex == 0)
+        {
+            FindObjectOfType<MenuManager>().SkipMainMenuScreen();
+        }
+
         Debug.Log("player joined " + pi.playerIndex);
         pi.transform.SetParent(transform);
 

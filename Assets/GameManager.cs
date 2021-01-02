@@ -125,17 +125,18 @@ public class GameManager : MonoBehaviour
         gameIsPaused = !gameIsPaused;
         if (gameIsPaused)
         {
-            Time.timeScale = 1f;
+            Time.timeScale = 0f;
         }
         else
         {
-            Time.timeScale = 0f;
+            Time.timeScale = 1f;
         }
         gamePausedPanel.SetActive(gameIsPaused);
     }
 
     public void QuitGame()
     {
+        Time.timeScale = 1f;
         ResponseVisualizer.Instance.TintScreenBlackOnLongWaitTime();
         SceneManager.LoadScene("JoinRoom");
     }

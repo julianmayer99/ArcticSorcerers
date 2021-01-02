@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Items;
+﻿using Assets.Scripts.Gamemodes;
+using Assets.Scripts.Items;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,9 +20,10 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float m_JumpForce = 400f;
 	[Range(1, 20f)] [SerializeField] private float m_Speed = 10f;
 	public PlayerConfiguration config;
+	public PlayerStats playerStats = new PlayerStats();
+	public GamemodeSpecificPlayerAttributes gamemodeExtraInfo = new GamemodeSpecificPlayerAttributes();
 	public float shotKnockBack = 5f;
 	public float shotKnockUpwardsForce = 5f;
-	public PlayerStats playerStats = new PlayerStats();
 
 	[Header("Movement")]
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;

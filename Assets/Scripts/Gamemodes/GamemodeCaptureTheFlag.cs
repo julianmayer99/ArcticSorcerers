@@ -4,6 +4,7 @@ using Assets.Scripts.Items;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using System.Linq;
+using Assets.Scripts.Gamemodes;
 
 /// <summary>
 /// Two teams play against each other. The objective is, to capture the enemies flag and return it to the own base.
@@ -22,99 +23,61 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
     public List<Team> TeamScores { get; set; } = new List<Team>();
     public int ScoreLimit { get; set; } = 3;
     public int RoundLimit { get; set; } = 2;
-    private int roundsLeftToPlay;
     public UnityEvent OnGameEnd { get; set; }
     public UnityEvent OnRoundEnd { get; set; }
 
     public void InitializeInLevel()
     {
         GameModeUi = Instantiate(uiPreFab.GameObject, FindObjectOfType<Canvas>().transform).GetComponent<IGameModeUi>();
-        roundsLeftToPlay = RoundLimit;
 
-        if (OnGameEnd == null)
-            OnGameEnd = new UnityEvent();
+        GamemodeBase.InitializeInLevel();
 
-        if (OnRoundEnd == null)
-            OnRoundEnd = new UnityEvent();
-
-        foreach (var player in PlayerConfigurationManager.Instance.Players)
+        for (int i = 0; i < GameSettings.gameMode.NumberOfTeams; i++)
         {
-            var team = TeamScores.SingleOrDefault(t => t.teamId == player.config.Team.teamId);
-            if (team == null)
-                TeamScores.Add(player.config.Team);
-        }
-
-        for (int i = 0; i < GameManager.Instance.map.ctfFlagSpawns.Length; i++)
-        {
-            ctfFlags.Add(Instantiate(ctfFlagPreFab.gameObject, GameManager.Instance.map.ctfFlagSpawns[i].position, Quaternion.identity)
-                .GetComponent<CtfFlag>()
-            );
+            var flag = Instantiate(ctfFlagPreFab.gameObject, GameManager.Instance.map.ctfFlagSpawns[i].position, Quaternion.identity)
+                .GetComponent<CtfFlag>();
+            flag.Initialize(GameSettings.gameMode.TeamScores[i], GameManager.Instance.map.ctfFlagSpawns[i].position);
+            ctfFlags.Add(flag);
         }
     }
 
     public void OnPlayerKilledOtherPlayer(PlayerController attacker, PlayerController victim)
     {
+        if (victim.gamemodeExtraInfo.CarryingFlag != null)
+        {
+            victim.gamemodeExtraInfo.CarryingFlag.carryingPlayer = null;
+            victim.gamemodeExtraInfo.CarryingFlag = null;
+
+            attacker.gamemodeExtraInfo.killedAFlagCarrier++;
+        }
+
+        if (attacker.gamemodeExtraInfo.CarryingFlag != null)
+        {
+            attacker.gamemodeExtraInfo.killedAsFlagCarrier++;
+        }
     }
 
     public void OnPlayerScoredObjective(PlayerController player)
     {
-        player.config.Team.score += pointsForScoringObjective;
-        CheckIfATeamHasWon();
-        GameModeUi.UpdateUI();
+        GamemodeBase.OnPlayerScoredObjective(player, pointsForScoringObjective);
+        player.gamemodeExtraInfo.CarryingFlag = null;
     }
 
+    // Pick Up The Flag
     public void OnPlayerStartedObjective(PlayerController player)
     {
-    }
-
-    void CheckIfATeamHasWon()
-    {
-        if (ATeamHasPassedTheScoreLimit)
-        {
-            roundsLeftToPlay--;
-
-            if (roundsLeftToPlay <= 0)
-            {
-                OnGameEnd.Invoke();
-                GameModeUi.ShowGameEndScreen();
-            }
-            else
-            {
-                OnRoundEnd.Invoke();
-                ResetForNextRound();
-                GameModeUi.ShowRoundEndScreen();
-            }
-        }
+        GameModeUi.UpdateUI();
     }
 
     public void ResetForNextRound()
     {
-        foreach (var player in PlayerConfigurationManager.Instance.Players)
-        {
-            player.transform.position = GameManager.Instance.map.GetGoodGameStartSpawnPoint(player);
-            player.playerStats.ResetStatsOnPlayerDeath();
-        }
+        GamemodeBase.ResetForNextRound();
+        // TODO: Reset Flag Positions
     }
 
     public void OnModeSpawnedInJoinRoom()
     {
-        throw new System.NotImplementedException();
-    }
-
-    bool ATeamHasPassedTheScoreLimit
-    {
-        get
-        {
-            foreach (var team in TeamScores)
-            {
-                if (team.score >= ScoreLimit)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+        GamemodeBase.AutoAssignTeams();
     }
 
     public IGameModeUi GameModeUi { get; set; }

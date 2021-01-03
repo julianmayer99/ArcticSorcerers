@@ -34,9 +34,10 @@ public class CtfFlag : MonoBehaviour
         if (player == null)
             return;
 
+        // Own Flag
         if (player.config.Team == this.team
             && this.isAtSpawn)
-        {
+        {   
             if (player.gamemodeExtraInfo.CarryingFlag != null)
             {
                 GameSettings.gameMode.OnPlayerScoredObjective(player);
@@ -46,10 +47,15 @@ public class CtfFlag : MonoBehaviour
         }
         else if (player.config.Team == this.team)
         {
+            if (carryingPlayer != null)
+                return;
+
             ReturnOwnFlagToHomeBase();
+            player.gamemodeExtraInfo.flagsReturned++;
             return;
         }
 
+        // Enemies Flag
         if (player.config.Team != this.team)
         {
             if (carryingPlayer != null)
@@ -64,7 +70,7 @@ public class CtfFlag : MonoBehaviour
 
     }
 
-    void ReturnOwnFlagToHomeBase()
+    public void ReturnOwnFlagToHomeBase()
     {
         transform.position = spawnPosition;
         isAtSpawn = true;

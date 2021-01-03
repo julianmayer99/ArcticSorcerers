@@ -14,7 +14,7 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
     public int pointsForScoringObjective = 1;
     public int pointsForLoosingObjective = 0;
 
-    public IGameModeUi uiPreFab;
+    public GameObject uiPreFab;
 
     public CtfFlag ctfFlagPreFab;
     public List<CtfFlag> ctfFlags = new List<CtfFlag>();
@@ -28,7 +28,7 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
 
     public void InitializeInLevel()
     {
-        GameModeUi = Instantiate(uiPreFab.GameObject, FindObjectOfType<Canvas>().transform).GetComponent<IGameModeUi>();
+        GameModeUi = Instantiate(uiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<IGameModeUi>();
 
         GamemodeBase.InitializeInLevel();
 
@@ -60,12 +60,19 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
     public void OnPlayerScoredObjective(PlayerController player)
     {
         GamemodeBase.OnPlayerScoredObjective(player, pointsForScoringObjective);
+        var flag = player.gamemodeExtraInfo.CarryingFlag;
+
+        flag.carryingPlayer = null;
+        flag.ReturnOwnFlagToHomeBase();
+
         player.gamemodeExtraInfo.CarryingFlag = null;
+        player.gamemodeExtraInfo.flagsCaptured++;
     }
 
     // Pick Up The Flag
     public void OnPlayerStartedObjective(PlayerController player)
     {
+        player.gamemodeExtraInfo.flagsTaken++;
         GameModeUi.UpdateUI();
     }
 

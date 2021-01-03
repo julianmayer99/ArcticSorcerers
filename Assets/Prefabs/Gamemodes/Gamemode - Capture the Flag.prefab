@@ -45,5 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsForScoringObjective: 1
   pointsForLoosingObjective: 0
+  uiPreFab: {fileID: 9102216728182460674, guid: d7c675795ea8a5144b7f851a3fdf29fb, type: 3}
   ctfFlagPreFab: {fileID: 9192156429262084763, guid: 392a7ea07f5ecaf4e8f81c9ad7bd93e6, type: 3}
   ctfFlags: []

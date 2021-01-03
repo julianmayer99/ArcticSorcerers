@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7815727182815204475}
   - component: {fileID: 1070945610700210792}
   - component: {fileID: 1115845788150446349}
-  - component: {fileID: 8826041622054466738}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -82,19 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8826041622054466738
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3199657576512552445}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4949358150903367197
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +92,6 @@ GameObject:
   - component: {fileID: 427090197462904801}
   - component: {fileID: 3169923942635030795}
   - component: {fileID: 748836181072227520}
-  - component: {fileID: 4779890209273549186}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -177,19 +162,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4779890209273549186
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4949358150903367197}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7941500468918248138
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1055805689431132140}
   - component: {fileID: 9192156429262084763}
+  - component: {fileID: 4837068368210371433}
   m_Layer: 0
   m_Name: CTF Flag
   m_TagString: Untagged
@@ -235,3 +208,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e24ec1e1101fcc74db399f70d4fdf4db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carryingVisualOffset: {x: 0, y: 0, z: 0}
+  isAtSpawn: 1
+  carryingPlayer: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
+--- !u!65 &4837068368210371433
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7941500468918248138}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4623979, y: 3.5007243, z: 1}
+  m_Center: {x: 0.47655302, y: 1.835437, z: 0}

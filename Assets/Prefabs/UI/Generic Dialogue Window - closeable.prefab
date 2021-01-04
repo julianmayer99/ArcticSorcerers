@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703f47662db5e7b4188ad5deb69a125e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt_headerTitle: {fileID: 5836079183998914907}
   BackAction:
     m_Name: Back
     m_Type: 0
@@ -247,3 +248,5 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   injectBackActionListeners: 1
+  injectForAllPlayer: 0
+  autoSelectWhenOpened: {fileID: 0}

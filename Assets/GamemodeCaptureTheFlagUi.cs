@@ -48,7 +48,9 @@ public class GamemodeCaptureTheFlagUi : MonoBehaviour, IGameModeUi
 
         gameEndPanel = Instantiate(gameEndPanelPreFab.gameObject, FindObjectOfType<Canvas>().transform).GetComponent<DialogueWindow>();
         gameEndPanel.gameObject.SetActive(false);
-        // TODO: spawn round end screen
+
+        roundEndPanel = Instantiate(roundEndPanelPreFab.gameObject, FindObjectOfType<Canvas>().transform).GetComponent<DialogueWindow>();
+        roundEndPanel.gameObject.SetActive(false);
 
         Debug.Log("<color=green>Gamemode Ui Initialized: Capture The Flag</color>");
     }
@@ -62,7 +64,7 @@ public class GamemodeCaptureTheFlagUi : MonoBehaviour, IGameModeUi
 
     public void ShowRoundEndScreen()
     {
-        roundEndPanelPreFab.gameObject.SetActive(true);
+        roundEndPanel.gameObject.SetActive(true);
     }
 
     public void UpdateUI()

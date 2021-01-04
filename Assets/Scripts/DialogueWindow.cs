@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class CloseableDialogueWindow : MonoBehaviour
+public class DialogueWindow : MonoBehaviour
 {
-    public InputAction BackAction;
+    [SerializeField] public TextMeshProUGUI txt_headerTitle;
+
+    [HideInInspector] public InputAction BackAction;
     public UnityEvent OnBackButtonClickedWhenActive;
     [SerializeField] private bool injectBackActionListeners = true;
     [SerializeField] private bool injectForAllPlayer = false;
@@ -29,6 +32,11 @@ public class CloseableDialogueWindow : MonoBehaviour
                 invokedPlayers.Add(item);
             }
         }
+    }
+
+    public void SetTitle(string title)
+    {
+        txt_headerTitle.text = title;
     }
 
     public void ShowDialogueWindow(PlayerController player)

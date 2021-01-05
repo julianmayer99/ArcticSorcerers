@@ -17,6 +17,7 @@ public class ScoreBoardPlayerEntry : MonoBehaviour
     {
         this.player = player;
         txt_playerName.text = player.config.playerName;
+
     }
 
     public void UpdateUI()

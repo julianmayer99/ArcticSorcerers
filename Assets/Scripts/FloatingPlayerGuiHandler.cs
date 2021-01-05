@@ -2,15 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FloatingPlayerGuiHandler : MonoBehaviour
 {
-    [SerializeField] private Image img_teamPanel;
+    [SerializeField] private SVGImage img_teamPanel;
     [SerializeField] private TextMeshProUGUI txt_playerName;
     [SerializeField] private Image img_nameTextBackground;
-    [SerializeField] private GameObject[] ammunitionKnobs;
+    [SerializeField] private Image[] ammunitionKnobs;
     [SerializeField] private Vector3 guiOffset;
     private Transform followObject;
     private PlayerController attatchedPlayer;
@@ -25,7 +26,11 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
         attatchedPlayer = player;
         txt_playerName.text = player.config.playerName;
         if (player.config.Color != null)
-            img_nameTextBackground.color = player.config.Color.ui_color_dark;
+        {
+            UpdatePlayerColor();
+        }
+
+        this.transform.SetAsFirstSibling();
 
         UpdateTeamColor();
     }
@@ -36,6 +41,7 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
         {
             img_teamPanel.gameObject.SetActive(true);
             img_teamPanel.color = ColorManager.Instance.teamColors[attatchedPlayer.config.Team.teamId].ui_color_normal;
+            img_teamPanel.sprite = ColorManager.Instance.teamColors[attatchedPlayer.config.Team.teamId].teamIcon;
         }
         else
         {
@@ -47,7 +53,7 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
     {
         for (int i = 0; i < ammunitionKnobs.Length; i++)
         {
-            ammunitionKnobs[i].SetActive(i < shotsLeft);
+            ammunitionKnobs[i].gameObject.SetActive(i < shotsLeft);
         }
     }
 
@@ -62,6 +68,8 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
     public void UpdatePlayerColor()
     {
         img_nameTextBackground.color = attatchedPlayer.config.Color.ui_color_dark;
+        foreach (var item in ammunitionKnobs)
+            item.color = attatchedPlayer.config.Color.ui_color_dark;
     }
 
     public void StartAiming()

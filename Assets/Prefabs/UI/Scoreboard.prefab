@@ -599,6 +599,9 @@ MonoBehaviour:
   teamEntries:
   - {fileID: 4610278313970631056}
   - {fileID: 4538576512241766992}
+  txt_extraInfo0_header: {fileID: 2157562999284695353}
+  txt_extraInfo1_header: {fileID: 2157562998651175478}
+  txt_extraInfo2_header: {fileID: 2157562998041873470}
 --- !u!1 &3851375993355337943
 GameObject:
   m_ObjectHideFlags: 0

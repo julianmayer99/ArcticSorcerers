@@ -46,6 +46,7 @@ public class ColorManager : MonoBehaviour
         public string name;
         public Color ui_color_dark;
         public Color ui_color_normal;
+        public Sprite teamIcon;
         [HideInInspector] public bool isInUse = false;
     }
 

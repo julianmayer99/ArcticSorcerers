@@ -120,8 +120,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamPanels: []
-  roundEndPanelPreFab: {fileID: 0}
-  gameEndPanelPreFab: {fileID: 2691821660857033760, guid: 4c81a5d9c86d12f4893e9aee59e59494, type: 3}
+  roundEndPanelPreFab: {fileID: 1292050011755753265, guid: fe4fba6aaeac95a4499a9aef7f0f3edd, type: 3}
+  gameEndPanelPreFab: {fileID: 1292050011755753265, guid: fe4fba6aaeac95a4499a9aef7f0f3edd, type: 3}
 --- !u!1001 &2087820764333360642
 PrefabInstance:
   m_ObjectHideFlags: 0

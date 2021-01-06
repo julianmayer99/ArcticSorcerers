@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: 6d5523b441032c742be488989f08e56d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Loja
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 1d37ef837f4589f48b25d88817202570, type: 3}
+  - {fileID: 12800000, guid: 7ba2642381463474fa4d84951ac8c907, type: 3}
+  - {fileID: 12800000, guid: 0a53ce94efa52164faec6c00e96deaf4, type: 3}
+  - {fileID: 12800000, guid: c443b8bb276efa64d89c4fdc13d2d10c, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

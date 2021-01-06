@@ -75,4 +75,14 @@ public class CtfFlag : MonoBehaviour
         transform.position = spawnPosition;
         isAtSpawn = true;
     }
+
+    public void ResetFlagOnRoundEnd()
+    {
+        ReturnOwnFlagToHomeBase();
+        if (carryingPlayer != null)
+        {
+            carryingPlayer.gamemodeExtraInfo.CarryingFlag = null;
+            carryingPlayer = null;
+        }
+    }
 }

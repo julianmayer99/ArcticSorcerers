@@ -21,7 +21,7 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
 
     public PlayerConfigurationManager.Gamemode ModeName { get; set; } = PlayerConfigurationManager.Gamemode.CaptureTheFlag;
     public List<Team> TeamScores { get; set; } = new List<Team>();
-    public int ScoreLimit { get; set; } = 3;
+    public int ScoreLimit { get; set; } = 1;
     public int RoundLimit { get; set; } = 2;
     public UnityEvent OnGameEnd { get; set; }
     public UnityEvent OnRoundEnd { get; set; }
@@ -79,7 +79,10 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
     public void ResetForNextRound()
     {
         GamemodeBase.ResetForNextRound();
-        // TODO: Reset Flag Positions
+        foreach (var flag in ctfFlags)
+        {
+            flag.ResetFlagOnRoundEnd();
+        }
     }
 
     public void OnModeSpawnedInJoinRoom()

@@ -119,6 +119,11 @@ public class GameManager : MonoBehaviour
         scoreBoardPanel.SetActive(!scoreBoardPanel.activeSelf);
     }
 
+    public void StartNextRound()
+    {
+        GameSettings.gameMode.ResetForNextRound();
+    }
+
     private bool gameIsPaused = false;
     public void PauseOrResumeGame()
     {

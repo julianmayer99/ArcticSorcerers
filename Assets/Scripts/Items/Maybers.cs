@@ -39,6 +39,56 @@ namespace Assets.Scripts.Items
                 PlayerPrefs.SetString(key,
                     value.ToString("yyyy - MM - dd HH: mm", System.Globalization.CultureInfo.InvariantCulture));
             }
+            public static void Set(string key, List<string> list)
+            {
+                int ptr = 0;
+                Set(key + " count", list.Count);
+                foreach (var item in list)
+                {
+                    Set(key + " " + ptr, item);
+                    ptr++;
+                }
+            }
+            public static List<string> Get(string key, List<string> defaultValue)
+            {
+                int count = Get(key + " count", 0);
+
+                if (count == 0)
+                    return defaultValue;
+
+                int ptr = 0;
+                var list = new List<string>();
+                for (int i = 0; i < count; i++)
+                    list.Add(Get(key + " " + ptr, string.Empty));
+
+                return list;
+            }
+
+            public static void Set(string key, List<int> list)
+            {
+                int ptr = 0;
+                Set(key + " count", list.Count);
+                foreach (var item in list)
+                {
+                    Set(key + " " + ptr, item);
+                    ptr++;
+                }
+            }
+            public static List<int> Get(string key, List<int> defaultValue)
+            {
+                int count = Get(key + " count", 0);
+
+                if (count == 0)
+                    return defaultValue;
+
+                int ptr = 0;
+                var list = new List<int>();
+                for (int i = 0; i < count; i++)
+                    list.Add(Get(key + " " + ptr, 0));
+
+                return list;
+            }
+
             public static void Increment(string key, int add, int defaultValue) => Set(key, Get(key, defaultValue) + add);
             public static void Increment(string key, int add) => Increment(key, add, 0);
             public static void Increment(string key, float add, float defaultValue) => Set(key, Get(key, defaultValue) + add);

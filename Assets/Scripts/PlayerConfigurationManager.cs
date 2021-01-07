@@ -50,7 +50,7 @@ public class PlayerConfigurationManager : MonoBehaviour
             var player = pi.GetComponent<PlayerController>();
 
             var config = new PlayerConfiguration(pi.playerIndex);
-            config.playerName = "Player " + (config.PlayerIndex + 1); // Developoment data
+            config.info = PlayerLevelingManager.Instance.GetLastPlayerInfo(config.PlayerIndex);
             config.Input = pi;
 
             players.Add(player);

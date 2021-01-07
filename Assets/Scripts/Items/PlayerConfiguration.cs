@@ -10,7 +10,7 @@ namespace Assets.Scripts.Items
     [Serializable]
     public class PlayerConfiguration
     {
-        public string playerName;
+        public PlayerLevelingManager.PlayerInfo info;
         public PlayerInput Input { get; set; }
         public int PlayerIndex { get; private set; }
         public Team Team { get; set; } = new Team();

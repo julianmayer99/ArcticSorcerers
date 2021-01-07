@@ -17,7 +17,7 @@ public class DialogueWindow : MonoBehaviour
     [SerializeField] private bool injectForAllPlayer = false;
     public Button autoSelectWhenOpened;
 
-    private List<PlayerController> invokedPlayers = new List<PlayerController>();
+    public List<PlayerController> invokedPlayers = new List<PlayerController>();
 
     private void Awake()
     {

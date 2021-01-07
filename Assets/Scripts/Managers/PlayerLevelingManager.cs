@@ -40,9 +40,14 @@ public class PlayerLevelingManager : MonoBehaviour
         SavePlayerList();
     }
 
-    public void AddPlayer(string name)
+    private void OnApplicationQuit()
     {
-        var existingPlayer = players.SingleOrDefault(p => p.Name.ToLower().Equals(name.ToLower()));
+        SavePlayerList();
+    }
+
+    public PlayerInfo GetOrCreatePlayer(string name)
+    {
+        var existingPlayer = Players.SingleOrDefault(p => p.Name.ToLower().Equals(name.ToLower()));
         int xp = existingPlayer == null ? 0 : existingPlayer.Xp;
         if (existingPlayer != null)
         {
@@ -56,6 +61,20 @@ public class PlayerLevelingManager : MonoBehaviour
         };
 
         players.Add(newPlayer);
+
+        return newPlayer;
+    }
+
+    public PlayerInfo GetLastPlayerInfo(int playerIndex)
+    {
+        if (Players.Count > playerIndex)
+        {
+            return Players[Players.Count - 1 - playerIndex];
+        }
+        else
+        {
+            return GetOrCreatePlayer("Spieler " + (playerIndex + 1));
+        }
     }
 
     void LoadPlayerList()

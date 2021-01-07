@@ -61,6 +61,11 @@ namespace Assets.Scripts.Gamemodes
                 player.transform.position = GameManager.Instance.map.GetGoodGameStartSpawnPoint(player);
                 player.playerStats.ResetStatsOnPlayerDeath();
             }
+            foreach (var team in GameSettings.gameMode.TeamScores)
+            {
+                team.totalScore += team.score;
+                team.score = 0;
+            }
         }
 
         public static void AutoAssignTeams()

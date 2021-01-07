@@ -128,8 +128,8 @@ MonoBehaviour:
   - {fileID: 776958202280444149}
   - {fileID: 6486360556080999412}
   - {fileID: 6007783222217702684}
-  roundEndPanelPreFab: {fileID: 0}
-  gameEndPanelPreFab: {fileID: 2691821660857033760, guid: 4f125c81b39eca741bc1edaf204e4482, type: 3}
+  roundEndPanelPreFab: {fileID: 1292050011755753265, guid: fe4fba6aaeac95a4499a9aef7f0f3edd, type: 3}
+  gameEndPanelPreFab: {fileID: 4868388266178793910, guid: ac0e98b6d692103439cb98f04a3d2651, type: 3}
 --- !u!1001 &2087820764333360642
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -19,6 +19,8 @@ namespace Assets.Scripts.Items
         }
         public int teamId;
         public int score;
+        public int totalScore;
+        public int wonRounds;
         public string Name => "Team " + teamId;
     }
 }

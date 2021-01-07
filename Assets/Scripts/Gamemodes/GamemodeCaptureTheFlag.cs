@@ -59,8 +59,8 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
 
     public void OnPlayerScoredObjective(PlayerController player)
     {
-        GamemodeBase.OnPlayerScoredObjective(player, pointsForScoringObjective);
         var flag = player.gamemodeExtraInfo.CarryingFlag;
+        GamemodeBase.OnPlayerScoredObjective(player, pointsForScoringObjective);
 
         flag.carryingPlayer = null;
         flag.ReturnOwnFlagToHomeBase();

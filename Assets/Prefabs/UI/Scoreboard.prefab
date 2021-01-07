@@ -911,20 +911,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 73954225172734556, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 73954225172734556, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 73954225172734556, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
       propertyPath: m_SizeDelta.x
       value: 845.72296
-      objectReference: {fileID: 0}
-    - target: {fileID: 73954225172734556, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 41.533127
       objectReference: {fileID: 0}
     - target: {fileID: 73954225172734556, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1034,6 +1022,10 @@ PrefabInstance:
     - target: {fileID: 73954224107700177, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
       propertyPath: m_Name
       value: Team Scoreboard Entry (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 73954224107700177, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 73954224107700178, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
       propertyPath: m_Pivot.x
@@ -1179,6 +1171,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -92.29969
       objectReference: {fileID: 0}
+    - target: {fileID: 297097029869516538, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.0000076293945
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034372066816221425, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.0000076293945
+      objectReference: {fileID: 0}
     - target: {fileID: 1483752625928847535, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -1234,6 +1234,10 @@ PrefabInstance:
     - target: {fileID: 5487373203099876834, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -205.36594
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240630052614351086, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.0000076293945
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc22bd8668a08144b81f1b6eafffe1b3, type: 3}

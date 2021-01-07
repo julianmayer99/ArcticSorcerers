@@ -1,16 +1,17 @@
+﻿using Assets.Scripts.Items;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Assets.Scripts.Items;
-using Assets.Scripts.Gamemodes;
+using TMPro;
 using System.Linq;
+using UnityEngine;
+using Assets.Scripts.Gamemodes;
 
-public class GamemodeCaptureTheFlagUi : MonoBehaviour, IGameModeUi
+public class GamemodeTeamDeathmatchUI : MonoBehaviour, IGameModeUi
 {
     public TeamNamePanel[] teamPanels;
     public DialogueWindow roundEndPanelPreFab;
     public DialogueWindow gameEndPanelPreFab;
-
+    
     private DialogueWindow roundEndPanel;
     private DialogueWindow gameEndPanel;
 
@@ -22,9 +23,9 @@ public class GamemodeCaptureTheFlagUi : MonoBehaviour, IGameModeUi
         switch (columnIndex)
         {
             // TODO: I18n
-            case 0: return "Erobert";
-            case 1: return "Zur. gebracht";
-            case 2: return "Kills";
+            case 0: return "Kills";
+            case 1: return "Treffer";
+            case 2: return "Tode";
             default: return "-";
         }
     }
@@ -33,9 +34,9 @@ public class GamemodeCaptureTheFlagUi : MonoBehaviour, IGameModeUi
     {
         switch (columnIndex)
         {
-            case 0: return forPlayer.gamemodeExtraInfo.flagsCaptured.ToString();
-            case 1: return forPlayer.gamemodeExtraInfo.flagsReturned.ToString();
-            case 2: return forPlayer.playerStats.kills.ToString();
+            case 0: return forPlayer.playerStats.kills.ToString();
+            case 1: return forPlayer.playerStats.hitsGiven.ToString();
+            case 2: return forPlayer.playerStats.deaths.ToString();
             default: return string.Empty;
         }
     }
@@ -48,23 +49,22 @@ public class GamemodeCaptureTheFlagUi : MonoBehaviour, IGameModeUi
 
         gameEndPanel = Instantiate(gameEndPanelPreFab.gameObject, FindObjectOfType<Canvas>().transform).GetComponent<DialogueWindow>();
         gameEndPanel.gameObject.SetActive(false);
+        // TODO: spawn round end screen
 
-        roundEndPanel = Instantiate(roundEndPanelPreFab.gameObject, FindObjectOfType<Canvas>().transform).GetComponent<DialogueWindow>();
-        roundEndPanel.gameObject.SetActive(false);
-
-        Debug.Log("<color=green>Gamemode Ui Initialized: Capture The Flag</color>");
+        Debug.Log("<color=green>Gamemode Ui Initialized: Team Deathmatch</color>");
     }
 
     public void ShowGameEndScreen()
     {
         gameEndPanel.gameObject.SetActive(true);
         var teamWithMorePoints = GameSettings.gameMode.TeamScores.OrderByDescending(t => t.score).First();
+        teamWithMorePoints.wonRounds++;
         gameEndPanel.SetTitle(teamWithMorePoints.Name + " hat das Spiel gewonnen.");
     }
 
     public void ShowRoundEndScreen()
     {
-        roundEndPanel.gameObject.SetActive(true);
+        roundEndPanelPreFab.gameObject.SetActive(true);
     }
 
     public void UpdateUI()

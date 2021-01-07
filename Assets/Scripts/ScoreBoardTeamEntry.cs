@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class ScoreBoardTeamEntry : MonoBehaviour
 {
+    public bool displayEndGameStats = false;
+    [Space]
+    public GameObject wonRoundsDescriptionText;
     public TextMeshProUGUI txt_teamScore;
     public TextMeshProUGUI txt_gamemodeScoreLimit;
     public SVGImage teamIcon;
@@ -16,7 +19,11 @@ public class ScoreBoardTeamEntry : MonoBehaviour
     public void Initialize(int teamId)
     {
         this.teamId = teamId;
-        txt_gamemodeScoreLimit.text = "/ " + GameSettings.gameMode.ScoreLimit.ToString();
+        wonRoundsDescriptionText.SetActive(displayEndGameStats);
+
+        txt_gamemodeScoreLimit.text = displayEndGameStats
+            ? GameSettings.gameMode.TeamScores[teamId].totalScore + " Punkte insgesamt"
+            : GameSettings.gameMode.ScoreLimit.ToString();
         teamIcon.sprite = ColorManager.Instance.teamColors[teamId].teamIcon;
         int playerCount = GameSettings.gameMode.TeamScores[teamId].Players.Count;
 
@@ -42,6 +49,8 @@ public class ScoreBoardTeamEntry : MonoBehaviour
                 entry.UpdateUI();
         }
 
-        txt_teamScore.text = GameSettings.gameMode.TeamScores[teamId].score.ToString();
+        txt_teamScore.text = displayEndGameStats
+            ? GameSettings.gameMode.TeamScores[teamId].wonRounds.ToString()
+            : GameSettings.gameMode.TeamScores[teamId].score.ToString();
     }
 }

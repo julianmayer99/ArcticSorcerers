@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    public Transform deadRoomPosition;
+
     [Header("Universal UI")]
     [Space]
     public GameObject scoreBoardPanel;
@@ -106,10 +107,13 @@ public class GameManager : MonoBehaviour
 
     IEnumerator DeactivateAndRespawnPlayerAfterShortTimeDelay(PlayerController player)
     {
-        player.gameObject.SetActive(false);
+        DynamicMultiTargetCamera.instance.targets.Remove(player.transform);
+        player.transform.position = deadRoomPosition.position;
+        player.playerControlsEnabled = false;
         player.playerStats.ResetStatsOnPlayerDeath();
         yield return new WaitForSeconds(GameSettings.RespawnDelay);
-        player.gameObject.SetActive(true);
+        player.playerControlsEnabled = true;
+        DynamicMultiTargetCamera.instance.targets.Add(player.transform);
         player.transform.position = map.GetGoodSpawnPoint(player);
 
     }

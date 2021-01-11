@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
 	private Vector2 moveDirection = Vector2.zero;
 	private float m_threshhold = 0.2f;
 	private float m_animMaxSpeed = 3f;
+	public bool playerControlsEnabled = true;
 	[HideInInspector] public InteractableObject selectedInteractable;
 
 	[Header("Aiming")] 
@@ -203,6 +204,9 @@ public class PlayerController : MonoBehaviour
 
 	public void OnMovePerformed(InputAction.CallbackContext context)
 	{
+		if (!playerControlsEnabled)
+			return;
+
 		moveDirection = context.ReadValue<Vector2>();
 	}
 
@@ -212,7 +216,7 @@ public class PlayerController : MonoBehaviour
 			return;
 
 		var jump = context.ReadValue<float>() >= 1;
-		if (selectedInteractable == null)
+		if (selectedInteractable == null && playerControlsEnabled)
 			Jump(jump);
 		else if (jump && selectedInteractable.isButtonDownEvent)
 		{
@@ -238,6 +242,9 @@ public class PlayerController : MonoBehaviour
 
 	public void OnShootPerformed(InputAction.CallbackContext context)
 	{
+		if (!playerControlsEnabled)
+			return;
+
 		//Context value
 		//var shootButtonDown = context.ReadValue<float>() = 1;
 		if (context.ReadValue<float>() == 1)

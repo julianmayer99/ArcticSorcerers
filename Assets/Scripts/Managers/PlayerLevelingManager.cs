@@ -12,6 +12,8 @@ public class PlayerLevelingManager : MonoBehaviour
 
     private PlayerInfoListContainer plist;
 
+    public bool listHasChanged = false;
+
     public static List<PlayerInfo> Players
     {
         get
@@ -56,6 +58,8 @@ public class PlayerLevelingManager : MonoBehaviour
         {
             plist.players.Remove(existingPlayer);
         }
+        else
+            listHasChanged = true;
 
         var newPlayer = new PlayerInfo
         {
@@ -98,6 +102,9 @@ public class PlayerLevelingManager : MonoBehaviour
 
     void SavePlayerList()
     {
+        if (!listHasChanged)
+            return;
+
         if (plist.players.Count < 1)
             return;
 

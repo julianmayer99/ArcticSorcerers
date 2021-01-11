@@ -77,13 +77,15 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
             item.color = attatchedPlayer.config.Color.ui_color_dark;
     }
 
-    public void StartAiming()
+    public bool IsAiming
     {
-        aimIndicator.gameObject.SetActive(true);
-    }
-
-    public void StopAiming()
-    {
-        aimIndicator.gameObject.SetActive(false);
+        get
+        {
+            return aimIndicator.gameObject.activeSelf;
+        }
+        set
+        {
+            aimIndicator.gameObject.SetActive(value);
+        }
     }
 }

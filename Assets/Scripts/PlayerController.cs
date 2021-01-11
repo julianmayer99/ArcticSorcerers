@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 	private float m_animMaxSpeed = 3f;
 	[HideInInspector] public InteractableObject selectedInteractable;
 
-	[Header("Aiming")]
+	[Header("Aiming")] 
 	public Transform aimingIndicator;
 	private bool isAiming = false;
 	private bool wasAiming = false;
@@ -187,16 +187,6 @@ public class PlayerController : MonoBehaviour
 		m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
 		AdjustPlayerRotation(moveDirection.x);
-
-		if (isAiming != wasAiming)
-		{
-			if (!isAiming)
-				playerUI.StopAiming();
-			else
-				playerUI.StartAiming();
-		}
-		
-		isAiming = wasAiming;
 	}
 
 	public void Jump(bool jump)
@@ -306,8 +296,6 @@ public class PlayerController : MonoBehaviour
 		//Initializing the Attack Status
 		currentStatus = Status.Attack;
 		ac.StartAttack();
-
-		isAiming = true;
 	}
 
 	public void AttackStatus()
@@ -323,12 +311,15 @@ public class PlayerController : MonoBehaviour
 		weapon.Shoot();
 		ChangeAmmunnitionReserve(-1);
 		shootCoolDownCounter = shootCoolDown;
+
+		if (playerUI.IsAiming)
+			playerUI.IsAiming = false;
 	}
 
 	public void AttackExit()
 	{
 		//Leaving the Attack Status
-		isAiming = false;
+		// isAiming = false;
 	}
 
 	public void IdleInit()
@@ -411,7 +402,7 @@ public class PlayerController : MonoBehaviour
 
 	public void Aim(Vector2 direction)
 	{
-		aimingIndicator.gameObject.SetActive(true);
+		// aimingIndicator.gameObject.SetActive(true);
 
 		aimingIndicator.transform.eulerAngles = new Vector3(
 			aimingRange * moveDirection.y,
@@ -419,11 +410,21 @@ public class PlayerController : MonoBehaviour
 			aimingIndicator.transform.eulerAngles.z
 			);
 
-		playerUI.aimIndicator.eulerAngles = new Vector3(
+		playerUI.aimIndicator.eulerAngles = moveDirection.x >= 0
+			? new Vector3(
 			playerUI.aimIndicator.eulerAngles.x,
 			playerUI.aimIndicator.eulerAngles.y,
 			(aimingRange * moveDirection.y) - 90
+			)
+			: new Vector3(
+			playerUI.aimIndicator.eulerAngles.x,
+			playerUI.aimIndicator.eulerAngles.y,
+			(-aimingRange * moveDirection.y) + 90
 			);
+
+
+		if (!playerUI.IsAiming)
+			playerUI.IsAiming = true;
 	}
 
 	private void AdjustPlayerRotation(float directionX)
@@ -450,14 +451,6 @@ public class PlayerController : MonoBehaviour
 			: 90;
 
 		transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
-	}
-
-	private void OnDrawGizmos()
-	{
-		if (isAiming)
-		{
-			Gizmos.DrawLine(weapon.shootPoint.position, weapon.shootPoint.position + weapon.shootPoint.transform.forward);
-		}
 	}
 
 	public void VisualizeTakingDamage()

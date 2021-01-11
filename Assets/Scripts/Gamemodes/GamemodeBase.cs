@@ -122,6 +122,7 @@ namespace Assets.Scripts.Gamemodes
 
         public static void CopyGenericPlayerStatsOnGameEnd()
         {
+            PlayerLevelingManager.Instance.listHasChanged = true;
             foreach (var team in GameSettings.gameMode.TeamScores)
             {
                 foreach (var player in team.Players)

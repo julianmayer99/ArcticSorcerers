@@ -52,5 +52,9 @@ namespace Assets.Scripts.Items
         /// </summary>
         /// <param name="player"></param>
         void OnPlayerScoredObjective(PlayerController player);
+        /// <summary>
+        /// Copy stats from <see cref="PlayerController.playerStats"/> to <see cref="PlayerController.config.info"/> and add xp and co.
+        /// </summary>
+        void SaveStatsOnGameEnd();
     }
 }

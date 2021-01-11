@@ -16,7 +16,7 @@ public class ScoreBoardPlayerEntry : MonoBehaviour
     public void Initialize(PlayerController player)
     {
         this.player = player;
-        txt_playerName.text = player.config.info.Name;
+        txt_playerName.text = player.config.info.name;
 
     }
 

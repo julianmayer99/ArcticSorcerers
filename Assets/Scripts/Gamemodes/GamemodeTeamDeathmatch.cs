@@ -59,6 +59,22 @@ namespace Assets.Scripts.Gamemodes
             GamemodeBase.AutoAssignTeams();
         }
 
+        public void SaveStatsOnGameEnd()
+        {
+            GamemodeBase.CopyGenericPlayerStatsOnGameEnd();
+
+            foreach (var team in GameSettings.gameMode.TeamScores)
+            {
+                foreach (var player in team.Players)
+                {
+                    if (team.HasTheMostWonRounds)
+                        player.config.info.xp += 25;
+
+                    player.config.info.xp += player.playerStats.kills * 5;
+                }
+            }
+        }
+
         public IGameModeUi GameModeUi { get; set; }
         public GameObject GameObject => gameObject;
 

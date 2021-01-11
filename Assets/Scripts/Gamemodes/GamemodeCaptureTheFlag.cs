@@ -90,6 +90,11 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
         GamemodeBase.AutoAssignTeams();
     }
 
+    public void SaveStatsOnGameEnd()
+    {
+        
+    }
+
     public IGameModeUi GameModeUi { get; set; }
     public GameObject GameObject => gameObject;
 

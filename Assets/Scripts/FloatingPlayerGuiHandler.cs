@@ -24,7 +24,7 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
         this.sceneCamera = camera;
 
         attatchedPlayer = player;
-        txt_playerName.text = player.config.info.Name;
+        txt_playerName.text = player.config.info.name;
         if (player.config.Color != null)
         {
             UpdatePlayerColor();
@@ -51,7 +51,7 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
 
     public void UpdatePlayerProfileUi()
     {
-        txt_playerName.text = attatchedPlayer.config.info.Name;
+        txt_playerName.text = attatchedPlayer.config.info.name;
     }
 
     public void UpdateAmmunitionReserveCount(int shotsLeft)

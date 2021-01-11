@@ -22,5 +22,9 @@ namespace Assets.Scripts.Items
         public int totalScore;
         public int wonRounds;
         public string Name => "Team " + teamId;
+
+        public bool HasTheMostWonRounds
+            => GameSettings.gameMode.TeamScores.OrderByDescending(t => t.wonRounds).First().wonRounds == wonRounds;
+
     }
 }

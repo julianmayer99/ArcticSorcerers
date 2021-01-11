@@ -3,20 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Items;
 using System.Linq;
+using System.IO;
+using Assets.Scripts.Items.Json;
 
 public class PlayerLevelingManager : MonoBehaviour
 {
     public static PlayerLevelingManager Instance { get; private set; }
-    private List<PlayerInfo> players;
+
+    private PlayerInfoListContainer plist;
 
     public static List<PlayerInfo> Players
     {
         get
         {
-            if (Instance.players == null)
+            if (Instance.plist == null)
                 Instance.LoadPlayerList();
 
-            return Instance.players;
+            return Instance.plist.players;
         }
 
     }
@@ -47,20 +50,20 @@ public class PlayerLevelingManager : MonoBehaviour
 
     public PlayerInfo GetOrCreatePlayer(string name)
     {
-        var existingPlayer = Players.SingleOrDefault(p => p.Name.ToLower().Equals(name.ToLower()));
-        int xp = existingPlayer == null ? 0 : existingPlayer.Xp;
+        var existingPlayer = Players.SingleOrDefault(p => p.name.ToLower().Equals(name.ToLower()));
+        int xp = existingPlayer == null ? 0 : existingPlayer.xp;
         if (existingPlayer != null)
         {
-            players.Remove(existingPlayer);
+            plist.players.Remove(existingPlayer);
         }
 
         var newPlayer = new PlayerInfo
         {
-            Name = name,
-            Xp = xp
+            name = name,
+            xp = xp
         };
 
-        players.Add(newPlayer);
+        plist.players.Add(newPlayer);
 
         return newPlayer;
     }
@@ -77,47 +80,47 @@ public class PlayerLevelingManager : MonoBehaviour
         }
     }
 
+    string FilePathJsonPlayers => Path.Combine(Application.persistentDataPath, "players.json");
+
     void LoadPlayerList()
     {
-        players = new List<PlayerInfo>();
-
-        var playerNames = Maybers.Prefs.Get("player names", new List<string>());
-        if (playerNames.Count < 1)
-            return;
-
-        var playerXps = Maybers.Prefs.Get("player xps", new List<int>());
-
-        for (int i = 0; i < playerNames.Count; i++)
+        if (!File.Exists(FilePathJsonPlayers))
         {
-            players.Add(new PlayerInfo
-            {
-                Name = playerNames[i],
-                Xp = playerXps[i]
-            });
+            plist = new PlayerInfoListContainer();
+            return;
         }
+
+        if (File.Exists(FilePathJsonPlayers))
+            plist = JsonUtility.FromJson<PlayerInfoListContainer>(File.ReadAllText(FilePathJsonPlayers));
+        else
+            plist = new PlayerInfoListContainer();
     }
 
     void SavePlayerList()
     {
-        if (players.Count < 1)
+        if (plist.players.Count < 1)
             return;
 
-        var names = new List<string>();
-        var xps = new List<int>();
-        foreach (var player in players)
-        {
-            names.Add(player.Name);
-            xps.Add(player.Xp);
-        }
-
-        Maybers.Prefs.Set("player names", names);
-        Maybers.Prefs.Set("player xps", xps);
+        string jsonText = JsonUtility.ToJson(plist);
+        File.WriteAllText(
+            FilePathJsonPlayers,
+            jsonText);
     }
 
+    [System.Serializable]
     public class PlayerInfo
     {
-        public string Name { get; set; }
-        public int Xp { get; set; }
-        public int Level => (Xp / 1000) + 1;
+        public string name;
+        public int xp;
+        public int jumps;
+        public int gamesPlayed;
+        public int shotsFired;
+        public int kills;
+        public int deaths;
+        /// <summary>
+        /// Playtime in seconds
+        /// </summary>
+        public int playtime;
+        public int Level => (xp / 1000) + 1;
     }
 }

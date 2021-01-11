@@ -18,7 +18,7 @@ public class ChangeProfileController : MonoBehaviour
     public void UpdateListSorting()
     {
         var matches = (from player in PlayerLevelingManager.Players
-                      where player.Name.ToLower().Contains(inp_newPlayerName.text.ToLower())
+                      where player.name.ToLower().Contains(inp_newPlayerName.text.ToLower())
                       select player).ToArray();
 
         for (int i = 0; i < savedPlayerPanels.Length; i++)
@@ -33,6 +33,9 @@ public class ChangeProfileController : MonoBehaviour
 
     public void SavePlayerNameButtonClicked()
     {
+        if (inp_newPlayerName.text == null)
+            return;
+
         var playerInfo = PlayerLevelingManager.Instance.GetOrCreatePlayer(inp_newPlayerName.text);
         var player = attatchedDialogueWindow.invokedPlayers.First();
         player.config.info = playerInfo;

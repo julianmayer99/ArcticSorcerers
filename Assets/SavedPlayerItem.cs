@@ -12,12 +12,12 @@ public class SavedPlayerItem : MonoBehaviour
     public void Initialize(PlayerLevelingManager.PlayerInfo info)
     {
         this.info = info;
-        txt_playerName.text = info.Name;
+        txt_playerName.text = info.name;
         txt_level.text = info.Level.ToString();
     }
 
     public void ButtonClicked()
     {
-        FindObjectOfType<ChangeProfileController>().inp_newPlayerName.text = info.Name;
+        FindObjectOfType<ChangeProfileController>().inp_newPlayerName.text = info.name;
     }
 }

@@ -93,6 +93,7 @@ namespace Assets.Scripts.Gamemodes
                 {
                     GameSettings.gameMode.OnGameEnd.Invoke();
                     GameSettings.gameMode.GameModeUi.ShowGameEndScreen();
+                    GameSettings.gameMode.SaveStatsOnGameEnd();
                 }
                 else
                 {
@@ -117,6 +118,22 @@ namespace Assets.Scripts.Gamemodes
 
                 return false;
             }
+        }
+
+        public static void CopyGenericPlayerStatsOnGameEnd()
+        {
+            foreach (var team in GameSettings.gameMode.TeamScores)
+            {
+                foreach (var player in team.Players)
+                {
+                    player.config.info.jumps += player.playerStats.jumps;
+                    player.config.info.deaths += player.playerStats.deaths;
+                    player.config.info.kills += player.playerStats.kills;
+
+                    // TODO: Copy more player stats
+                }
+            }
+            
         }
     }
 }

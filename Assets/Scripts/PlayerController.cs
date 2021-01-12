@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 	private PlayerAnimationController ac;
 
 	//Status of the Player
-	private enum Status { Idle, Waddle, Attack}
+	private enum Status { Idle, Waddle, Attack, Dash}
 	private Status currentStatus = Status.Idle; //currentStatus keeps track of the Status the player is currently in.
 
 	[Header("Player Stats")]
@@ -37,6 +37,10 @@ public class PlayerController : MonoBehaviour
 	[HideInInspector] public bool playerControlsEnabled = true;
 	[HideInInspector] public InteractableObject selectedInteractable;
 
+	//Dashing
+	private float dashSpeed = 10f;
+
+
 	[Header("Aiming")] 
 	public Transform aimingIndicator;
 	private bool isAiming = false;
@@ -45,6 +49,7 @@ public class PlayerController : MonoBehaviour
 	public PlayerWeapon weapon;
 	public int shootCoolDown = 5;
 	private int shootCoolDownCounter = 5;
+	private float aimingMoveDamp = 0.5f;
 
 	[Header("UI")]
 	[Space]
@@ -410,6 +415,18 @@ public class PlayerController : MonoBehaviour
 		ac.SetSpeed(1f);
 	}
 
+	public void DashInit()
+    {
+		currentStatus = Status.Dash;
+		ac.StartDash();
+
+		//Apply Speed
+		m_Rigidbody.velocity = new Vector3(config.Input.AimDirection.x, config.Input.AimDirection.y, 0f);
+	}
+	public void DashStatus()
+    {
+
+    }
 
 	public void ChangeAmmunnitionReserve(int add)
 	{

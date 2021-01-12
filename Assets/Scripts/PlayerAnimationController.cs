@@ -31,6 +31,11 @@ public class PlayerAnimationController : MonoBehaviour
         penguinAnimator.SetTrigger("Attack");
     }
 
+    public void StartDash()
+    {
+        penguinAnimator.SetTrigger("Dash");
+    }
+
     public void SetSpeed(float s)
     {
         penguinAnimator.speed = s;

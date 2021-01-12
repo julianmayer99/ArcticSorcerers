@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 6a8d21e09cb6c0f4ab66b0abcc069c96
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -5365241514375383209
@@ -18,6 +18,9 @@ ModelImporter:
   - first:
       74: 7781286144169758875
     second: PenguinArmature|Waddle
+  - first:
+      74: -8172582486205844961
+    second: PenguinArmature|Dash
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -140,6 +143,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

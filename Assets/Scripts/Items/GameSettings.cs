@@ -15,6 +15,7 @@ namespace Assets.Scripts.Items
         /// </summary>
         public static bool gameHasStarted = false;
         public static bool friendlyFire = false;
+        public static Map selectedMap = Map.IceRocks;
         public static float RespawnDelay
         {
             get
@@ -41,5 +42,11 @@ namespace Assets.Scripts.Items
         }
 
         public static IGameMode gameMode;
+
+        public enum Map
+        {
+            IceRocks = 0,
+            SnowCastle = 1
+        }
     }
 }

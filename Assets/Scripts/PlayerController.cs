@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
 	private bool m_Grounded;
 	public Rigidbody m_Rigidbody;
 	private Vector3 m_Velocity = Vector3.zero;
-	private Vector2 moveDirection = Vector2.zero;
 	private float m_threshhold = 0.2f;
 	private float m_animMaxSpeed = 3f;
 	[HideInInspector] public bool playerControlsEnabled = true;
@@ -65,6 +64,8 @@ public class PlayerController : MonoBehaviour
 	[HideInInspector] public UnityEvent OnShowScoreboardActionTriggered;
 	[HideInInspector] public UnityEvent OnCancelActionTriggered;
 
+	private bool listenersAreSetUp = false;
+
 	private void Awake()
 	{
 		m_Rigidbody = GetComponent<Rigidbody>();
@@ -83,8 +84,22 @@ public class PlayerController : MonoBehaviour
 		if (OnCancelActionTriggered == null)
 			OnCancelActionTriggered = new UnityEvent();
 
-
 		shootCoolDownCounter = shootCoolDown;
+	}
+
+	private void Start()
+	{
+		if (listenersAreSetUp)
+			return;
+
+		config.Input.OnJumpButtonDown.AddListener(OnJumpPerformed);
+		config.Input.OnBackButtonUp.AddListener(OnBackActionPerformed);
+		config.Input.OnPauseButtonDown.AddListener(OnCancelActionPerformed);
+		config.Input.OnScoreboardButtonDown.AddListener(OnShowScoreboardActionPerformed);
+		config.Input.OnShootButtonDown.AddListener(OnShootButtonDownPerformed);
+		config.Input.OnShootButtonUp.AddListener(OnShootButtonUpPerformed);
+
+		listenersAreSetUp = true;
 	}
 
 	public void Initialize(PlayerConfiguration config)
@@ -126,6 +141,16 @@ public class PlayerController : MonoBehaviour
 		CancelInvoke(nameof(RecalculateDistanceCovered));
 	}
 
+	private void OnDestroy()
+	{
+		config.Input.OnJumpButtonDown.RemoveListener(OnJumpPerformed);
+		config.Input.OnBackButtonUp.RemoveListener(OnBackActionPerformed);
+		config.Input.OnPauseButtonDown.RemoveListener(OnCancelActionPerformed);
+		config.Input.OnScoreboardButtonDown.RemoveListener(OnShowScoreboardActionPerformed);
+		config.Input.OnShootButtonDown.RemoveListener(OnShootButtonDownPerformed);
+		config.Input.OnShootButtonUp.RemoveListener(OnShootButtonUpPerformed);
+	}
+
 	public void OnColorChanged()
 	{
 		scarfMeshRenderer.material = config.Color.material;
@@ -146,6 +171,10 @@ public class PlayerController : MonoBehaviour
 		playerStats.distanceCovered += newDistance;
 	}
 
+	private void Update()
+	{
+		config.Input.RefreshInput();
+	}
 
 	private void FixedUpdate()
 	{
@@ -194,7 +223,7 @@ public class PlayerController : MonoBehaviour
 		Vector3 targetVelocity = new Vector2(move * m_Speed, m_Rigidbody.velocity.y);
 		m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
-		AdjustPlayerRotation(moveDirection.x);
+		AdjustPlayerRotation(config.Input.Move);
 	}
 
 	public void Jump(bool jump)
@@ -226,100 +255,66 @@ public class PlayerController : MonoBehaviour
 		m_WasGrounded = m_Grounded;
 	}
 
-	public void OnMovePerformed(InputAction.CallbackContext context)
+	public void OnJumpPerformed()
 	{
-		if (!playerControlsEnabled)
-			return;
-
-		moveDirection = context.ReadValue<Vector2>();
-	}
-
-	public void OnJumpPerformed(InputAction.CallbackContext context)
-	{
-		if (!context.performed)
-			return;
-
-		var jump = context.ReadValue<float>() >= 1;
 		if (selectedInteractable == null && playerControlsEnabled)
-			Jump(jump);
-		else if (jump && selectedInteractable.isButtonDownEvent)
+			Jump(true);
+		else if (selectedInteractable.isButtonDownEvent)
 		{
 			// => On button down
 			selectedInteractable.OnPlayerInteracted.Invoke(this);
 			Debug.Log("Button down Event called for interactable");
 		}
-		else if (!jump && !selectedInteractable.isButtonDownEvent)
-		{
-			// => On button up
-			selectedInteractable.OnPlayerInteracted.Invoke(this);
-			Debug.Log("Button up Event called for interactable");
-		}
 	}
 
-	public void OnBackActionPerformed(InputAction.CallbackContext context)
+	public void OnBackActionPerformed()
 	{
-		var buttonDown = context.ReadValue<float>() >= 1;
-
-		if (!buttonDown) // => OnButtonUp Event
-			OnBackActionTriggered.Invoke();
+		OnBackActionTriggered.Invoke();
 	}
 
-	public void OnShootPerformed(InputAction.CallbackContext context)
+	public void OnShootButtonDownPerformed()
 	{
 		if (!playerControlsEnabled)
 			return;
 
-		//Context value
-		//var shootButtonDown = context.ReadValue<float>() = 1;
-		if (context.ReadValue<float>() == 1)
-        {
-			//Button pressed
-			if (currentStatus != Status.Attack && shootCoolDownCounter <= 0 && playerStats.ammunitionLeft > 0)
-            {
-				//Exit current State
-				if (currentStatus == Status.Waddle)
-                {
-					WaddleExit();
-                }
-				if (currentStatus == Status.Waddle)
-				{
-					IdleExit();
-				}
-				AttackInit();
-            }
-        }
-        else if (context.ReadValue<float>() == 0)
+		//Button up
+		if (currentStatus != Status.Attack && shootCoolDownCounter <= 0 && playerStats.ammunitionLeft > 0)
 		{
-			//Button released
-			if (currentStatus == Status.Attack)
+			//Exit current State
+			if (currentStatus == Status.Waddle)
 			{
-				AttackShoot();
-				AttackExit();
-				IdleInit();
+				WaddleExit();
 			}
-        }
+			if (currentStatus == Status.Waddle)
+			{
+				IdleExit();
+			}
+			AttackInit();
+		}
 	}
-
-	public void OnShowScoreboardActionPerformed(InputAction.CallbackContext context)
+	
+	public void OnShootButtonUpPerformed()
 	{
-		if (!context.performed)
+		if (!playerControlsEnabled)
 			return;
 
-		var buttonDown = context.ReadValue<float>() >= 1;
-
-		if (buttonDown) // => OnButtonDown Event
-			OnShowScoreboardActionTriggered.Invoke();
+		//Button down
+		if (currentStatus == Status.Attack)
+		{
+			AttackShoot();
+			AttackExit();
+			IdleInit();
+		}
 	}
 
-	public void OnCancelActionPerformed(InputAction.CallbackContext context)
+	public void OnShowScoreboardActionPerformed()
 	{
-		if (!context.performed)
-			return;
+		OnShowScoreboardActionTriggered.Invoke();
+	}
 
-		var buttonDown = context.ReadValue<float>() >= 1;
-
-		if (buttonDown) // => OnButtonDown Event
-			OnCancelActionTriggered.Invoke();
+	public void OnCancelActionPerformed()
+	{
+		OnCancelActionTriggered.Invoke();
 	}
 
 	public void AttackInit()
@@ -332,7 +327,7 @@ public class PlayerController : MonoBehaviour
 	public void AttackStatus()
     {
 		//Durig the Attack Status
-		Aim(moveDirection);
+		Aim(config.Input.AimDirection);
 		Move(0f);
 	}
 
@@ -366,7 +361,7 @@ public class PlayerController : MonoBehaviour
 		Move(0f);
 
 		//StartWaddle
-		if (Mathf.Abs(moveDirection.x) > m_threshhold)
+		if (Mathf.Abs(config.Input.Move) > m_threshhold)
         {
 			WaddleInit();
         }
@@ -385,16 +380,20 @@ public class PlayerController : MonoBehaviour
 
 	public void WaddleStatus()
     {
+		if (!playerControlsEnabled)
+			return;
+
 		//During Waddle
 
 		//Movement
-		Move(moveDirection.x);
+		float move = config.Input.Move;
+		Move(move);
 
 		//Animation
-		ac.SetSpeed(Mathf.Abs(moveDirection.x) * m_animMaxSpeed);
+		ac.SetSpeed(Mathf.Abs(move) * m_animMaxSpeed);
 
 		//StartIdle
-		if (Mathf.Abs(moveDirection.x) < m_threshhold)
+		if (Mathf.Abs(move) < m_threshhold)
 		{
 			IdleInit();
 			WaddleExit();
@@ -436,21 +435,21 @@ public class PlayerController : MonoBehaviour
 		// aimingIndicator.gameObject.SetActive(true);
 
 		aimingIndicator.transform.eulerAngles = new Vector3(
-			aimingRange * moveDirection.y,
+			aimingRange * direction.y,
 			aimingIndicator.transform.eulerAngles.y,
 			aimingIndicator.transform.eulerAngles.z
 			);
 
-		playerUI.aimIndicator.eulerAngles = moveDirection.x >= 0
+		playerUI.aimIndicator.eulerAngles = direction.x >= 0
 			? new Vector3(
 			playerUI.aimIndicator.eulerAngles.x,
 			playerUI.aimIndicator.eulerAngles.y,
-			(aimingRange * moveDirection.y) - 90
+			(aimingRange * direction.y) - 90
 			)
 			: new Vector3(
 			playerUI.aimIndicator.eulerAngles.x,
 			playerUI.aimIndicator.eulerAngles.y,
-			(-aimingRange * moveDirection.y) + 90
+			(-aimingRange * direction.y) + 90
 			);
 
 

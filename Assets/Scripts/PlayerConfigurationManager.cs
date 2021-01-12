@@ -10,13 +10,63 @@ using Assets.Scripts.Gamemodes;
 public class PlayerConfigurationManager : MonoBehaviour
 {
     public GameObject[] gameModePreFabs;
+    public PlayerController playerPreFab;
 
     private List<PlayerController> players;
 
-    [SerializeField]
-    private int MaxPlayers = 2;
+    private int maxPlayers = 8;
 
     public static PlayerConfigurationManager Instance { get; private set; }
+
+    public List<Gamepad> unusedGamepads;
+    public List<Gamepad> usedGamepads = new List<Gamepad>();
+
+    private void Start()
+    {
+        InputSystem.onDeviceChange +=
+        (device, change) =>
+        {
+            switch (change)
+            {
+                case InputDeviceChange.Added:
+                    RecalculateUsedAndUnusedGamepads();
+                    break;
+                case InputDeviceChange.Disconnected:
+                    RecalculateUsedAndUnusedGamepads();
+                    break;
+                case InputDeviceChange.Reconnected:
+                    RecalculateUsedAndUnusedGamepads();
+                    // Plugged back in.
+                    break;
+                case InputDeviceChange.Removed:
+                    RecalculateUsedAndUnusedGamepads();
+                    // Remove from Input System entirely; by default, Devices stay in the system once discovered.
+                    break;
+                default:
+                    RecalculateUsedAndUnusedGamepads();
+                    // See InputDeviceChange reference for other event types.
+                    break;
+            }
+        };
+
+        RecalculateUsedAndUnusedGamepads();
+    }
+
+    private void Update()
+    {
+        // Listen for Gamepad input
+        foreach (var gamepad in unusedGamepads)
+        {
+            if (gamepad == null)
+                continue;
+
+            if (gamepad.buttonSouth.isPressed)
+            {
+                HandlePlayerJoin(gamepad);
+            }
+        }
+    }
+
 
     private void Awake()
     {
@@ -35,24 +85,36 @@ public class PlayerConfigurationManager : MonoBehaviour
             ChangeGamemode(Maybers.Prefs.Get("last gamemode", 0));
     }
 
-    public void HandlePlayerJoin(PlayerInput pi)
+    void RecalculateUsedAndUnusedGamepads()
     {
-        if (pi.playerIndex == 0)
+        usedGamepads.Clear();
+        var all = Gamepad.all.ToList();
+        foreach (var player in Players)
+        {
+            var pad = all.SingleOrDefault(p => p == player.config.Input.gamepad);
+            if (pad != null)
+            {
+                usedGamepads.Add(pad);
+                all.Remove(pad);
+            }
+        }
+        unusedGamepads = all;
+    }
+
+    public void HandlePlayerJoin(Gamepad pad)
+    {
+        if (players.Count == 0)
         {
             FindObjectOfType<MenuManager>().SkipMainMenuScreen();
         }
 
-        Debug.Log("player joined " + pi.playerIndex);
-        pi.transform.SetParent(transform);
-
-        if (!players.Any(p => p.config.PlayerIndex == pi.playerIndex))
+        if (!players.Any(p => p.config.Input.gamepad == pad))
         {
-            var player = pi.GetComponent<PlayerController>();
+            var player = Instantiate(playerPreFab.gameObject, transform).GetComponent<PlayerController>();
 
-            var config = new PlayerConfiguration(pi.playerIndex);
+            var config = new PlayerConfiguration(players.Count);
             config.info = PlayerLevelingManager.Instance.GetLastPlayerInfo(config.PlayerIndex);
-            config.Input = pi;
-
+            config.Input = new PlayerInputMethod(player, pad);
             players.Add(player);
 
             player.config = config;
@@ -63,6 +125,7 @@ public class PlayerConfigurationManager : MonoBehaviour
             }
 
             StartCoroutine(SetPlayerColorAfterPlayerEnableCall(player));
+            RecalculateUsedAndUnusedGamepads();
         }
     }
 
@@ -97,14 +160,15 @@ public class PlayerConfigurationManager : MonoBehaviour
         players[index].config.Character = characterIndex;
     }
 
-    public void ReadyPlayer(int index)
+    // TODO:
+    /*public void ReadyPlayer(int index)
     {
         players[index].config.isReady = true;
         if (players.Count == MaxPlayers && players.All(p => p.config.isReady))
         {
             FindObjectOfType<JoinScreenController>().dialogueWindow_startGame.SetActive(true);
         }
-    }
+    }*/
 
     public void AttemptGameStart(int playerIndex)
     {

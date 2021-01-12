@@ -11,7 +11,7 @@ namespace Assets.Scripts.Items
     public class PlayerConfiguration
     {
         public PlayerLevelingManager.PlayerInfo info;
-        public PlayerInput Input { get; set; }
+        public PlayerInputMethod Input { get; set; }
         public int PlayerIndex { get; private set; }
         public Team Team { get; set; } = new Team();
         public int Character { get; set; }
@@ -40,12 +40,6 @@ namespace Assets.Scripts.Items
         public PlayerConfiguration(int playerId)
         {
             this.PlayerIndex = playerId;
-        }
-
-        public PlayerConfiguration(PlayerInput pi)
-        {
-            PlayerIndex = pi.playerIndex;
-            Input = pi;
         }
     }
 }

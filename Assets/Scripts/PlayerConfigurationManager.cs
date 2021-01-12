@@ -9,6 +9,7 @@ using Assets.Scripts.Gamemodes;
 
 public class PlayerConfigurationManager : MonoBehaviour
 {
+    public Transform playerRespawnPostGame;
     public GameObject[] gameModePreFabs;
     public PlayerController playerPreFab;
 
@@ -18,8 +19,9 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     public static PlayerConfigurationManager Instance { get; private set; }
 
-    public List<Gamepad> unusedGamepads;
-    public List<Gamepad> usedGamepads = new List<Gamepad>();
+    private bool keyboardIsBeeingUsed = false;
+    private List<Gamepad> unusedGamepads;
+    private List<Gamepad> usedGamepads = new List<Gamepad>();
 
     private void Start()
     {
@@ -50,6 +52,14 @@ public class PlayerConfigurationManager : MonoBehaviour
         };
 
         RecalculateUsedAndUnusedGamepads();
+
+        if (Players.Count > 0)
+        {
+            foreach (var player in Players)
+            {
+                player.transform.position = playerRespawnPostGame.position;
+            }
+        }
     }
 
     private void Update()
@@ -65,6 +75,9 @@ public class PlayerConfigurationManager : MonoBehaviour
                 HandlePlayerJoin(gamepad);
             }
         }
+        if (!keyboardIsBeeingUsed)
+            if (Keyboard.current.spaceKey.isPressed)
+                HandlePlayerJoin(null);
     }
 
 
@@ -98,6 +111,10 @@ public class PlayerConfigurationManager : MonoBehaviour
                 all.Remove(pad);
             }
         }
+
+        var keyboardPad = Players.SingleOrDefault(p => p.config.Input.isKeyboardControlled);
+        keyboardIsBeeingUsed = keyboardPad != null;
+
         unusedGamepads = all;
     }
 

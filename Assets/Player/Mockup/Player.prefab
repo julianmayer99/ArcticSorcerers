@@ -469,12 +469,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93118d2edc014d445bb460a6cf7fd6d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 1000
+  m_JumpForce: 800
   m_Speed: 7
   config:
-    playerName: 
-  shotKnockBack: 150
-  shotKnockUpwardsForce: 0.2
+    info:
+      name: 
+      xp: 0
+      jumps: 0
+      gamesPlayed: 0
+      shotsFired: 0
+      kills: 0
+      deaths: 0
+      playtime: 0
   playerStats:
     ammunitionLeft: 5
     health: 100
@@ -484,8 +490,18 @@ MonoBehaviour:
     hitsTaken: 0
     hitsGiven: 0
     distanceCovered: 0
+  gamemodeExtraInfo:
+    killedAFlagCarrier: 0
+    killedAsFlagCarrier: 0
+    flagsTaken: 0
+    flagsCaptured: 0
+    flagsReturned: 0
+  shotKnockBack: 150
+  shotKnockUpwardsForce: 0.2
   m_MovementSmoothing: 0.05
   turnSmoothTime: 0.1
+  m_Rigidbody: {fileID: 0}
+  playerControlsEnabled: 1
   selectedInteractable: {fileID: 0}
   aimingIndicator: {fileID: 2300725086826037871}
   aimingRange: 89.9
@@ -495,6 +511,9 @@ MonoBehaviour:
   playerUiPreFab: {fileID: 6849645304746582524, guid: b5c1888277421164689c94576915c101, type: 3}
   scarfMeshRenderer: {fileID: 624561558549049490}
   OnLandEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnJumpEvent:
     m_PersistentCalls:
       m_Calls: []
   OnPlayerWasShot:

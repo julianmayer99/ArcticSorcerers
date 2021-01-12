@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
 	[HideInInspector] public UnityEvent OnCancelActionTriggered;
 
 	private bool listenersAreSetUp = false;
+	private int jumpsLeft = 2;
 
 	private void Awake()
 	{
@@ -209,6 +210,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 		m_Grounded = true;
+		jumpsLeft = 2;
 		m_WasGrounded = m_Grounded;
 
 		var otherPlayer = other.GetComponent<PlayerController>();
@@ -231,7 +233,7 @@ public class PlayerController : MonoBehaviour
 		if (!jump)
 			return;
 
-		if (!m_Grounded)
+		if (jumpsLeft < 1)
 		{
 			return;
 
@@ -246,7 +248,9 @@ public class PlayerController : MonoBehaviour
 			}
 			*/
 		}
+		m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, 0f);
 
+		jumpsLeft--;
 		m_Grounded = false;
 		m_Rigidbody.AddForce(new Vector2(0f, m_JumpForce));
 		OnJumpEvent.Invoke(this);

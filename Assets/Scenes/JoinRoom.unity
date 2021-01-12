@@ -5127,6 +5127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22dbefba5f32c3149b917aca3434d8ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerRespawnPostGame: {fileID: 2004197916}
   gameModePreFabs:
   - {fileID: 7857866638339294108, guid: 7256ec5871922be47a3d7b1f4c5128ce, type: 3}
   - {fileID: 7116928184207527676, guid: fc527ec6b3099b949bd6cd89fdd8b8f7, type: 3}

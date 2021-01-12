@@ -21,15 +21,18 @@ public class JumpPad : MonoBehaviour
             return;
         }
 
+        player.OnJumpEvent.RemoveListener(AddForceOnJump); // Avoid double triggering
         player.OnJumpEvent.AddListener(AddForceOnJump);
     }
 
     void AddForceOnJump(PlayerController player)
     {
-        // TODO: check how far the player is away from the platform to
-        //       avoid jump boots off platform
+        // Is the player still standing on the platform?
+        if (player.GetComponent<BoxCollider>().bounds.Intersects(GetComponent<Collider>().bounds))
+        {
+            player.m_Rigidbody.AddForce(extraForceOnExit);
+        }
 
-        player.m_Rigidbody.AddForce(extraForceOnExit);
         player.OnJumpEvent.RemoveListener(AddForceOnJump);
     }
 

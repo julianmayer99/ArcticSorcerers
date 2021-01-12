@@ -27,9 +27,10 @@ public class DialogueWindow : MonoBehaviour
         if (injectForAllPlayer)
         {
             invokedPlayers.Clear();
-            foreach (var item in PlayerConfigurationManager.Instance.Players)
+            foreach (var player in PlayerConfigurationManager.Instance.Players)
             {
-                invokedPlayers.Add(item);
+                invokedPlayers.Add(player);
+                player.playerControlsEnabled = false;
             }
         }
     }
@@ -58,7 +59,10 @@ public class DialogueWindow : MonoBehaviour
     {
         if (injectBackActionListeners)
             foreach (var player in invokedPlayers)
+            {
                 player.OnBackActionTriggered.RemoveListener(CloseWindow);
+                player.playerControlsEnabled = true;
+            }
     }
 
     IEnumerator ActivateButtonOnEndOfFrame()

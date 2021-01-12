@@ -199,15 +199,31 @@ public class PlayerController : MonoBehaviour
 
 	public void Jump(bool jump)
 	{
-		if (m_Grounded && jump)
+		if (!jump)
+			return;
+
+		if (!m_Grounded)
 		{
-			m_Grounded = false;
-			m_Rigidbody.AddForce(new Vector2(0f, m_JumpForce));
-			OnJumpEvent.Invoke(this);
-			playerStats.jumps++;
-			ac.Jump();
-			m_WasGrounded = m_Grounded;
+			return;
+
+			// TODO: check if player is standing on the ground
+			/*
+			if (m_Rigidbody.velocity.y > .001f)
+				return;
+
+			if (Physics.Conta( GetComponent<BoxCollider>().)
+			{
+
+			}
+			*/
 		}
+
+		m_Grounded = false;
+		m_Rigidbody.AddForce(new Vector2(0f, m_JumpForce));
+		OnJumpEvent.Invoke(this);
+		playerStats.jumps++;
+		ac.Jump();
+		m_WasGrounded = m_Grounded;
 	}
 
 	public void OnMovePerformed(InputAction.CallbackContext context)

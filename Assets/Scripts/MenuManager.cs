@@ -9,7 +9,7 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        DynamicMultiTargetCamera.instance.enabled = false;
+        Camera.main.GetComponent<DynamicMultiTargetCamera>().enabled = false;
 
         SetMenuUiActive(PlayerConfigurationManager.Instance.Players.Count <= 0);
         if (PlayerConfigurationManager.Instance.Players.Count <= 0)
@@ -23,12 +23,12 @@ public class MenuManager : MonoBehaviour
         if (PlayerConfigurationManager.Instance.Players.Count <= 0)
             FindObjectOfType<MainMenuDollyMovement>().StartMoveFromStartToEnd(() =>
             {
-                DynamicMultiTargetCamera.instance.enabled = true;
+                Camera.main.GetComponent<DynamicMultiTargetCamera>().enabled = true;
             });
         else
         {
             FindObjectOfType<MainMenuDollyMovement>().SetToEnd();
-            DynamicMultiTargetCamera.instance.enabled = false;
+            Camera.main.GetComponent<DynamicMultiTargetCamera>().enabled = true;
         }
 
         SetMenuUiActive(false);

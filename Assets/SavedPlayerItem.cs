@@ -19,5 +19,6 @@ public class SavedPlayerItem : MonoBehaviour
     public void ButtonClicked()
     {
         FindObjectOfType<ChangeProfileController>().inp_newPlayerName.text = info.name;
+        FindObjectOfType<ChangeProfileController>().GetComponent<DialogueWindow>().autoSelectWhenOpened.Select();
     }
 }

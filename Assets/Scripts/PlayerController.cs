@@ -30,12 +30,12 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float turnSmoothTime = .1f;
 	private float turnSmoothVelocity;
 	private bool m_Grounded;
-	private Rigidbody m_Rigidbody;
+	public Rigidbody m_Rigidbody;
 	private Vector3 m_Velocity = Vector3.zero;
 	private Vector2 moveDirection = Vector2.zero;
 	private float m_threshhold = 0.2f;
 	private float m_animMaxSpeed = 3f;
-	public bool playerControlsEnabled = true;
+	[HideInInspector] public bool playerControlsEnabled = true;
 	[HideInInspector] public InteractableObject selectedInteractable;
 
 	[Header("Aiming")] 
@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
 	[Space]
 
 	public UnityEvent OnLandEvent;
+	public PlayerControllerInteractionManager.PlayerControllerEvent OnJumpEvent;
 	public UnityEvent OnPlayerWasShot;
 	public UnityEvent OnPlayerDied;
 
@@ -202,6 +203,7 @@ public class PlayerController : MonoBehaviour
 		{
 			m_Grounded = false;
 			m_Rigidbody.AddForce(new Vector2(0f, m_JumpForce));
+			OnJumpEvent.Invoke(this);
 			playerStats.jumps++;
 			ac.Jump();
 			m_WasGrounded = m_Grounded;

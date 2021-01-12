@@ -107,6 +107,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator DeactivateAndRespawnPlayerAfterShortTimeDelay(PlayerController player)
     {
+        Debug.Log("Player " + player.config.info.name + " has been killed and will be respawned.");
         DynamicMultiTargetCamera.instance.targets.Remove(player.transform);
         player.transform.position = deadRoomPosition.position;
         player.playerControlsEnabled = false;

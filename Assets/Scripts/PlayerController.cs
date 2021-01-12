@@ -180,6 +180,12 @@ public class PlayerController : MonoBehaviour
 
 		m_Grounded = true;
 		m_WasGrounded = m_Grounded;
+
+		var otherPlayer = other.GetComponent<PlayerController>();
+		if (otherPlayer == null)
+			return;
+
+		this.OnPlayerHasBeenShot(otherPlayer, otherPlayer.transform.position);
 	}
 
 	public void Move(float move)

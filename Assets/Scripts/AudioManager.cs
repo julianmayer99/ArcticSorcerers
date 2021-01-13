@@ -9,6 +9,16 @@ public class AudioManager : MonoBehaviour
 {
     public ArcticSound[] sounds;
 
+    public const string audioMainMenu = "music_mainMenu";
+    public const string audioSFXJump = "sfx_jump";
+    public const string audioSFXShoot = "sfx_shoot";
+    public const string audioSFXProjectileAirTime = "sfx_shotAirTime";
+    public const string audioSFXProjectileHit = "sfx_shotHit";
+    public const string audioSFXBlop = "sfx_blop";
+    public const string audioSFXDash = "sfx_dash";
+    public const string audioSFXWaddle = "sfx_waddle";
+    public const string audioSFXLand = "sfx_land";
+
     public static AudioManager instance { get; private set; }
 
     private void Awake()

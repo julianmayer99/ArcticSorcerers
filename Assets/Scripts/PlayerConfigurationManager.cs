@@ -53,6 +53,8 @@ public class PlayerConfigurationManager : MonoBehaviour
             }
         };
 
+        AudioManager.instance.Play(AudioManager.audioMainMenu);
+
         RecalculateUsedAndUnusedGamepads();
     }
 

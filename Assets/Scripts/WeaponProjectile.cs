@@ -13,6 +13,7 @@ public class WeaponProjectile : MonoBehaviour
     public GameObject collectablePreFab;
     public GameObject particleBurstPreFab;
     public PlayerController shotFromPlayer;
+    public AudioSource snowAirTimeAudioSource;
 
     private Vector3 m_Velocity = Vector3.zero;
 
@@ -67,6 +68,8 @@ public class WeaponProjectile : MonoBehaviour
             }
 
         }
+
+        snowAirTimeAudioSource.Stop();
 
         Instantiate(collectablePreFab, transform.position, Quaternion.identity);
         Instantiate(particleBurstPreFab, transform.position, Quaternion.identity);

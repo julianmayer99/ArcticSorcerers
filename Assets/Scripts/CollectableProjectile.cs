@@ -22,7 +22,7 @@ public class CollectableProjectile : MonoBehaviour
         // This bool variable is nescessary to prevent
         // multi-collisions as Destroy takes some time
         hasBeenCollected = true;
-
+        AudioManager.instance.Play(AudioManager.audioSFXBlop);
         Destroy(gameObject);
     }
 }

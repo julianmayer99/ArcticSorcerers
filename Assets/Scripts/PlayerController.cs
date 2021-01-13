@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
 	private float m_threshhold = 0.2f;
 	private float m_animMaxSpeed = 3f;
 	private int jumpsLeft = 1;
+	private float lastVerticalVelocity = 0f;
+	private float lastlastVerticalVelocity = 0f;
 	[HideInInspector] public bool playerControlsEnabled = true;
 	[HideInInspector] public InteractableObject selectedInteractable;
 
@@ -198,6 +200,12 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (!m_Grounded)
+		{
+			lastlastVerticalVelocity = lastVerticalVelocity;
+			lastVerticalVelocity = m_Rigidbody.velocity.y;
+		}
+
 		if (shootCoolDownCounter > 0)
 			shootCoolDownCounter--;
 		if (dashCooldownCounter > 0)
@@ -232,6 +240,9 @@ public class PlayerController : MonoBehaviour
 			OnLandEvent.Invoke();
 			ac.Land();
 		}
+
+		if (lastlastVerticalVelocity < -17 || lastVerticalVelocity < -17)
+			AudioManager.instance.Play(AudioManager.audioSFXLand);
 
 		m_Grounded = true;
 		jumpsLeft = 1;
@@ -286,6 +297,7 @@ public class PlayerController : MonoBehaviour
 
 		if (!m_Grounded) jumpsLeft--;
 		m_Grounded = false;
+		AudioManager.instance.Play(AudioManager.audioSFXJump);
 		m_Rigidbody.AddForce(new Vector2(0f, m_JumpForce));
 		OnJumpEvent.Invoke(this);
 		playerStats.jumps++;
@@ -467,6 +479,7 @@ public class PlayerController : MonoBehaviour
     {
 		currentStatus = Status.Dash;
 		ac.StartDash();
+		AudioManager.instance.Play(AudioManager.audioSFXDash);
 
 		//Set direction
 		dashVector = config.Input.AimDirection;

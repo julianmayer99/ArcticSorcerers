@@ -62,3 +62,75 @@ MonoBehaviour:
     stopOnSceneChance: 0
     autoLoadToMemory: 1
     source: {fileID: 0}
+  - name: music_mainMenu
+    clip: {fileID: 8300000, guid: c61e980c0aad4cf4892c2da66162ae1c, type: 3}
+    mixerGroup: {fileID: 2423042063165459535, guid: e4ba0be41b05b68439cbf877b25f45c9, type: 2}
+    volume: 0.726
+    pitch: 1
+    loop: 1
+    stopOnSceneChance: 1
+    autoLoadToMemory: 1
+    source: {fileID: 0}
+  - name: sfx_shoot
+    clip: {fileID: 8300000, guid: 93b209860019a98499a2bb9f467941c2, type: 3}
+    mixerGroup: {fileID: 8724633345317576363, guid: e4ba0be41b05b68439cbf877b25f45c9, type: 2}
+    volume: 0.892
+    pitch: 1
+    loop: 0
+    stopOnSceneChance: 0
+    autoLoadToMemory: 1
+    source: {fileID: 0}
+  - name: sfx_shotAirTime
+    clip: {fileID: 8300000, guid: 539f3cb43b84d6f4381c7d02107e082d, type: 3}
+    mixerGroup: {fileID: 8724633345317576363, guid: e4ba0be41b05b68439cbf877b25f45c9, type: 2}
+    volume: 0.759
+    pitch: 1
+    loop: 0
+    stopOnSceneChance: 1
+    autoLoadToMemory: 1
+    source: {fileID: 0}
+  - name: sfx_shotHit
+    clip: {fileID: 8300000, guid: 0e6ab372253378b4c961db2e45ef2312, type: 3}
+    mixerGroup: {fileID: 8724633345317576363, guid: e4ba0be41b05b68439cbf877b25f45c9, type: 2}
+    volume: 0.759
+    pitch: 1
+    loop: 0
+    stopOnSceneChance: 1
+    autoLoadToMemory: 1
+    source: {fileID: 0}
+  - name: sfx_blop
+    clip: {fileID: 8300000, guid: b19a5c715eece80448cf49e4856b6926, type: 3}
+    mixerGroup: {fileID: 8724633345317576363, guid: e4ba0be41b05b68439cbf877b25f45c9, type: 2}
+    volume: 0.759
+    pitch: 1
+    loop: 0
+    stopOnSceneChance: 0
+    autoLoadToMemory: 1
+    source: {fileID: 0}
+  - name: sfx_dash
+    clip: {fileID: 8300000, guid: faa885af5d0bcd4499b28dd488411559, type: 3}
+    mixerGroup: {fileID: 8724633345317576363, guid: e4ba0be41b05b68439cbf877b25f45c9, type: 2}
+    volume: 0.759
+    pitch: 1
+    loop: 0
+    stopOnSceneChance: 0
+    autoLoadToMemory: 1
+    source: {fileID: 0}
+  - name: sfx_land
+    clip: {fileID: 8300000, guid: c31fa94f93405fc4e86575c69727089d, type: 3}
+    mixerGroup: {fileID: 8724633345317576363, guid: e4ba0be41b05b68439cbf877b25f45c9, type: 2}
+    volume: 0.759
+    pitch: 1
+    loop: 0
+    stopOnSceneChance: 0
+    autoLoadToMemory: 1
+    source: {fileID: 0}
+  - name: sfx_waddle
+    clip: {fileID: 8300000, guid: a3a79432b3c71374681b14e2c189a6af, type: 3}
+    mixerGroup: {fileID: 8724633345317576363, guid: e4ba0be41b05b68439cbf877b25f45c9, type: 2}
+    volume: 0.759
+    pitch: 1
+    loop: 0
+    stopOnSceneChance: 0
+    autoLoadToMemory: 1
+    source: {fileID: 0}

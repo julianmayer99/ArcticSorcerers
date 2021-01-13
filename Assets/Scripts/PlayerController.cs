@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Movement")]
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
+	[Range(0, 3.3f)] [SerializeField] private float m_IdleSmoothing = .05f;
+	[Range(0, 3.3f)] [SerializeField] private float m_AimSmoothing = .05f;
+	[Range(0, 3.3f)] [SerializeField] private float m_DashSmoothing = .0f;
 	[SerializeField] private float turnSmoothTime = .1f;
 	private float turnSmoothVelocity;
 	private bool m_Grounded;
@@ -34,11 +37,20 @@ public class PlayerController : MonoBehaviour
 	private Vector3 m_Velocity = Vector3.zero;
 	private float m_threshhold = 0.2f;
 	private float m_animMaxSpeed = 3f;
+	private int jumpsLeft = 1;
 	[HideInInspector] public bool playerControlsEnabled = true;
 	[HideInInspector] public InteractableObject selectedInteractable;
 
 	//Dashing
-	private float dashSpeed = 10f;
+	public float dashSpeed = 20f;
+	public float dashTime = 0.2f;
+	private float dashTimeCounter;
+
+	private float dashCooldown = 1f;
+	private float dashCooldownCounter;
+
+	private Vector2 dashVector = new Vector2();
+	public float dashYFac = 0.5f;
 
 
 	[Header("Aiming")] 
@@ -70,7 +82,6 @@ public class PlayerController : MonoBehaviour
 	[HideInInspector] public UnityEvent OnCancelActionTriggered;
 
 	private bool listenersAreSetUp = false;
-	private int jumpsLeft = 2;
 
 	private void Awake()
 	{
@@ -104,6 +115,7 @@ public class PlayerController : MonoBehaviour
 		config.Input.OnScoreboardButtonDown.AddListener(OnShowScoreboardActionPerformed);
 		config.Input.OnShootButtonDown.AddListener(OnShootButtonDownPerformed);
 		config.Input.OnShootButtonUp.AddListener(OnShootButtonUpPerformed);
+		config.Input.OnDashButtonDown.AddListener(OnDashButtonDownPerformed);
 
 		listenersAreSetUp = true;
 	}
@@ -155,6 +167,7 @@ public class PlayerController : MonoBehaviour
 		config.Input.OnScoreboardButtonDown.RemoveListener(OnShowScoreboardActionPerformed);
 		config.Input.OnShootButtonDown.RemoveListener(OnShootButtonDownPerformed);
 		config.Input.OnShootButtonUp.RemoveListener(OnShootButtonUpPerformed);
+		config.Input.OnDashButtonDown.RemoveListener(OnDashButtonDownPerformed);
 	}
 
 	public void OnColorChanged()
@@ -186,6 +199,8 @@ public class PlayerController : MonoBehaviour
 	{
 		if (shootCoolDownCounter > 0)
 			shootCoolDownCounter--;
+		if (dashCooldownCounter > 0)
+			dashCooldownCounter -= Time.deltaTime;
 
 		switch (currentStatus)
         {
@@ -201,6 +216,9 @@ public class PlayerController : MonoBehaviour
 				AttackStatus();
 				break;
 
+			case Status.Dash:
+				DashStatus();
+				break;
         }
 	}
 
@@ -215,7 +233,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 		m_Grounded = true;
-		jumpsLeft = 2;
+		jumpsLeft = 1;
 		m_WasGrounded = m_Grounded;
 
 		var otherPlayer = other.GetComponent<PlayerController>();
@@ -225,10 +243,18 @@ public class PlayerController : MonoBehaviour
 		this.OnPlayerHasBeenShot(otherPlayer, otherPlayer.transform.position);
 	}
 
-	public void Move(float move)
+	public void Move(float move, float movementSmoothing)
 	{
 		Vector3 targetVelocity = new Vector2(move * m_Speed, m_Rigidbody.velocity.y);
-		m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+		m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, movementSmoothing);
+
+		AdjustPlayerRotation(config.Input.Move);
+	}
+	public void Move2(Vector2 move, float speed , float movementSmoothing, float yfac = 1f)
+	{
+		move.Normalize();
+		Vector3 targetVelocity = new Vector2(move.x * speed, move.y * speed * yfac);
+		m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, movementSmoothing);
 
 		AdjustPlayerRotation(config.Input.Move);
 	}
@@ -255,7 +281,7 @@ public class PlayerController : MonoBehaviour
 		}
 		m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, 0f);
 
-		jumpsLeft--;
+		if (!m_Grounded) jumpsLeft--;
 		m_Grounded = false;
 		m_Rigidbody.AddForce(new Vector2(0f, m_JumpForce));
 		OnJumpEvent.Invoke(this);
@@ -326,6 +352,19 @@ public class PlayerController : MonoBehaviour
 		OnCancelActionTriggered.Invoke();
 	}
 
+	public void OnDashButtonDownPerformed()
+    {
+		if (!playerControlsEnabled || dashCooldownCounter > 0f)
+			return;
+
+		//Button down
+		if (currentStatus == Status.Attack)
+		{
+			AttackExit();
+		}
+		DashInit();
+	}
+
 	public void AttackInit()
     {
 		//Initializing the Attack Status
@@ -337,7 +376,7 @@ public class PlayerController : MonoBehaviour
     {
 		//Durig the Attack Status
 		Aim(config.Input.AimDirection);
-		Move(0f);
+		Move(0f, m_AimSmoothing);
 	}
 
 	public void AttackShoot()
@@ -367,7 +406,7 @@ public class PlayerController : MonoBehaviour
 	public void IdleStatus()
     {
 		//During Idle
-		Move(0f);
+		Move(0f,m_IdleSmoothing);
 
 		//StartWaddle
 		if (Mathf.Abs(config.Input.Move) > m_threshhold)
@@ -396,7 +435,7 @@ public class PlayerController : MonoBehaviour
 
 		//Movement
 		float move = config.Input.Move;
-		Move(move);
+		Move(move, m_MovementSmoothing);
 
 		//Animation
 		ac.SetSpeed(Mathf.Abs(move) * m_animMaxSpeed);
@@ -420,12 +459,24 @@ public class PlayerController : MonoBehaviour
 		currentStatus = Status.Dash;
 		ac.StartDash();
 
+		//Set direction
+		dashVector = config.Input.AimDirection;
+
+		//Counters
+		dashTimeCounter = dashTime;
+		dashCooldownCounter = dashCooldown;
 		//Apply Speed
-		m_Rigidbody.velocity = new Vector3(config.Input.AimDirection.x, config.Input.AimDirection.y, 0f);
+		//m_Rigidbody.velocity = new Vector3(config.Input.AimDirection.x, config.Input.AimDirection.y, 0f);
 	}
 	public void DashStatus()
     {
+		Move2(dashVector, dashSpeed, m_DashSmoothing, dashYFac);
+		dashTimeCounter -= Time.deltaTime;
 
+		if (dashTimeCounter <= 0)
+        {
+			IdleInit();
+        }
     }
 
 	public void ChangeAmmunnitionReserve(int add)

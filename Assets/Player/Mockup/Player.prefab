@@ -499,6 +499,8 @@ MonoBehaviour:
   shotKnockBack: 150
   shotKnockUpwardsForce: 0.2
   m_MovementSmoothing: 0.05
+  m_IdleSmoothing: 1
+  m_AimSmoothing: 1
   turnSmoothTime: 0.1
   m_Rigidbody: {fileID: 0}
   playerControlsEnabled: 1

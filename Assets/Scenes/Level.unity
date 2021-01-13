@@ -3122,7 +3122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6458525360515242822, guid: 3eaf1db12e957174aa1f712e3a67413a, type: 3}
       propertyPath: extraForceOnExit.y
-      value: 900
+      value: 1100
       objectReference: {fileID: 0}
     - target: {fileID: 6458525360515242823, guid: 3eaf1db12e957174aa1f712e3a67413a, type: 3}
       propertyPath: m_RootOrder

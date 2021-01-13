@@ -30,6 +30,8 @@ namespace Assets.Scripts.Items
                 OnPauseButtonDown = new UnityEvent();
             if (OnScoreboardButtonDown == null)
                 OnScoreboardButtonDown = new UnityEvent();
+            if (OnDashButtonDown == null)
+                OnDashButtonDown = new UnityEvent();
 
         }
         public bool isKeyboardControlled { get; private set; } = false;
@@ -39,6 +41,7 @@ namespace Assets.Scripts.Items
         public UnityEvent OnBackButtonUp;
         public UnityEvent OnPauseButtonDown;
         public UnityEvent OnScoreboardButtonDown;
+        public UnityEvent OnDashButtonDown;
 
         private PlayerController player;
         public Gamepad gamepad { get; private set; }
@@ -50,6 +53,7 @@ namespace Assets.Scripts.Items
             RefreshShoot();
             RefreshPause();
             RefreshScoreboard();
+            RefreshDash();
         }
 
         private bool jumpWasDown = false;
@@ -123,6 +127,20 @@ namespace Assets.Scripts.Items
             if (isdown && !scoreboardWasDown)
                 OnScoreboardButtonDown.Invoke();
             scoreboardWasDown = isdown;
+        }
+
+        private bool dashWasDown = false;
+        private void RefreshDash()
+        {
+            bool isdown;
+            if (gamepad != null)
+                isdown = gamepad.leftShoulder.isPressed;
+            else
+                isdown = Keyboard.current.qKey.isPressed;
+
+            if (isdown && !dashWasDown)
+                OnDashButtonDown.Invoke();
+            dashWasDown = isdown;
         }
 
         Vector2 playerScreenPos;

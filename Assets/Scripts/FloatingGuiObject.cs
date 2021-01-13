@@ -18,4 +18,16 @@ public class FloatingGuiObject : MonoBehaviour
     {
         uiObject.position = camera.WorldToScreenPoint(ownTransform.position + offset);
     }
+
+    private void OnEnable()
+    {
+        if (uiObject != null)
+            uiObject.gameObject.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        if (uiObject != null)
+            uiObject.gameObject.SetActive(false);
+    }
 }

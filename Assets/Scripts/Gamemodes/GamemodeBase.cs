@@ -130,13 +130,17 @@ namespace Assets.Scripts.Gamemodes
                     player.config.info.jumps += player.playerStats.jumps;
                     player.config.info.deaths += player.playerStats.deaths;
                     player.config.info.kills += player.playerStats.kills;
+                    player.config.info.distanceWalked += (int)player.playerStats.distanceCovered;
+                    player.config.info.gamesPlayed++;
+                    player.config.info.playtime += GameSettings.gameMode.TimeLimitSeconds;
+                    player.config.info.shotsFired += player.playerStats.shotsFired;
 
                     // TODO: Copy more player stats
                 }
             }
         }
 
-        public string GetTimeString(int seconds)
+        public static string GetTimeString(int seconds)
         {
             int minutes = seconds / 60;
             int relSeconds = seconds % 60;

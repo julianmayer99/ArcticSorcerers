@@ -8,8 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public Transform deadRoomPosition;
-
     [Header("Universal UI")]
     [Space]
     public GameObject scoreBoardPanel;
@@ -44,6 +42,7 @@ public class GameManager : MonoBehaviour
         }
 
         GameSettings.gameMode.InitializeInLevel();
+        GameSettings.gameHasStarted = true;
     }
 
     private void OnEnable()
@@ -108,13 +107,10 @@ public class GameManager : MonoBehaviour
     IEnumerator DeactivateAndRespawnPlayerAfterShortTimeDelay(PlayerController player)
     {
         Debug.Log("Player " + player.config.info.name + " has been killed and will be respawned.");
-        DynamicMultiTargetCamera.instance.targets.Remove(player.transform);
-        player.transform.position = deadRoomPosition.position;
-        player.playerControlsEnabled = false;
+        player.gameObject.SetActive(false);
         player.playerStats.ResetStatsOnPlayerDeath();
         yield return new WaitForSeconds(GameSettings.RespawnDelay);
-        player.playerControlsEnabled = true;
-        DynamicMultiTargetCamera.instance.targets.Add(player.transform);
+        player.gameObject.SetActive(true);
         player.transform.position = map.GetGoodSpawnPoint(player);
 
     }

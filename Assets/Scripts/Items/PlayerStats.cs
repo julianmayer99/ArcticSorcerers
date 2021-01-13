@@ -13,6 +13,7 @@ namespace Assets.Scripts.Items
         public int health = 100;
         public int jumps = 0;
         public int kills = 0;
+        public int shotsFired = 0;
         public int deaths = 0;
         public int hitsTaken = 0;
         public int hitsGiven = 0;

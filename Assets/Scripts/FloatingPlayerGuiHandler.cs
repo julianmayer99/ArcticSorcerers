@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class FloatingPlayerGuiHandler : MonoBehaviour
 {
+    [SerializeField] private GameObject isKingOfTheHillIcon;
     [SerializeField] private SVGImage img_teamPanel;
     [SerializeField] private TextMeshProUGUI txt_playerName;
     [SerializeField] private Image img_nameTextBackground;
@@ -79,13 +80,14 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
 
     public bool IsAiming
     {
-        get
-        {
-            return aimIndicator.gameObject.activeSelf;
-        }
-        set
-        {
-            aimIndicator.gameObject.SetActive(value);
-        }
+        get => aimIndicator.gameObject.activeSelf;
+        set => aimIndicator.gameObject.SetActive(value);
+
+    }
+
+    public bool IsKingOfTheHill
+    {
+        get => isKingOfTheHillIcon.activeSelf;
+        set => isKingOfTheHillIcon.SetActive(value);
     }
 }

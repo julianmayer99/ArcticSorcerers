@@ -43,3 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 270b816e35ca9074092613afcee12a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointsForKOTHEachSecond: 1
+  uiPreFab: {fileID: 9102216728182460674, guid: bfa372f76536b4045b880a2af0d5aa30, type: 3}
+  firstKingOfTheHillCollectable: {fileID: 8501144637987427857, guid: b243b5b4879d18a41bd4dba88c5cb92e, type: 3}
+  currentKingOfTheHill: {fileID: 0}

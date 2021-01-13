@@ -6,11 +6,13 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using Assets.Scripts.Gamemodes;
+using System.Security.Cryptography;
 
 public class PlayerConfigurationManager : MonoBehaviour
 {
     public Transform playerRespawnPostGame;
     public GameObject[] gameModePreFabs;
+    public GameObject teamSelectInteractable;
     public PlayerController playerPreFab;
 
     private List<PlayerController> players;
@@ -52,18 +54,13 @@ public class PlayerConfigurationManager : MonoBehaviour
         };
 
         RecalculateUsedAndUnusedGamepads();
-
-        if (Players.Count > 0)
-        {
-            foreach (var player in Players)
-            {
-                player.transform.position = playerRespawnPostGame.position;
-            }
-        }
     }
 
     private void Update()
     {
+        if (unusedGamepads == null)
+            RecalculateUsedAndUnusedGamepads();
+
         // Listen for Gamepad input
         foreach (var gamepad in unusedGamepads)
         {
@@ -86,6 +83,16 @@ public class PlayerConfigurationManager : MonoBehaviour
         if (Instance != null)
         {
             Debug.Log("[Singleton] Trying to instantiate a seccond instance of a singleton class.");
+
+            foreach (var player in Instance.Players)
+            {
+                player.transform.position = playerRespawnPostGame.position;
+                player.gameObject.SetActive(true);
+                player.m_Rigidbody.velocity = Vector3.zero;
+            }
+
+            Destroy(gameObject);
+            return;
         }
         else
         {
@@ -95,7 +102,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         }
 
         if (GameSettings.gameMode == null)
-            ChangeGamemode(Maybers.Prefs.Get("last gamemode", 0));
+            ChangeGamemode(Maybers.Prefs.Get("last gamemode", 2));
     }
 
     void RecalculateUsedAndUnusedGamepads()
@@ -139,6 +146,10 @@ public class PlayerConfigurationManager : MonoBehaviour
             if (GameSettings.gameMode.IsTeamBased)
             {
                 player.config.Team = GameSettings.gameMode.TeamScores[player.config.PlayerIndex % GameSettings.gameMode.NumberOfTeams];
+            }
+            else
+            {
+                GamemodeBase.AutoAssignTeams();
             }
 
             StartCoroutine(SetPlayerColorAfterPlayerEnableCall(player));
@@ -216,6 +227,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         {
             GameSettings.gameMode = Instantiate(modeInQuestion).GetComponent<IGameMode>();
             GameSettings.gameMode.OnModeSpawnedInJoinRoom();
+            teamSelectInteractable.SetActive(GameSettings.gameMode.IsTeamBased);
         }
         else
             Debug.LogError("Gamemode " + mode + " was not found.");

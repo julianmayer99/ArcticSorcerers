@@ -10,7 +10,7 @@ namespace Assets.Scripts.Items
         PlayerConfigurationManager.Gamemode ModeName { get; set; }
         bool IsTeamBased { get; }
         /// <summary>
-        /// Can be ignored, if <see cref="IsTeamBased"/> is set to false.
+        /// Should always be <see cref="PlayerConfigurationManager.Instance.Players.Count"/> if <see cref="IsTeamBased"/> is set to false.
         /// </summary>
         int NumberOfTeams { get; }
         UnityEvent OnGameEnd { get; set; }

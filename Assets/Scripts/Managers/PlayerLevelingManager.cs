@@ -124,6 +124,7 @@ public class PlayerLevelingManager : MonoBehaviour
         public int shotsFired;
         public int kills;
         public int deaths;
+        public int distanceWalked;
         /// <summary>
         /// Playtime in seconds
         /// </summary>

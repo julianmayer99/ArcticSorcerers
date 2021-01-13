@@ -23,5 +23,24 @@ namespace Assets.Scripts.Gamemodes
             }
         }
 
+        public static void InitializeNonTeamBasedUI(TeamNamePanel[] teamPanels)
+        {
+            var ui = GameSettings.gameMode.GameModeUi;
+            var players = PlayerConfigurationManager.Instance.Players;
+
+            for (int i = 0; i < teamPanels.Length; i++)
+            {
+                if (players.Count > i)
+                {
+                    teamPanels[i].gameObject.SetActive(true);
+                    teamPanels[i].InitializeUI(players[i].config.Team);
+                }
+                else
+                    teamPanels[i].gameObject.SetActive(false);
+            }
+        }
+
+
+
     }
 }

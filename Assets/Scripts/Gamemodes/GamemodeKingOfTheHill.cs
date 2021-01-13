@@ -11,6 +11,7 @@ public class GamemodeKingOfTheHill : MonoBehaviour, IGameMode
     public int pointsForKOTHEachSecond = 1;
 
     public GameObject uiPreFab;
+    public GameObject firstKingOfTheHillCollectable;
 
     public PlayerConfigurationManager.Gamemode ModeName { get; set; } = PlayerConfigurationManager.Gamemode.KingOfTheHill;
     public List<Team> TeamScores { get; set; }
@@ -19,12 +20,17 @@ public class GamemodeKingOfTheHill : MonoBehaviour, IGameMode
     public UnityEvent OnGameEnd { get; set; }
     public UnityEvent OnRoundEnd { get; set; }
 
-    private PlayerController currentKingOfTheHill;
+    [HideInInspector] public PlayerController currentKingOfTheHill;
+
+    private void Awake()
+    {
+        fixedUpdateSecondLimit = Mathf.CeilToInt(1 / Time.fixedDeltaTime);
+    }
 
     public void InitializeInLevel()
     {
         GameModeUi = Instantiate(uiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<IGameModeUi>();
-
+        Instantiate(firstKingOfTheHillCollectable, GameManager.Instance.map.initial_KOTH_Spawn.position, Quaternion.identity);
         GamemodeBase.InitializeInLevel();
     }
 
@@ -40,7 +46,11 @@ public class GamemodeKingOfTheHill : MonoBehaviour, IGameMode
 
     public void OnPlayerStartedObjective(PlayerController player)
     {
+        if (currentKingOfTheHill != null)
+            currentKingOfTheHill.playerUI.IsKingOfTheHill = false;
+
         currentKingOfTheHill = player;
+        player.playerUI.IsKingOfTheHill = true;
     }
 
     public void ResetForNextRound()
@@ -51,6 +61,7 @@ public class GamemodeKingOfTheHill : MonoBehaviour, IGameMode
 
     public void OnModeSpawnedInJoinRoom()
     {
+        GamemodeBase.AutoAssignTeams();
     }
 
     public void SaveStatsOnGameEnd()
@@ -70,17 +81,25 @@ public class GamemodeKingOfTheHill : MonoBehaviour, IGameMode
         }
     }
 
-    private int fixedUpdateSecondLimit = Mathf.CeilToInt(1 / Time.fixedDeltaTime);
+    private int fixedUpdateSecondLimit; // = Mathf.CeilToInt(1 / Time.fixedDeltaTime);
     private int fixedUppdateCounter = 0;
+    private int secondsPassed = 0;
+
     private void FixedUpdate()
     {
         if (currentKingOfTheHill == null)
             return;
 
+        if (!GameSettings.gameHasStarted)
+            return;
+
         fixedUppdateCounter++;
         if (fixedUppdateCounter == fixedUpdateSecondLimit)
         {
+            fixedUppdateCounter = 0;
             OnTimeSecondPassed();
+            secondsPassed++;
+            GameModeUi.UpdateTimeLeftTimer(GamemodeBase.GetTimeString(TimeLimitSeconds - secondsPassed));
         }
     }
 
@@ -95,7 +114,7 @@ public class GamemodeKingOfTheHill : MonoBehaviour, IGameMode
 
     public bool IsTeamBased => false;
 
-    public int NumberOfTeams => 2;
+    public int NumberOfTeams => PlayerConfigurationManager.Instance.Players.Count;
 
     public int RoundsLeftToPlay { get; set; }
     public int TimeLimitSeconds { get; set; } = 150;

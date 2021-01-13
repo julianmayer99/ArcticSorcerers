@@ -43,14 +43,15 @@ public class PlayerController : MonoBehaviour
 
 	//Dashing
 	public float dashSpeed = 20f;
-	public float dashTime = 0.2f;
+	public float dashTime = 0.12f;
 	private float dashTimeCounter;
 
 	private float dashCooldown = 1f;
 	private float dashCooldownCounter;
 
 	private Vector2 dashVector = new Vector2();
-	public float dashYFac = 0.5f;
+	public float dashYFac = 0.8f;
+	public float dashExitSpeedFac = 0.2f;
 
 
 	[Header("Aiming")] 
@@ -252,8 +253,9 @@ public class PlayerController : MonoBehaviour
 	}
 	public void Move2(Vector2 move, float speed , float movementSmoothing, float yfac = 1f)
 	{
+		move.y *= yfac;
 		move.Normalize();
-		Vector3 targetVelocity = new Vector2(move.x * speed, move.y * speed * yfac);
+		Vector3 targetVelocity = new Vector2(move.x * speed, move.y * speed);
 		m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, movementSmoothing);
 
 		AdjustPlayerRotation(config.Input.Move);
@@ -324,6 +326,11 @@ public class PlayerController : MonoBehaviour
 			{
 				IdleExit();
 			}
+			if (currentStatus == Status.Dash)
+            {
+				return;
+            }
+
 			AttackInit();
 		}
 	}
@@ -386,14 +393,14 @@ public class PlayerController : MonoBehaviour
 		ChangeAmmunnitionReserve(-1);
 		shootCoolDownCounter = shootCoolDown;
 
-		if (playerUI.IsAiming)
-			playerUI.IsAiming = false;
 	}
 
 	public void AttackExit()
 	{
 		//Leaving the Attack Status
 		// isAiming = false;
+		if (playerUI.IsAiming)
+			playerUI.IsAiming = false;
 	}
 
 	public void IdleInit()
@@ -462,8 +469,10 @@ public class PlayerController : MonoBehaviour
 		//Set direction
 		dashVector = config.Input.AimDirection;
 
+
 		//Counters
 		dashTimeCounter = dashTime;
+
 		dashCooldownCounter = dashCooldown;
 		//Apply Speed
 		//m_Rigidbody.velocity = new Vector3(config.Input.AimDirection.x, config.Input.AimDirection.y, 0f);
@@ -475,9 +484,15 @@ public class PlayerController : MonoBehaviour
 
 		if (dashTimeCounter <= 0)
         {
+			//DashExit();
 			IdleInit();
         }
     }
+
+    public void DashExit()
+    {
+		m_Rigidbody.velocity = m_Rigidbody.velocity * dashExitSpeedFac;
+	}
 
 	public void ChangeAmmunnitionReserve(int add)
 	{

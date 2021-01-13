@@ -13,10 +13,11 @@ public class PlayerAnimationController : MonoBehaviour
     private Animator dynamicPenguinTransformAnimator;
 
     private void Awake()
-    {
+    {        
         penguinAnimator = penguin.GetComponent<Animator>();
         dynamicPenguinTransformAnimator = GetComponent<Animator>();
     }
+
     public void StartIdle()
     {
         penguinAnimator.SetTrigger("Idle");

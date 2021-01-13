@@ -31,6 +31,7 @@ namespace Assets.Scripts.Items
         void ResetForNextRound();
         List<Team> TeamScores { get; set; }
         int ScoreLimit { get; set; }
+        int TimeLimitSeconds { get; set; }
         int RoundLimit{ get; set; }
         int RoundsLeftToPlay{ get; set; }
         /// <summary>

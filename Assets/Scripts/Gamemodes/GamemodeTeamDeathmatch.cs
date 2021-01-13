@@ -83,5 +83,6 @@ namespace Assets.Scripts.Gamemodes
         public int NumberOfTeams => 2;
 
         public int RoundsLeftToPlay { get; set; }
+        public int TimeLimitSeconds { get; set; } = 300;
     }
 }

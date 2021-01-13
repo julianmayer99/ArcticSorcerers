@@ -134,7 +134,13 @@ namespace Assets.Scripts.Gamemodes
                     // TODO: Copy more player stats
                 }
             }
-            
+        }
+
+        public string GetTimeString(int seconds)
+        {
+            int minutes = seconds / 60;
+            int relSeconds = seconds % 60;
+            return $"{minutes}:{seconds}";
         }
     }
 }

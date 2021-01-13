@@ -30,5 +30,6 @@ namespace Assets.Scripts.Items
         /// <param name="columnIndex"></param>
         /// <returns></returns>
         string GetScoreBoardColumnHeader(int columnIndex);
+        void UpdateTimeLeftTimer(string timeLeftText);
     }
 }

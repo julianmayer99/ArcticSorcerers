@@ -236,8 +236,8 @@ public class PlayerConfigurationManager : MonoBehaviour
     {
         TeamDeathmatch = 0,
         CaptureTheFlag = 1,
-        LastManStanding = 2,
-        KingOfTheHill = 3,
+        KingOfTheHill = 2,
+        LastManStanding = 3,
         CoinCollectors = 4,
         FreeForAll = 5,
         SearchAndDestroy = 6,

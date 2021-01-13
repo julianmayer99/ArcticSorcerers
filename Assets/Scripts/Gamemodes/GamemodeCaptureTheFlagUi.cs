@@ -68,6 +68,11 @@ public class GamemodeCaptureTheFlagUi : MonoBehaviour, IGameModeUi
         roundEndPanel.gameObject.SetActive(true);
     }
 
+    public void UpdateTimeLeftTimer(string timeLeftText)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void UpdateUI()
     {
         foreach (var team in teamPanels)

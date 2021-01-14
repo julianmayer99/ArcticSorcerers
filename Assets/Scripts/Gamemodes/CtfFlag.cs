@@ -10,14 +10,35 @@ public class CtfFlag : MonoBehaviour
     [HideInInspector] public PlayerController carryingPlayer;
     [HideInInspector] public Vector3 spawnPosition;
 
+    private Renderer rend;
+    public Material matTeam0;
+    public Material matTeam1;
+
+    private void Awake()
+    {
+        rend = GetComponent<Renderer>();
+    }
+
     public void Initialize(Team team, Vector3 spawn)
     {
+        Debug.Log("CTF FLAG INITIALIZE");
+        //Team
         this.team = team;
+
+        rend.sharedMaterial = matTeam1;
+
+        if (this.team.teamId == 1)
+        {
+            rend.sharedMaterial = matTeam1;
+        }
+
+        //Spawn position
         this.spawnPosition = spawn;
     }
 
     private void Update()
     {
+
         if (isAtSpawn)
             return;
 

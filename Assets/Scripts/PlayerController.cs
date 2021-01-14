@@ -86,6 +86,14 @@ public class PlayerController : MonoBehaviour
 
 	private bool listenersAreSetUp = false;
 
+	[Header("Materials")]
+	[Space]
+	public Material headBlue;
+	public Material bodyBlue;
+	[Space]
+	public Material headGrey;
+	public Material bodyGrey;
+
 	private void Awake()
 	{
 		m_Rigidbody = GetComponent<Rigidbody>();

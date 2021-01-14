@@ -220,6 +220,10 @@ MonoBehaviour:
   OnCancelActionTriggered:
     m_PersistentCalls:
       m_Calls: []
+  headBlue: {fileID: 2100000, guid: 8ad28abab61ff4e41a3ea5e67e13fed8, type: 2}
+  bodyBlue: {fileID: 2100000, guid: d9f7bb34d65bbbf47a1227db47b6d534, type: 2}
+  headGrey: {fileID: 2100000, guid: e3fd0324a40b6b8468b35c8d85a6ceea, type: 2}
+  bodyGrey: {fileID: 2100000, guid: 58f39a21a5a8f434a8052376377676c3, type: 2}
 --- !u!136 &3576540009171542645
 CapsuleCollider:
   m_ObjectHideFlags: 0

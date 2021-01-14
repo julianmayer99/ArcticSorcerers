@@ -273,6 +273,9 @@ public class PlayerController : MonoBehaviour
 		if (otherPlayer == null)
 			return;
 
+		if (otherPlayer.transform.position.y > transform.position.y)
+			return; // Der andere Spieler ist über dem Spieler
+
 		Debug.Log(otherPlayer.config.info.name + " jumped on the head of " + config.info.name);
 
 		otherPlayer.OnPlayerHasBeenShot(this, transform.position);

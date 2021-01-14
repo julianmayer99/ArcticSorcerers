@@ -78,7 +78,9 @@ namespace Assets.Scripts.Gamemodes
 
             for (int i = 0; i < PlayerConfigurationManager.Instance.Players.Count; i++)
             {
-                PlayerConfigurationManager.Instance.Players[i].config.Team = GameSettings.gameMode.TeamScores[i % 2];
+                PlayerConfigurationManager.Instance.Players[i].config.Team = GameSettings.gameMode.IsTeamBased
+                    ? GameSettings.gameMode.TeamScores[i % 2]
+                    : GameSettings.gameMode.TeamScores[i];
                 PlayerConfigurationManager.Instance.Players[i].playerUI.UpdateTeamColor();
                 PlayerConfigurationManager.Instance.Players[i].OnTeamChanged();
             }

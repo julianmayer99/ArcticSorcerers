@@ -80,6 +80,7 @@ namespace Assets.Scripts.Gamemodes
             {
                 PlayerConfigurationManager.Instance.Players[i].config.Team = GameSettings.gameMode.TeamScores[i % 2];
                 PlayerConfigurationManager.Instance.Players[i].playerUI.UpdateTeamColor();
+                PlayerConfigurationManager.Instance.Players[i].OnTeamChanged();
             }
         }
 

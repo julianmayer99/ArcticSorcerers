@@ -1743,7 +1743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 2008951243}
   uiObject: {fileID: 1994540796}
-  offset: {x: 0, y: 1, z: 0}
+  offset: {x: 0, y: 3.5, z: 0}
 --- !u!135 &692229465
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1823,7 +1823,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 692229463}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.55, y: 0.25, z: 0}
+  m_LocalPosition: {x: 3.55, y: -0.39, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 557985926}
@@ -2805,7 +2805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 2008951243}
   uiObject: {fileID: 1241092679}
-  offset: {x: 0, y: 1, z: 0}
+  offset: {x: 0, y: 3.5, z: 0}
 --- !u!135 &1136884842
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5762,7 +5762,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 2008951243}
   uiObject: {fileID: 926812886}
-  offset: {x: 0, y: 1, z: 0}
+  offset: {x: 0, y: 2.5, z: 0}
 --- !u!135 &2044882804
 SphereCollider:
   m_ObjectHideFlags: 0

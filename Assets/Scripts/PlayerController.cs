@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Gamemodes;
 using Assets.Scripts.Items;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,7 +49,7 @@ public class PlayerController : MonoBehaviour
 	public float dashTime = 0.12f;
 	private float dashTimeCounter;
 
-	private float dashCooldown = 0.4f;
+	private float dashCooldown = 0.2f;
 	private float dashCooldownCounter;
 	private float dashCooldownAirFactor = 0f;
 
@@ -87,13 +88,7 @@ public class PlayerController : MonoBehaviour
 
 	private bool listenersAreSetUp = false;
 
-	[Header("Materials")]
-	[Space]
-	public Material headBlue;
-	public Material bodyBlue;
-	[Space]
-	public Material headGrey;
-	public Material bodyGrey;
+	
 
 	private void Awake()
 	{
@@ -587,6 +582,14 @@ public class PlayerController : MonoBehaviour
 
 		if (!playerUI.IsAiming)
 			playerUI.IsAiming = true;
+	}
+
+	internal void OnTeamChanged()
+	{
+		if (GameSettings.gameMode.IsTeamBased && config.Team.teamId == 1)
+			ac.SetColorBlack();
+		else
+			ac.SetColorBlue();
 	}
 
 	private void AdjustPlayerRotation(float directionX)

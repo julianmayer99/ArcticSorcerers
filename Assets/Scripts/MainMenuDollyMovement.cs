@@ -25,6 +25,7 @@ public class MainMenuDollyMovement : MonoBehaviour
 
     public void StartMoveFromStartToEnd(System.Action onMoveComplete)
     {
+        startTime = Time.time;
         moveDirection = 1;
         isMooving = true;
         onMoveCompleteCallback = onMoveComplete;
@@ -32,6 +33,7 @@ public class MainMenuDollyMovement : MonoBehaviour
 
     public void StartMoveFromEndToStart()
     {
+        startTime = Time.time;
         moveDirection = 0;
         isMooving = true;
     }

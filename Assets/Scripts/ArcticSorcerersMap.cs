@@ -53,7 +53,7 @@ public class ArcticSorcerersMap : MonoBehaviour
         }
         else
         {
-            var spawn = spawns[UnityEngine.Random.Range(0, teamSpawns.Count - 1)];
+            var spawn = spawns[UnityEngine.Random.Range(0, spawns.Length - 1)];
             spawn.lastUsed = DateTime.Now;
             return spawn.transform.position;
         }

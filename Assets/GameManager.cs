@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
 
         GameSettings.gameMode.InitializeInLevel();
         GameSettings.gameHasStarted = true;
+
+        AudioManager.instance.Play(AudioManager.audioMainMenu);
     }
 
     private void OnEnable()

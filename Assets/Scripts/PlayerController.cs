@@ -273,8 +273,10 @@ public class PlayerController : MonoBehaviour
 		if (otherPlayer == null)
 			return;
 
-		this.OnPlayerHasBeenShot(otherPlayer, otherPlayer.transform.position);
-		otherPlayer.m_Rigidbody.AddForce(new Vector3(0f, 300f, 0f));
+		Debug.Log(otherPlayer.config.info.name + " jumped on the head of " + config.info.name);
+
+		otherPlayer.OnPlayerHasBeenShot(this, transform.position);
+		m_Rigidbody.AddForce(new Vector3(0f, 300f, 0f));
 	}
 
 	public void Move(float move, float movementSmoothing)

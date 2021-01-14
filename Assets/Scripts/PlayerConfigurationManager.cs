@@ -6,13 +6,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using Assets.Scripts.Gamemodes;
-using System.Security.Cryptography;
 
 public class PlayerConfigurationManager : MonoBehaviour
 {
-    public Transform playerRespawnPostGame;
-    public GameObject[] gameModePreFabs;
-    public GameObject teamSelectInteractable;
     public PlayerController playerPreFab;
 
     private List<PlayerController> players;
@@ -53,8 +49,6 @@ public class PlayerConfigurationManager : MonoBehaviour
             }
         };
 
-        AudioManager.instance.Play(AudioManager.audioMainMenu);
-
         RecalculateUsedAndUnusedGamepads();
     }
 
@@ -85,14 +79,6 @@ public class PlayerConfigurationManager : MonoBehaviour
         if (Instance != null)
         {
             Debug.Log("[Singleton] Trying to instantiate a seccond instance of a singleton class.");
-
-            foreach (var player in Instance.Players)
-            {
-                player.transform.position = playerRespawnPostGame.position;
-                player.gameObject.SetActive(true);
-                player.m_Rigidbody.velocity = Vector3.zero;
-            }
-
             Destroy(gameObject);
             return;
         }
@@ -102,9 +88,6 @@ public class PlayerConfigurationManager : MonoBehaviour
             DontDestroyOnLoad(Instance);
             players = new List<PlayerController>();
         }
-
-        if (GameSettings.gameMode == null)
-            ChangeGamemode(Maybers.Prefs.Get("last gamemode", 2));
     }
 
     void RecalculateUsedAndUnusedGamepads()
@@ -162,99 +145,10 @@ public class PlayerConfigurationManager : MonoBehaviour
     IEnumerator SetPlayerColorAfterPlayerEnableCall(PlayerController player)
     {
         yield return new WaitForEndOfFrame();
-        ChangePlayerColor(player); // Auto assign on first launch
+        FindObjectOfType<JoinRoomManager>().ChangePlayerColor(player); // Auto assign on first launch
         player.playerUI.UpdateTeamColor();
     }
 
     public List<PlayerController> Players => players;
 
-    public void ChangePlayerColor(PlayerController player)
-    {
-        player.config.ChangePlayerColorToNextFree();
-        player.OnColorChanged();
-    }
-
-    public void ChangeTeam(PlayerController player)
-    {
-        player.config.Team = GameSettings.gameMode.TeamScores[(player.config.Team.teamId + 1) % GameSettings.gameMode.NumberOfTeams];
-        player.playerUI.UpdateTeamColor();
-    }
-
-    public void SetPlayerColor(int index, ColorManager.PlayerColor color)
-    {
-        players[index].config.Color = color;
-    }
-
-    public void SetPlayerCharacter(int index, int characterIndex)
-    {
-        players[index].config.Character = characterIndex;
-    }
-
-    // TODO:
-    /*public void ReadyPlayer(int index)
-    {
-        players[index].config.isReady = true;
-        if (players.Count == MaxPlayers && players.All(p => p.config.isReady))
-        {
-            FindObjectOfType<JoinScreenController>().dialogueWindow_startGame.SetActive(true);
-        }
-    }*/
-
-    public void AttemptGameStart(int playerIndex)
-    {
-        if (FindObjectOfType<JoinScreenController>().dialogueWindow_startGame.activeSelf)
-        {
-            SceneManager.LoadScene("Level");
-        }
-        else
-        {
-            FindObjectOfType<JoinScreenController>().dialogueWindow_startGame.SetActive(true);
-        }
-    }
-
-    public void LoadLevel()
-    {
-        DontDestroyOnLoad(GameSettings.gameMode.GameObject);
-        ResponseVisualizer.Instance.TintScreenBlackOnLongWaitTime();
-        SceneManager.LoadScene("Level");
-    }
-
-    public void ChangeGamemode(Gamemode mode)
-    {
-        if (GameSettings.gameMode != null)
-            Destroy(GameSettings.gameMode.GameObject);
-
-        var modeInQuestion = gameModePreFabs.SingleOrDefault(m => m.GetComponent<IGameMode>().ModeName == mode);
-        if (modeInQuestion != null)
-        {
-            GameSettings.gameMode = Instantiate(modeInQuestion).GetComponent<IGameMode>();
-            GameSettings.gameMode.OnModeSpawnedInJoinRoom();
-            teamSelectInteractable.SetActive(GameSettings.gameMode.IsTeamBased);
-        }
-        else
-            Debug.LogError("Gamemode " + mode + " was not found.");
-
-        Maybers.Prefs.Set("last gamemode", (int)mode);
-    }
-
-    public void ChangeGamemode(int id)
-    {
-        ChangeGamemode((Gamemode)id);
-    }
-
-    /// <summary>
-    /// @see: classes than implement the interface <see cref="IGameMode"/>
-    /// </summary>
-    [System.Serializable]
-    public enum Gamemode
-    {
-        TeamDeathmatch = 0,
-        CaptureTheFlag = 1,
-        KingOfTheHill = 2,
-        LastManStanding = 3,
-        CoinCollectors = 4,
-        FreeForAll = 5,
-        SearchAndDestroy = 6,
-        Domination = 7
-    }
 }

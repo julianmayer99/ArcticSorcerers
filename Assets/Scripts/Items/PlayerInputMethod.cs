@@ -121,7 +121,7 @@ namespace Assets.Scripts.Items
         {
             bool isdown;
             if (gamepad != null)
-                isdown = gamepad.rightShoulder.isPressed;
+                isdown = gamepad.buttonNorth.isPressed;
             else
                 isdown = Keyboard.current.tabKey.isPressed;
 
@@ -135,7 +135,7 @@ namespace Assets.Scripts.Items
         {
             bool isdown;
             if (gamepad != null)
-                isdown = gamepad.leftShoulder.isPressed;
+                isdown = gamepad.leftShoulder.isPressed || gamepad.rightShoulder.isPressed;
             else
                 isdown = Keyboard.current.qKey.isPressed;
 

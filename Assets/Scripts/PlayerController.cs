@@ -336,7 +336,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (selectedInteractable == null && playerControlsEnabled)
 			Jump(true);
-		else if (selectedInteractable.isButtonDownEvent)
+		else if (selectedInteractable != null && selectedInteractable.isButtonDownEvent)
 		{
 			// => On button down
 			selectedInteractable.OnPlayerInteracted.Invoke(this);

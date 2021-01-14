@@ -143,6 +143,9 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Time.timeScale = 1f;
+        foreach (var player in PlayerConfigurationManager.Instance.Players)
+            player.gameObject.SetActive(false);
+
         ResponseVisualizer.Instance.TintScreenBlackOnLongWaitTime();
         SceneManager.LoadScene("JoinRoom");
     }

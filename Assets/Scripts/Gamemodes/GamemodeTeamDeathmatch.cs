@@ -20,7 +20,7 @@ namespace Assets.Scripts.Gamemodes
 
         public GameObject uiPreFab;
 
-        public PlayerConfigurationManager.Gamemode ModeName { get; set; } = PlayerConfigurationManager.Gamemode.TeamDeathmatch;
+        public GamemodeBase.Gamemode ModeName { get; set; } = GamemodeBase.Gamemode.TeamDeathmatch;
         public List<Team> TeamScores { get; set; }
         public int ScoreLimit { get; set; } = 15;
         public int RoundLimit { get; set; } = 1;

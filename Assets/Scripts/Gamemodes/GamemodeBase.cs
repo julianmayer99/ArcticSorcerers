@@ -146,5 +146,21 @@ namespace Assets.Scripts.Gamemodes
             int relSeconds = seconds % 60;
             return $"{minutes}:{seconds}";
         }
+        
+        /// <summary>
+        /// @see: classes than implement the interface <see cref="IGameMode"/>
+        /// </summary>
+        [System.Serializable]
+        public enum Gamemode
+        {
+            TeamDeathmatch = 0,
+            CaptureTheFlag = 1,
+            KingOfTheHill = 2,
+            LastManStanding = 3,
+            CoinCollectors = 4,
+            FreeForAll = 5,
+            SearchAndDestroy = 6,
+            Domination = 7
+        }
     }
 }

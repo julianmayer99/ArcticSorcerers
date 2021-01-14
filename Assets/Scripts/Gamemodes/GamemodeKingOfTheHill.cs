@@ -13,7 +13,7 @@ public class GamemodeKingOfTheHill : MonoBehaviour, IGameMode
     public GameObject uiPreFab;
     public GameObject firstKingOfTheHillCollectable;
 
-    public PlayerConfigurationManager.Gamemode ModeName { get; set; } = PlayerConfigurationManager.Gamemode.KingOfTheHill;
+    public GamemodeBase.Gamemode ModeName { get; set; } = GamemodeBase.Gamemode.KingOfTheHill;
     public List<Team> TeamScores { get; set; }
     public int ScoreLimit { get; set; } = 76;
     public int RoundLimit { get; set; } = 1;

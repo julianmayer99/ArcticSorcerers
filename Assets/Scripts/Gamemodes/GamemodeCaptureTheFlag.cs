@@ -19,7 +19,7 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
     public CtfFlag ctfFlagPreFab;
     public List<CtfFlag> ctfFlags = new List<CtfFlag>();
 
-    public PlayerConfigurationManager.Gamemode ModeName { get; set; } = PlayerConfigurationManager.Gamemode.CaptureTheFlag;
+    public GamemodeBase.Gamemode ModeName { get; set; } = GamemodeBase.Gamemode.CaptureTheFlag;
     public List<Team> TeamScores { get; set; } = new List<Team>();
     public int ScoreLimit { get; set; } = 1;
     public int RoundLimit { get; set; } = 2;

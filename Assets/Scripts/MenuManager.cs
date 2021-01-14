@@ -15,7 +15,10 @@ public class MenuManager : MonoBehaviour
         if (PlayerConfigurationManager.Instance.Players.Count <= 0)
             FindObjectOfType<MainMenuDollyMovement>().SetToStart();
         else
+        {
             FindObjectOfType<MainMenuDollyMovement>().SetToEnd();
+            Camera.main.GetComponent<DynamicMultiTargetCamera>().enabled = true;
+        }
     }
 
     public void SkipMainMenuScreen()

@@ -14,8 +14,7 @@ namespace Assets.Scripts.Items
         public PlayerInputMethod Input { get; set; }
         public int PlayerIndex { get; private set; }
         public Team Team { get; set; } = new Team();
-        public int Character { get; set; }
-        public bool isReady { get; set; }
+        public bool isReady { get; set; } // TODO:
         public ColorManager.PlayerColor Color { get; set; }
 
         private int selectedColorIndex = 0;

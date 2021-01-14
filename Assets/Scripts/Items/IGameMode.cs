@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
+using Assets.Scripts.Gamemodes;
 
 namespace Assets.Scripts.Items
 {
     public interface IGameMode
     {
         GameObject @GameObject { get; }
-        PlayerConfigurationManager.Gamemode ModeName { get; set; }
+        GamemodeBase.Gamemode ModeName { get; set; }
         bool IsTeamBased { get; }
         /// <summary>
         /// Should always be <see cref="PlayerConfigurationManager.Instance.Players.Count"/> if <see cref="IsTeamBased"/> is set to false.

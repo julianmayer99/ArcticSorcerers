@@ -1,5 +1,6 @@
 using Assets.Scripts.Gamemodes;
 using Assets.Scripts.Items;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ public class JoinRoomManager : MonoBehaviour
     public Transform playerRespawnPostGame;
     public GameObject[] gameModePreFabs;
     public GameObject teamSelectInteractable;
+    public GameObject controlsInputPanel;
 
     private void Start()
     {
@@ -23,6 +25,18 @@ public class JoinRoomManager : MonoBehaviour
 
         if (GameSettings.gameMode == null)
             ChangeGamemode(Maybers.Prefs.Get("last gamemode", 2));
+
+        PlayerControllerInteractionManager.Instance.OnScoreboardPressed.AddListener(OnScoreboardPressed);
+    }
+
+    private void OnScoreboardPressed()
+    {
+        controlsInputPanel.SetActive(!controlsInputPanel.activeSelf);
+    }
+
+    private void OnDestroy()
+    {
+        PlayerControllerInteractionManager.Instance.OnScoreboardPressed.RemoveListener(OnScoreboardPressed);
     }
 
     public IEnumerator ReenablePlayersPostGameAfterFirstUpdate()

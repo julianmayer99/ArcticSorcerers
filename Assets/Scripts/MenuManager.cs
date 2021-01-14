@@ -1,3 +1,4 @@
+using Assets.Scripts.Items;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,11 @@ public class MenuManager : MonoBehaviour
             FindObjectOfType<MainMenuDollyMovement>().StartMoveFromStartToEnd(() =>
             {
                 Camera.main.GetComponent<DynamicMultiTargetCamera>().enabled = true;
+                if (Maybers.Prefs.Get("initialControlsShown", false) == false)
+                {
+                    Maybers.Prefs.Set("initialControlsShown", true);
+                    FindObjectOfType<JoinRoomManager>().controlsInputPanel.SetActive(true);
+                }
             });
         else
         {

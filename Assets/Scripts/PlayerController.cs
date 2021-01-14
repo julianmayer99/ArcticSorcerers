@@ -387,6 +387,7 @@ public class PlayerController : MonoBehaviour
 	public void OnShowScoreboardActionPerformed()
 	{
 		OnShowScoreboardActionTriggered.Invoke();
+		PlayerControllerInteractionManager.Instance.OnScoreboardPressed.Invoke();
 	}
 
 	public void OnCancelActionPerformed()
@@ -598,16 +599,20 @@ public class PlayerController : MonoBehaviour
 
 		if (directionX > 0)
 		{
+			facingRight = false;
 			targetAngle = -90;
 		}
 		else if (directionX < 0)
 		{
+			facingRight = true;
 			targetAngle = 90;
 		}
 
 		float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 		transform.rotation = Quaternion.Euler(0f, angle, 0f);
 	}
+
+	private bool facingRight = true;
 
 	private void InstantlyAdjustPlayerRotation()
 	{

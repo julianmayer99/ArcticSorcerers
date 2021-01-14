@@ -21,6 +21,8 @@ public class PlayerControllerInteractionManager : MonoBehaviour
     public PlayerControllerEvent OnPlayerStartedObjective;
     public PlayerControllerEvent OnPlayerScoredObjective;
 
+
+    public UnityEvent OnScoreboardPressed;
     public static PlayerControllerInteractionManager Instance { get; private set; }
 
     private void Awake()
@@ -30,5 +32,8 @@ public class PlayerControllerInteractionManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        if (OnScoreboardPressed == null)
+            OnScoreboardPressed = new UnityEvent();
     }
 }

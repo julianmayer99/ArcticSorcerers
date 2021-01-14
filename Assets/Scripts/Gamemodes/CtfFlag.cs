@@ -29,7 +29,7 @@ public class CtfFlag : MonoBehaviour
 
         if (this.team.teamId == 1)
         {
-            rend.sharedMaterial = matTeam1;
+            rend.sharedMaterial = matTeam0;
         }
 
         //Spawn position

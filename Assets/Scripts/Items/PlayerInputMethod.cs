@@ -187,6 +187,9 @@ namespace Assets.Scripts.Items
 
         public IEnumerator QueueGamepadVibrationAsync(Rumble rumblePattern)
         {
+            if (gamepad == null)
+                return;
+
             switch (rumblePattern)
             {
                 case Rumble.Pulse:

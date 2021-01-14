@@ -30,7 +30,7 @@ public class GamemodeKingOfTheHill : MonoBehaviour, IGameMode
     public void InitializeInLevel()
     {
         GameModeUi = Instantiate(uiPreFab, FindObjectOfType<Canvas>().transform).GetComponent<IGameModeUi>();
-        Instantiate(firstKingOfTheHillCollectable, GameManager.Instance.map.initial_KOTH_Spawn.position, Quaternion.identity);
+        Instantiate(firstKingOfTheHillCollectable, GameManager.Instance.activeMap.initial_KOTH_Spawn.position, Quaternion.identity);
         GamemodeBase.InitializeInLevel();
     }
 

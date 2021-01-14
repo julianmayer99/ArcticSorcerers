@@ -58,7 +58,7 @@ namespace Assets.Scripts.Gamemodes
         {
             foreach (var player in PlayerConfigurationManager.Instance.Players)
             {
-                player.transform.position = GameManager.Instance.map.GetGoodGameStartSpawnPoint(player);
+                player.transform.position = GameManager.Instance.activeMap.GetGoodGameStartSpawnPoint(player);
                 player.playerStats.ResetStatsOnPlayerDeath();
             }
             foreach (var team in GameSettings.gameMode.TeamScores)

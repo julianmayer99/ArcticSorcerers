@@ -60,6 +60,13 @@ public class JoinRoomManager : MonoBehaviour
         Maybers.Prefs.Set("last gamemode", (int)mode);
     }
 
+    public void ChangeMap(int map)
+    {
+        GameSettings.selectedMap = (GameSettings.Map)map;
+
+        Maybers.Prefs.Set("last map", map);
+    }
+
     public void ChangePlayerColor(PlayerController player)
     {
         player.config.ChangePlayerColorToNextFree();

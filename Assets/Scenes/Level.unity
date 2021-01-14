@@ -2932,9 +2932,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreBoardPanel: {fileID: 2964107483750549469}
   gamePausedPanel: {fileID: 746361095}
-  map: {fileID: 1086213321}
   dynamicCamera: {fileID: 1157035188}
-  playerPrefab: {fileID: 3576540009171542542, guid: a4735c222d51d974d9d7633cb79e7387, type: 3}
+  maps:
+  - {fileID: 738849260}
+  - {fileID: 1086213321}
   popUpPlusTextPreFab: {fileID: 264662629970058989, guid: 32e050abd0c63d94e9ecfd4454b760c5, type: 3}
 --- !u!4 &1202350050
 Transform:

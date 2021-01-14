@@ -13,9 +13,9 @@ public class GameManager : MonoBehaviour
     public GameObject scoreBoardPanel;
     public GameObject gamePausedPanel;
 
-    public ArcticSorcerersMap map; // TODO: Sollte später gespawnt werden je nach GameSettings
+    public ArcticSorcerersMap activeMap { get; private set; }
     public DynamicMultiTargetCamera dynamicCamera;
-    public GameObject playerPrefab;
+    public ArcticSorcerersMap[] maps;
     public static GameManager Instance{ get; set; }
 
     [Header("UI Stuff")]
@@ -30,6 +30,12 @@ public class GameManager : MonoBehaviour
         {
             GoToJoinRoom();
             return;
+        }
+
+        activeMap = maps[(int)GameSettings.selectedMap];
+        for (int i = 0; i < maps.Length; i++)
+        {
+            maps[i].gameObject.SetActive(i == (int)GameSettings.selectedMap);
         }
     }
 
@@ -111,7 +117,7 @@ public class GameManager : MonoBehaviour
         player.playerStats.ResetStatsOnPlayerDeath();
         yield return new WaitForSeconds(GameSettings.RespawnDelay);
         player.gameObject.SetActive(true);
-        player.transform.position = map.GetGoodSpawnPoint(player);
+        player.transform.position = activeMap.GetGoodSpawnPoint(player);
 
     }
 

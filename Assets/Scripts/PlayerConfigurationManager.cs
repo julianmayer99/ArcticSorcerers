@@ -87,6 +87,7 @@ public class PlayerConfigurationManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(Instance);
             players = new List<PlayerController>();
+            GameSettings.selectedMap = (GameSettings.Map)Maybers.Prefs.Get("last map", (int)GameSettings.Map.SnowCastle);
         }
     }
 

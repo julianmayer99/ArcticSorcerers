@@ -15,7 +15,7 @@ namespace Assets.Scripts.Items
         /// </summary>
         public static bool gameHasStarted = false;
         public static bool friendlyFire = false;
-        public static Map selectedMap = Map.IceRocks;
+        public static Map selectedMap = Map.SnowCastle;
         public static float RespawnDelay
         {
             get

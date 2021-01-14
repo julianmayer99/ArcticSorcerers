@@ -147,7 +147,7 @@ namespace Assets.Scripts.Gamemodes
         {
             int minutes = seconds / 60;
             int relSeconds = seconds % 60;
-            return $"{minutes}:{seconds}";
+            return $"{minutes}:{relSeconds}";
         }
         
         /// <summary>

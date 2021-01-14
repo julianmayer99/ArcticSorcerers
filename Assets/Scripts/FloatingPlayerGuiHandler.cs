@@ -11,6 +11,7 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
     [SerializeField] private GameObject isKingOfTheHillIcon;
     [SerializeField] private SVGImage img_teamPanel;
     [SerializeField] private TextMeshProUGUI txt_playerName;
+    [SerializeField] private TextMeshProUGUI txt_playerLevel;
     [SerializeField] private Image img_nameTextBackground;
     [SerializeField] private Image[] ammunitionKnobs;
     [SerializeField] private Vector3 guiOffset;
@@ -26,6 +27,8 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
 
         attatchedPlayer = player;
         txt_playerName.text = player.config.info.name;
+        txt_playerLevel.text = attatchedPlayer.config.info.Level.ToString();
+
         if (player.config.Color != null)
         {
             UpdatePlayerColor();
@@ -53,6 +56,7 @@ public class FloatingPlayerGuiHandler : MonoBehaviour
     public void UpdatePlayerProfileUi()
     {
         txt_playerName.text = attatchedPlayer.config.info.name;
+        txt_playerLevel.text = attatchedPlayer.config.info.Level.ToString();
     }
 
     public void UpdateAmmunitionReserveCount(int shotsLeft)

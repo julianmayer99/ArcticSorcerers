@@ -17,13 +17,15 @@ public class GamemodeCaptureTheFlagUi : MonoBehaviour, IGameModeUi
     public List<Team> CorrespondingTeams { get; set; }
     public GameObject GameObject => gameObject;
 
+    public string GamemodeName { get; set; } = "Capture The Flag";
+
     public string GetScoreBoardColumnHeader(int columnIndex)
     {
         switch (columnIndex)
         {
             // TODO: I18n
             case 0: return "Erobert";
-            case 1: return "Zur. gebracht";
+            case 1: return "Zür. gebracht";
             case 2: return "Kills";
             default: return "-";
         }

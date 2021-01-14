@@ -20,6 +20,7 @@ public class GamemodeAllVsAllUi : MonoBehaviour, IGameModeUi
     public List<Team> CorrespondingTeams { get; set; }
     public GameObject GameObject => gameObject;
 
+    public string GamemodeName { get; set; } = "King Of The Hill";
     List<Team> IGameModeUi.CorrespondingTeams { get; set; }
 
     public string GetScoreBoardColumnHeader(int columnIndex)
@@ -27,9 +28,9 @@ public class GamemodeAllVsAllUi : MonoBehaviour, IGameModeUi
         switch (columnIndex)
         {
             // TODO: I18n
-            case 0: return "Erobert";
-            case 1: return "Zur. gebracht";
-            case 2: return "Kills";
+            case 0: return "Kills";
+            case 1: return "Schüsse";
+            case 2: return "Tode";
             default: return "-";
         }
     }
@@ -38,9 +39,9 @@ public class GamemodeAllVsAllUi : MonoBehaviour, IGameModeUi
     {
         switch (columnIndex)
         {
-            case 0: return forPlayer.gamemodeExtraInfo.flagsCaptured.ToString();
-            case 1: return forPlayer.gamemodeExtraInfo.flagsReturned.ToString();
-            case 2: return forPlayer.playerStats.kills.ToString();
+            case 0: return forPlayer.playerStats.kills.ToString();
+            case 1: return forPlayer.playerStats.shotsFired.ToString();
+            case 2: return forPlayer.playerStats.deaths.ToString();
             default: return string.Empty;
         }
     }

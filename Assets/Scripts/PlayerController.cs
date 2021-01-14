@@ -573,6 +573,9 @@ public class PlayerController : MonoBehaviour
 	public void ChangeAmmunnitionReserve(int add)
 	{
 		playerStats.ammunitionLeft += add;
+		if (playerStats.ammunitionLeft > 5)
+			playerStats.ammunitionLeft = 5;
+
 		playerUI.UpdateAmmunitionReserveCount(playerStats.ammunitionLeft);
 	}
 

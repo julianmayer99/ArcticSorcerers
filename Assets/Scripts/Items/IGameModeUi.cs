@@ -10,6 +10,7 @@ namespace Assets.Scripts.Items
     public interface IGameModeUi
     {
         GameObject @GameObject { get; }
+        string GamemodeName { get; set; }
         List<Team> CorrespondingTeams { get; set; }
         void InitializeUI(List<Team> teams);
         void UpdateUI();

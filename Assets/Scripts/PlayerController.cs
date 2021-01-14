@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 	private PlayerAnimationController ac;
 
 	//Status of the Player
-	private enum Status { Idle, Waddle, Attack, Dash}
+	private enum Status { Idle, Waddle, Attack, Dash, Dead}
 	private Status currentStatus = Status.Idle; //currentStatus keeps track of the Status the player is currently in.
 
 	[Header("Player Stats")]
@@ -57,6 +57,10 @@ public class PlayerController : MonoBehaviour
 	public float dashYFac = 1f;
 	public float dashExitSpeedFac = 0.3f;
 
+
+	//Dead
+	private float deathAnimationTimeCounter;
+	public float deathAnimationTime = 1f;
 
 	[Header("Aiming")] 
 	public Transform aimingIndicator;
@@ -230,7 +234,11 @@ public class PlayerController : MonoBehaviour
 			case Status.Dash:
 				DashStatus();
 				break;
-        }
+
+			case Status.Dead:
+				DeadStatus();
+				break;
+		}
 
 		if (dashCooldownCounter > 0)
 		{
@@ -536,6 +544,27 @@ public class PlayerController : MonoBehaviour
     {
 		dashCooldownCounter = dashCooldown;
 		//m_Rigidbody.velocity = m_Rigidbody.velocity * dashExitSpeedFac;
+	}
+
+	public void DeadInit()
+    {
+		currentStatus = Status.Dead;
+		ac.StartDead();
+
+		deathAnimationTimeCounter = deathAnimationTime;
+    }
+	void DeadStatus()
+    {
+		deathAnimationTimeCounter -= Time.deltaTime;
+
+		if (deathAnimationTimeCounter <= 0)
+        {
+			DeadExit();
+        }
+    }
+	void DeadExit()
+    {
+		WaddleInit();
 	}
 
 	public void ChangeAmmunnitionReserve(int add)

@@ -79,6 +79,12 @@ public class PlayerAnimationController : MonoBehaviour
         penguinAnimator.SetTrigger("Dash");
     }
 
+    public void StartDead()
+    {
+        penguinAnimator.SetTrigger("Dead");
+        penguinAnimator.speed = 2f;
+    }
+
     public void SetSpeed(float s)
     {
         penguinAnimator.speed = s;

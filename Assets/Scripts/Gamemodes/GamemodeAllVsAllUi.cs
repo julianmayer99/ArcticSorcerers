@@ -57,7 +57,7 @@ public class GamemodeAllVsAllUi : MonoBehaviour, IGameModeUi
         roundEndPanel = Instantiate(roundEndPanelPreFab.gameObject, FindObjectOfType<Canvas>().transform).GetComponent<DialogueWindow>();
         roundEndPanel.gameObject.SetActive(false);
 
-        Debug.Log("<color=green>Gamemode Ui Initialized: Capture The Flag</color>");
+        Debug.Log("<color=green>Gamemode Ui Initialized: All vs. All</color>");
     }
 
     public void ShowGameEndScreen()

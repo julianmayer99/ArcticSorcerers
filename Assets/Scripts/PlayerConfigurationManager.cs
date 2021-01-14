@@ -149,6 +149,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         FindObjectOfType<JoinRoomManager>().ChangePlayerColor(player); // Auto assign on first launch
         player.playerUI.UpdateTeamColor();
+        player.playerUI.UpdatePlayerProfileUi();
     }
 
     public List<PlayerController> Players => players;

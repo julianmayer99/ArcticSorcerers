@@ -51,7 +51,10 @@ public class DialogueWindow : MonoBehaviour
     {
         if (injectBackActionListeners)
             foreach (var player in invokedPlayers)
+            {
                 player.OnBackActionTriggered.AddListener(CloseWindow);
+                player.playerControlsEnabled = false;
+            }
         StartCoroutine(ActivateButtonOnEndOfFrame());
     }
 

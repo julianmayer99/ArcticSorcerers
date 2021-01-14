@@ -86,11 +86,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: PenguinArmature|Death (1)
-      takeName: PenguinArmature|Death
+      name: PenguinArmature|Dash
+      takeName: PenguinArmature|Dash
       internalID: 0
       firstFrame: 0
-      lastFrame: 90
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

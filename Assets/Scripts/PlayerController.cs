@@ -343,6 +343,9 @@ public class PlayerController : MonoBehaviour
 
 	public void OnJumpPerformed()
 	{
+		if (currentStatus == Status.Dead)
+			return;
+
 		if (selectedInteractable == null && playerControlsEnabled)
 			Jump(true);
 		else if (selectedInteractable != null && selectedInteractable.isButtonDownEvent)
@@ -360,6 +363,9 @@ public class PlayerController : MonoBehaviour
 
 	public void OnShootButtonDownPerformed()
 	{
+		if (currentStatus == Status.Dead)
+			return;
+
 		if (!playerControlsEnabled)
 			return;
 
@@ -386,6 +392,9 @@ public class PlayerController : MonoBehaviour
 	
 	public void OnShootButtonUpPerformed()
 	{
+		if (currentStatus == Status.Dead)
+			return;
+
 		if (!playerControlsEnabled)
 			return;
 

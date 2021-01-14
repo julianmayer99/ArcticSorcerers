@@ -55,6 +55,8 @@ public class WeaponProjectile : MonoBehaviour
         var player = collision.gameObject.GetComponent<PlayerController>();
         if (player != null)
         {
+            player.config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.Pulse);
+
             if (player.config.PlayerIndex == shotFromPlayer.config.PlayerIndex)
             {
                 // Is players own bullet
@@ -65,6 +67,7 @@ public class WeaponProjectile : MonoBehaviour
             {
                 // Players are not in the same team or team damage is turned on
                 player.OnPlayerHasBeenShot(shotFromPlayer, collision.contacts[0].point);
+                shotFromPlayer.config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.SmallShortPulse);
             }
 
         }

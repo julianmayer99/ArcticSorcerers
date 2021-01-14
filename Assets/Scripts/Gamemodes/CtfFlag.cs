@@ -62,6 +62,7 @@ public class CtfFlag : MonoBehaviour
             if (player.gamemodeExtraInfo.CarryingFlag != null)
             {
                 GameSettings.gameMode.OnPlayerScoredObjective(player);
+                player.config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.Pulse);
             }
 
             return;
@@ -71,6 +72,7 @@ public class CtfFlag : MonoBehaviour
             if (carryingPlayer != null)
                 return;
 
+            player.config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.Pulse);
             ReturnOwnFlagToHomeBase();
             player.gamemodeExtraInfo.flagsReturned++;
             return;
@@ -83,6 +85,7 @@ public class CtfFlag : MonoBehaviour
                 return;
 
             isAtSpawn = false;
+            player.config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.Pulse);
 
             carryingPlayer = player;
             player.gamemodeExtraInfo.CarryingFlag = this;

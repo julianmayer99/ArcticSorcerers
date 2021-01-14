@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 namespace Assets.Scripts.Items
 {
@@ -179,6 +180,56 @@ namespace Assets.Scripts.Items
             }
         }
 
+        public void QueueGamepadVibration(Rumble rumblePattern)
+        {
+            player.StartCoroutine(QueueGamepadVibrationAsync(rumblePattern));
+        }
 
+        public IEnumerator QueueGamepadVibrationAsync(Rumble rumblePattern)
+        {
+            switch (rumblePattern)
+            {
+                case Rumble.Pulse:
+                    gamepad.SetMotorSpeeds(.3f, .3f);
+                    yield return new WaitForSecondsRealtime(.3f);
+                    break;
+                case Rumble.StrongPulse:
+                    gamepad.SetMotorSpeeds(.6f, .6f);
+                    yield return new WaitForSecondsRealtime(.3f);
+                    break;
+                case Rumble.SmallShortPulse:
+                    gamepad.SetMotorSpeeds(.1f, .1f);
+                    yield return new WaitForSecondsRealtime(.15f);
+                    break;
+                case Rumble.VerySmallShortPulse:
+                    gamepad.SetMotorSpeeds(.065f, .065f);
+                    yield return new WaitForSecondsRealtime(.13f);
+                    break;
+
+                case Rumble.FadeOut:
+                    gamepad.SetMotorSpeeds(.4f, .4f);
+                    yield return new WaitForSecondsRealtime(.1f);
+                    gamepad.SetMotorSpeeds(.25f, .25f);
+                    yield return new WaitForSecondsRealtime(.1f);
+                    gamepad.SetMotorSpeeds(.1f, .1f);
+                    yield return new WaitForSecondsRealtime(.1f);
+                    break;
+
+                default:
+                    yield return new WaitForSecondsRealtime(.3f);
+                    break;
+            }
+
+            gamepad.ResetHaptics();
+        }
+
+        public enum Rumble
+        {
+            Pulse,
+            StrongPulse,
+            SmallShortPulse,
+            VerySmallShortPulse,
+            FadeOut
+        }
     }
 }

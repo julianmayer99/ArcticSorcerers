@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Items;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,6 +24,7 @@ public class CollectableProjectile : MonoBehaviour
         // multi-collisions as Destroy takes some time
         hasBeenCollected = true;
         AudioManager.instance.Play(AudioManager.audioSFXBlop);
+        player.config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.VerySmallShortPulse);
         Destroy(gameObject);
     }
 }

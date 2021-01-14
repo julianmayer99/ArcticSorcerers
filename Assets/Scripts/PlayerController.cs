@@ -250,7 +250,13 @@ public class PlayerController : MonoBehaviour
 		}
 
 		if (lastlastVerticalVelocity < -17 || lastVerticalVelocity < -17)
+		{
 			AudioManager.instance.Play(AudioManager.audioSFXLand);
+			config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.SmallShortPulse);
+		} else if (lastlastVerticalVelocity < -8 || lastVerticalVelocity < -8)
+		{
+			config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.VerySmallShortPulse);
+		}
 
 		m_Grounded = true;
 		jumpsLeft = 1;
@@ -306,6 +312,7 @@ public class PlayerController : MonoBehaviour
 		if (!m_Grounded) jumpsLeft--;
 		m_Grounded = false;
 		AudioManager.instance.Play(AudioManager.audioSFXJump);
+		config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.VerySmallShortPulse);
 		m_Rigidbody.AddForce(new Vector2(0f, m_JumpForce));
 		OnJumpEvent.Invoke(this);
 		playerStats.jumps++;
@@ -411,6 +418,7 @@ public class PlayerController : MonoBehaviour
 	{
 		InstantlyAdjustPlayerRotation();
 		weapon.Shoot();
+		config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.StrongPulse);
 		playerStats.shotsFired++;
 		ChangeAmmunnitionReserve(-1);
 		shootCoolDownCounter = shootCoolDown;
@@ -486,6 +494,7 @@ public class PlayerController : MonoBehaviour
 	public void DashInit()
     {
 		currentStatus = Status.Dash;
+		config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.FadeOut);
 		ac.StartDash();
 		AudioManager.instance.Play(AudioManager.audioSFXDash);
 

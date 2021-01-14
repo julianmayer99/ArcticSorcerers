@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 	public float dashTime = 0.12f;
 	private float dashTimeCounter;
 
-	private float dashCooldown = 0.2f;
+	private float dashCooldown = 0.1f;
 	private float dashCooldownCounter;
 	private float dashCooldownAirFactor = 0f;
 
@@ -317,6 +317,7 @@ public class PlayerController : MonoBehaviour
 		m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, 0f);
 
 		if (!m_Grounded) jumpsLeft--;
+		//else dashCooldown = 0f;
 		m_Grounded = false;
 		AudioManager.instance.Play(AudioManager.audioSFXJump);
 		config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.VerySmallShortPulse);
@@ -508,7 +509,7 @@ public class PlayerController : MonoBehaviour
 
 		//Set direction
 		dashVector = config.Input.AimDirection;
-
+			
 
 		//Counters
 		dashTimeCounter = dashTime;

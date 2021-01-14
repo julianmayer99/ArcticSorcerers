@@ -48,12 +48,13 @@ public class PlayerController : MonoBehaviour
 	public float dashTime = 0.12f;
 	private float dashTimeCounter;
 
-	private float dashCooldown = 1f;
+	private float dashCooldown = 0.4f;
 	private float dashCooldownCounter;
+	private float dashCooldownAirFactor = 0f;
 
 	private Vector2 dashVector = new Vector2();
-	public float dashYFac = 0.8f;
-	public float dashExitSpeedFac = 0.2f;
+	public float dashYFac = 1f;
+	public float dashExitSpeedFac = 0.3f;
 
 
 	[Header("Aiming")] 
@@ -216,8 +217,6 @@ public class PlayerController : MonoBehaviour
 
 		if (shootCoolDownCounter > 0)
 			shootCoolDownCounter--;
-		if (dashCooldownCounter > 0)
-			dashCooldownCounter -= Time.deltaTime;
 
 		switch (currentStatus)
         {
@@ -237,6 +236,19 @@ public class PlayerController : MonoBehaviour
 				DashStatus();
 				break;
         }
+
+		if (dashCooldownCounter > 0)
+		{
+			if (!m_Grounded)
+			{
+				dashCooldownCounter -= Time.deltaTime * dashCooldownAirFactor;
+			}
+			else
+			{
+				dashCooldownCounter -= Time.deltaTime;
+			}
+		}
+		
 	}
 
 	private bool m_WasGrounded;
@@ -505,7 +517,6 @@ public class PlayerController : MonoBehaviour
 		//Counters
 		dashTimeCounter = dashTime;
 
-		dashCooldownCounter = dashCooldown;
 		//Apply Speed
 		//m_Rigidbody.velocity = new Vector3(config.Input.AimDirection.x, config.Input.AimDirection.y, 0f);
 	}
@@ -513,17 +524,19 @@ public class PlayerController : MonoBehaviour
     {
 		Move2(dashVector, dashSpeed, m_DashSmoothing, dashYFac);
 		dashTimeCounter -= Time.deltaTime;
+		m_Grounded = false;
 
 		if (dashTimeCounter <= 0)
         {
-			//DashExit();
+			DashExit();
 			IdleInit();
         }
     }
 
     public void DashExit()
     {
-		m_Rigidbody.velocity = m_Rigidbody.velocity * dashExitSpeedFac;
+		dashCooldownCounter = dashCooldown;
+		//m_Rigidbody.velocity = m_Rigidbody.velocity * dashExitSpeedFac;
 	}
 
 	public void ChangeAmmunnitionReserve(int add)

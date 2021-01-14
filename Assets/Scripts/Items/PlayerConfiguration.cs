@@ -35,6 +35,7 @@ namespace Assets.Scripts.Items
             selectedColorIndex++;
         }
 
+
         public PlayerConfiguration() {  }
 
         public PlayerConfiguration(int playerId)

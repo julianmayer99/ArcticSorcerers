@@ -77,6 +77,7 @@ public class JoinRoomManager : MonoBehaviour
     {
         player.config.Team = GameSettings.gameMode.TeamScores[(player.config.Team.teamId + 1) % GameSettings.gameMode.NumberOfTeams];
         player.playerUI.UpdateTeamColor();
+        player.OnTeamChanged();
     }
 
     // TODO:

@@ -187,43 +187,43 @@ namespace Assets.Scripts.Items
 
         public IEnumerator QueueGamepadVibrationAsync(Rumble rumblePattern)
         {
-            if (gamepad == null)
-                return;
-
-            switch (rumblePattern)
+            if (gamepad != null)
             {
-                case Rumble.Pulse:
-                    gamepad.SetMotorSpeeds(.3f, .3f);
-                    yield return new WaitForSecondsRealtime(.3f);
-                    break;
-                case Rumble.StrongPulse:
-                    gamepad.SetMotorSpeeds(.6f, .6f);
-                    yield return new WaitForSecondsRealtime(.3f);
-                    break;
-                case Rumble.SmallShortPulse:
-                    gamepad.SetMotorSpeeds(.1f, .1f);
-                    yield return new WaitForSecondsRealtime(.15f);
-                    break;
-                case Rumble.VerySmallShortPulse:
-                    gamepad.SetMotorSpeeds(.065f, .065f);
-                    yield return new WaitForSecondsRealtime(.13f);
-                    break;
+                switch (rumblePattern)
+                {
+                    case Rumble.Pulse:
+                        gamepad.SetMotorSpeeds(.3f, .3f);
+                        yield return new WaitForSecondsRealtime(.3f);
+                        break;
+                    case Rumble.StrongPulse:
+                        gamepad.SetMotorSpeeds(.6f, .6f);
+                        yield return new WaitForSecondsRealtime(.3f);
+                        break;
+                    case Rumble.SmallShortPulse:
+                        gamepad.SetMotorSpeeds(.1f, .1f);
+                        yield return new WaitForSecondsRealtime(.15f);
+                        break;
+                    case Rumble.VerySmallShortPulse:
+                        gamepad.SetMotorSpeeds(.065f, .065f);
+                        yield return new WaitForSecondsRealtime(.13f);
+                        break;
 
-                case Rumble.FadeOut:
-                    gamepad.SetMotorSpeeds(.4f, .4f);
-                    yield return new WaitForSecondsRealtime(.1f);
-                    gamepad.SetMotorSpeeds(.25f, .25f);
-                    yield return new WaitForSecondsRealtime(.1f);
-                    gamepad.SetMotorSpeeds(.1f, .1f);
-                    yield return new WaitForSecondsRealtime(.1f);
-                    break;
+                    case Rumble.FadeOut:
+                        gamepad.SetMotorSpeeds(.4f, .4f);
+                        yield return new WaitForSecondsRealtime(.1f);
+                        gamepad.SetMotorSpeeds(.25f, .25f);
+                        yield return new WaitForSecondsRealtime(.1f);
+                        gamepad.SetMotorSpeeds(.1f, .1f);
+                        yield return new WaitForSecondsRealtime(.1f);
+                        break;
 
-                default:
-                    yield return new WaitForSecondsRealtime(.3f);
-                    break;
+                    default:
+                        yield return new WaitForSecondsRealtime(.3f);
+                        break;
+                }
+
+                gamepad.ResetHaptics();
             }
-
-            gamepad.ResetHaptics();
         }
 
         public enum Rumble

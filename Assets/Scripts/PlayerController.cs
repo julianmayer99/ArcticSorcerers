@@ -258,6 +258,8 @@ public class PlayerController : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
+		if (currentStatus == Status.Dead) return;
+
 		if (!m_WasGrounded)
 		{
 			OnLandEvent.Invoke();
@@ -640,23 +642,36 @@ public class PlayerController : MonoBehaviour
 			ac.SetColorBlue();
 	}
 
+	float adjustRotTarget = 0f;
+	float adjustRotTargetOld = 0f;
+
 	private void AdjustPlayerRotation(float directionX)
 	{
-		float targetAngle = transform.eulerAngles.y;
+		//adjustRotTarget = transform.eulerAngles.y;
 
 		if (directionX > 0)
 		{
 			facingRight = false;
-			targetAngle = -90;
+			adjustRotTarget = -90;
 		}
 		else if (directionX < 0)
 		{
 			facingRight = true;
-			targetAngle = 90;
+			adjustRotTarget = 90;
 		}
 
-		float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-		transform.rotation = Quaternion.Euler(0f, angle, 0f);
+		if (adjustRotTargetOld != adjustRotTarget)
+		{
+			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, 0, ref turnSmoothVelocity, turnSmoothTime);
+			transform.rotation = Quaternion.Euler(0f, angle, 0f);
+		}
+        else
+		{
+			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, adjustRotTarget, ref turnSmoothVelocity, turnSmoothTime);
+			transform.rotation = Quaternion.Euler(0f, angle, 0f);
+		}
+
+		adjustRotTargetOld = adjustRotTarget;
 	}
 
 	private bool facingRight = true;

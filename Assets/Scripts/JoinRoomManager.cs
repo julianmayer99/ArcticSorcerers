@@ -16,6 +16,8 @@ public class JoinRoomManager : MonoBehaviour
     public GameObject teamSelectInteractable;
     public GameObject controlsInputPanel;
     public TMP_InputField inp_serverPort;
+    [Space]
+    public TMP_InputField inp_serverIP;
 
     private void Start()
     {
@@ -113,6 +115,17 @@ public class JoinRoomManager : MonoBehaviour
     public void StopServer()
     {
         GameServer.instance.StopServer();
+    }
+
+    public void JoinServer()
+    {
+        GameClient.instance.SetIPAddress(inp_serverIP.text);
+        GameClient.instance.ConnectToServer();
+    }
+
+    public void LeaveServer()
+    {
+        GameClient.instance.Disconnect();
     }
 
     // TODO:

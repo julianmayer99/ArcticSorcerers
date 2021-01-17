@@ -139,6 +139,11 @@ namespace Assets.Scripts.Gamemodes
                     player.config.info.shotsFired += player.playerStats.shotsFired;
 
                     // TODO: Copy more player stats
+                    player.playerStats.jumps = 0;
+                    player.playerStats.deaths = 0;
+                    player.playerStats.kills = 0;
+                    player.playerStats.shotsFired = 0;
+                    player.playerStats.distanceCovered = 0;
                 }
             }
         }

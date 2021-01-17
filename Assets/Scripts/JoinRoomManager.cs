@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,6 +15,7 @@ public class JoinRoomManager : MonoBehaviour
     public GameObject[] gameModePreFabs;
     public GameObject teamSelectInteractable;
     public GameObject controlsInputPanel;
+    public TMP_InputField inp_serverPort;
 
     private void Start()
     {
@@ -92,6 +95,23 @@ public class JoinRoomManager : MonoBehaviour
         player.config.Team = GameSettings.gameMode.TeamScores[(player.config.Team.teamId + 1) % GameSettings.gameMode.NumberOfTeams];
         player.playerUI.UpdateTeamColor();
         player.OnTeamChanged();
+    }
+
+    public void StarServer()
+    {
+        if (int.TryParse(inp_serverPort.text, out int port))
+        {
+            GameServer.instance.StartServer(port);
+        }
+        else
+        {
+            Debug.LogError("Invalid port "+ inp_serverPort.text);
+        }
+    }
+
+    public void StopServer()
+    {
+        GameServer.instance.StopServer();
     }
 
     // TODO:

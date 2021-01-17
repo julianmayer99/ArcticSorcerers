@@ -115,12 +115,14 @@ public class GameManager : MonoBehaviour
     IEnumerator DeactivateAndRespawnPlayerAfterShortTimeDelay(PlayerController player)
     {
         player.DeadInit();
+        player.playerUI.IsAiming = false;
         yield return new WaitForSeconds(player.deathAnimationTime);
         Debug.Log("Player " + player.config.info.name + " has been killed and will be respawned.");
         player.gameObject.SetActive(false);
         player.playerStats.ResetStatsOnPlayerDeath();
         yield return new WaitForSeconds(GameSettings.RespawnDelay - player.deathAnimationTime);
         player.gameObject.SetActive(true);
+        player.playerUI.UpdateAmmunitionReserveCount(player.playerStats.ammunitionLeft);
         player.transform.position = activeMap.GetGoodSpawnPoint(player);
     }
 

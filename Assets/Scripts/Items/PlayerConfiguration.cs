@@ -13,6 +13,7 @@ namespace Assets.Scripts.Items
         public PlayerLevelingManager.PlayerInfo info;
         public PlayerInputMethod Input { get; set; }
         public int PlayerIndex { get; private set; }
+        public int NetworkPlayerIndex { get; set; } = -1;
         public Team Team { get; set; } = new Team();
         public bool isReady { get; set; } // TODO:
         public ColorManager.PlayerColor Color { get; set; }

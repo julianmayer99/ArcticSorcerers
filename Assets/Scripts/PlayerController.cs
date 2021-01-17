@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour
 	private PlayerAnimationController ac;
 
 	//Status of the Player
-	private enum Status { Idle, Waddle, Attack, Dash, Dead}
-	private Status currentStatus = Status.Idle; //currentStatus keeps track of the Status the player is currently in.
+	public enum Status { Idle, Waddle, Attack, Dash, Dead }
+	public Status currentStatus = Status.Idle; //currentStatus keeps track of the Status the player is currently in.
 
 	[Header("Player Stats")]
 	[SerializeField] private float m_JumpForce = 400f;
@@ -289,6 +289,7 @@ public class PlayerController : MonoBehaviour
 		Debug.Log(otherPlayer.config.info.name + " jumped on the head of " + config.info.name);
 
 		otherPlayer.OnPlayerHasBeenShot(this, transform.position);
+		otherPlayer.config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.StrongPulse);
 		m_Rigidbody.AddForce(new Vector3(0f, 300f, 0f));
 	}
 
@@ -423,6 +424,9 @@ public class PlayerController : MonoBehaviour
 	public void OnDashButtonDownPerformed()
     {
 		if (!playerControlsEnabled || dashCooldownCounter > 0f)
+			return;
+
+		if (currentStatus == Status.Dead)
 			return;
 
 		//Button down

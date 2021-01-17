@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93118d2edc014d445bb460a6cf7fd6d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentStatus: 0
   m_JumpForce: 800
   m_Speed: 7
   config:
@@ -192,6 +193,7 @@ MonoBehaviour:
   dashTime: 0.12
   dashYFac: 0.8
   dashExitSpeedFac: 0.2
+  deathAnimationTime: 1
   aimingIndicator: {fileID: 2300725086826037871}
   aimingRange: 89.9
   weapon: {fileID: 4909147058716611585}
@@ -467,7 +469,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6689407182382121781}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.294, y: 0.974, z: -1.503}
+  m_LocalPosition: {x: 0.294, y: 0.647, z: -0.937}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2300725086826037871}

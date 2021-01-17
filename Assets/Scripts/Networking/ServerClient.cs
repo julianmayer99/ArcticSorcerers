@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Items.Networking;
+using Assets.Scripts.Networking.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,8 +61,21 @@ namespace Assets.Scripts.Items
                     rawMessage = rawMessage.Remove(0, 1);
                     var loopMessage = JsonUtility.FromJson<GameLoopMessage>(rawMessage);
                     NetworkingInfoManager.Server_AddClientMessageToLoop(loopMessage);
+                    NetworkPlayerManager.instance.UpdatePlayerPositions(id);
                     break;
-                case (char)GameServer.MessageType.Welcome:
+                case (char)GameServer.MessageType.RegisterPlayer:
+                    rawMessage = rawMessage.Remove(0, 1);
+                    var rpMsg = JsonUtility.FromJson<RegisterPlayerMessage>(rawMessage);
+                    var existingPlayer = NetworkingInfoManager.config.players.SingleOrDefault(p => p.clientId == id && p.localId == rpMsg.localId);
+                    if (existingPlayer != null)
+                        NetworkingInfoManager.config.players.Remove(existingPlayer);
+
+                    int nid = NetworkingInfoManager.config.playerCount;
+                    var pinfo = rpMsg.GetPlayerInfo(id, nid);
+                    NetworkingInfoManager.config.players.Add(pinfo);
+                    GameServer.instance.SendMessageToAllClients(GameServer.MessageType.ServerConfig, JsonUtility.ToJson(NetworkingInfoManager.config));
+                    GameServer.instance.SendMessageToClient(id, GameServer.MessageType.AcceptPlayer, JsonUtility.ToJson(pinfo));
+
                     break;
                 case (char)GameServer.MessageType.Message:
                     break;

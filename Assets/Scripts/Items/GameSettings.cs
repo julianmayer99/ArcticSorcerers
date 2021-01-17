@@ -15,6 +15,7 @@ namespace Assets.Scripts.Items
         /// </summary>
         public static bool gameHasStarted = false;
         public static bool friendlyFire = false;
+        public static Connection activeConnection = Connection.None;
         public static Map selectedMap = Map.SnowCastle;
         public static float RespawnDelay
         {
@@ -47,6 +48,13 @@ namespace Assets.Scripts.Items
         {
             IceRocks = 0,
             SnowCastle = 1
+        }
+        
+        public enum Connection
+        {
+            Host,
+            Client,
+            None
         }
     }
 }

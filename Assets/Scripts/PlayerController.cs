@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Gamemodes;
+﻿using Assets.Scripts;
+using Assets.Scripts.Gamemodes;
 using Assets.Scripts.Items;
 using System;
 using System.Collections;
@@ -8,7 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IPlayer
 {
 	//component acces
 	private PlayerAnimationController ac;
@@ -679,6 +680,8 @@ public class PlayerController : MonoBehaviour
 	}
 
 	private bool facingRight = true;
+
+	public Transform Transform => transform;
 
 	private void InstantlyAdjustPlayerRotation()
 	{

@@ -105,7 +105,8 @@ public class JoinRoomManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Invalid port "+ inp_serverPort.text);
+            GameServer.instance.StartServer(8082);
+            Debug.LogError("Invalid port "+ inp_serverPort.text + ". Instead using 8082.");
         }
     }
 

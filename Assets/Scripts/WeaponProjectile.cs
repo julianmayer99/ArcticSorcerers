@@ -69,7 +69,10 @@ public class WeaponProjectile : MonoBehaviour
                 player.OnPlayerHasBeenShot(shotFromPlayer, collision.contacts[0].point);
                 shotFromPlayer.config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.SmallShortPulse);
             }
-
+        }
+        else
+        {
+            // TODO Network Player Collision
         }
 
         snowAirTimeAudioSource.Stop();

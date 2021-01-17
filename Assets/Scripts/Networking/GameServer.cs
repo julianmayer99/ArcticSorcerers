@@ -43,6 +43,7 @@ public class GameServer : MonoBehaviour
 
         listener = new TcpListener(localAddr, Port);
         Debug.Log("Listening on " + Port + " ...");
+        Debug.Log("Local ip: " + GetLocalIPAddress());
 
         foreach (var player in PlayerConfigurationManager.Instance.Players)
         {
@@ -50,7 +51,7 @@ public class GameServer : MonoBehaviour
         }
 
         listener.Start();
-
+        GameSettings.activeConnection = GameSettings.Connection.Host;
         listener.BeginAcceptTcpClient(OnTcpClientConnected, null);
         serverIsRunning = true;
     }
@@ -73,7 +74,6 @@ public class GameServer : MonoBehaviour
     }
 
     private int fixedUpdateCounter = 0;
-    private int fixedUpdateCounterLimit = 100;
 
     private void FixedUpdate()
     {
@@ -85,7 +85,7 @@ public class GameServer : MonoBehaviour
 
         fixedUpdateCounter++;
 
-        if (fixedUpdateCounter < fixedUpdateCounterLimit)
+        if (fixedUpdateCounter < NetworkingInfoManager.fixedUpdateCounterLimit)
             return;
 
         fixedUpdateCounter = 0;
@@ -114,11 +114,11 @@ public class GameServer : MonoBehaviour
     {
         foreach (var client in clients)
         {
-            SendMessageToClient(client.Value.id, type + message);
+            SendMessageToClient(client.Value.id, type, message);
         }
     }
 
-    private void SendMessageToClient(int clientId, string message)
+    public void SendMessageToClient(int clientId, MessageType type, string message)
     {
         if (!clients.ContainsKey(clientId))
         {
@@ -130,8 +130,8 @@ public class GameServer : MonoBehaviour
 
         if (client.stream == null) client.stream = client.tcp.GetStream();
 
-        Debug.Log($"<color=#7eff70>" + $"Server -> {clientId}" + "</color>" + " : " + message);
-        byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes(message);
+        Debug.Log($"<color=#7eff70>" + $"Server -> {clientId}" + "</color>" + " : " + (char)type + message);
+        byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes((char)type + message);
         client.stream.Write(bytesToSend, 0, bytesToSend.Length);
     }
 
@@ -149,6 +149,7 @@ public class GameServer : MonoBehaviour
         serverIsRunning = false;
         Debug.Log("Server stopped. Disconnected " + clients.Count + " clients.");
         clients.Clear();
+        GameSettings.activeConnection = GameSettings.Connection.None;
     }
 
     private void OnApplicationQuit()
@@ -158,8 +159,10 @@ public class GameServer : MonoBehaviour
 
     public enum MessageType
     {
-        Welcome = 'w',
+        ServerConfig = 'c',
         GameUpdateLoop = 'u',
-        Message = 'm'
+        Message = 'm',
+        RegisterPlayer = 'r',
+        AcceptPlayer = 'a'
     }
 }

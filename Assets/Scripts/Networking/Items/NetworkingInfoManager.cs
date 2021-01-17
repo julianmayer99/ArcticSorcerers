@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Networking.Items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,10 @@ namespace Assets.Scripts.Items.Networking
 {
     public class NetworkingInfoManager
     {
+        public static int fixedUpdateCounterLimit = 100;
         public static GameLoopMessage currentServerGameLoop;
-        public static GameLoopMessage currentClientGameLoop;
+        public static GameLoopMessage currentLocalClientGameLoop;
+        public static GameLoopMessage currentClientRemoteLoop;
         public static GameConfig config = new GameConfig();
 
         public static void AddCurrentLocalGameLoopState(ref GameLoopMessage toGameloop, bool deletePreviousInstance = false)
@@ -53,18 +56,26 @@ namespace Assets.Scripts.Items.Networking
 
         public static void Client_AddLocalGameLoop()
         {
-            AddCurrentLocalGameLoopState(ref currentClientGameLoop, true);
+            AddCurrentLocalGameLoopState(ref currentLocalClientGameLoop, true);
         }
 
         public static void Client_RegisterPlayer(PlayerController player)
         {
             Debug.Log("Client: Adding player " + player.config.info.name + " to the server ...");
+            var msg = new RegisterPlayerMessage
+            {
+                level = player.config.info.Level,
+                localId = player.config.PlayerIndex,
+                name = player.config.info.name
+            };
+            GameClient.instance.tcp.SendMessage(GameServer.MessageType.RegisterPlayer, JsonUtility.ToJson(msg));
         }
     }
 
     public class GameConfig
     {
         public int playerCount => PlayerConfigurationManager.Instance.Players.Count; // TODO: Add remote players to count
+        public List<NetworkPlayerInfo> players = new List<NetworkPlayerInfo>();
         public int selectedMap;
         public int selectedGamemode;
     }

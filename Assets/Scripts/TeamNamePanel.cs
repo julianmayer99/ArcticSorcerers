@@ -22,7 +22,7 @@ public class TeamNamePanel : MonoBehaviour
             teamIcon.sprite = ColorManager.Instance.teamColors[team.teamId].teamIcon;
         txt_ScoreLimit.text = "/ " + GameSettings.gameMode.ScoreLimit.ToString();
         txt_TeamName.text = GameSettings.gameMode.IsTeamBased
-            ? "Team " + team.teamId // TODO: cool names
+            ? team.Name
             : team.Players.First().config.info.name;
         if (GameSettings.gameMode.IsTeamBased)
             GetComponent<UnityEngine.UI.Image>().color = ColorManager.Instance.teamColors[team.teamId].ui_color_dark;

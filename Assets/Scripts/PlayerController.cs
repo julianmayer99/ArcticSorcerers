@@ -18,6 +18,14 @@ public class PlayerController : MonoBehaviour, IPlayer
 	public enum Status { Idle, Waddle, Attack, Dash, Dead }
 	public Status currentStatus = Status.Idle; //currentStatus keeps track of the Status the player is currently in.
 
+	public GameObject particleJumpPreFab;
+	public Vector3 jumpParticleOffset;
+	
+	public GameObject dashParticlesPreFab;
+	public Vector3 dashParticleOffset;
+
+	public GameObject hardLandParticlesPreFab;
+
 	[Header("Player Stats")]
 	[SerializeField] private float m_JumpForce = 400f;
 	[Range(1, 20f)] [SerializeField] private float m_Speed = 10f;
@@ -271,6 +279,7 @@ public class PlayerController : MonoBehaviour, IPlayer
 		{
 			AudioManager.instance.Play(AudioManager.audioSFXLand);
 			config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.SmallShortPulse);
+			Instantiate(hardLandParticlesPreFab, transform.position + jumpParticleOffset, Quaternion.identity);
 		} else if (lastlastVerticalVelocity < -8 || lastVerticalVelocity < -8)
 		{
 			config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.VerySmallShortPulse);
@@ -340,6 +349,7 @@ public class PlayerController : MonoBehaviour, IPlayer
 		config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.VerySmallShortPulse);
 		m_Rigidbody.AddForce(new Vector2(0f, m_JumpForce));
 		OnJumpEvent.Invoke(this);
+		Instantiate(particleJumpPreFab, transform.position + jumpParticleOffset, Quaternion.identity);
 		playerStats.jumps++;
 		ac.Jump();
 		m_WasGrounded = m_Grounded;
@@ -542,6 +552,8 @@ public class PlayerController : MonoBehaviour, IPlayer
 
 		//Counters
 		dashTimeCounter = dashTime;
+
+		Instantiate(dashParticlesPreFab, transform.position + dashParticleOffset, Quaternion.identity);
 
 		//Apply Speed
 		//m_Rigidbody.velocity = new Vector3(config.Input.AimDirection.x, config.Input.AimDirection.y, 0f);

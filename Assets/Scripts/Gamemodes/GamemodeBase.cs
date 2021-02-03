@@ -152,7 +152,7 @@ namespace Assets.Scripts.Gamemodes
         {
             int minutes = seconds / 60;
             int relSeconds = seconds % 60;
-            return $"{String.Format("{0:00000}", minutes)}:{String.Format("{0:00000}", relSeconds)}";
+            return $"{String.Format("{0:0}", minutes)}:{String.Format("{0:00}", relSeconds)}";
         }
         
         /// <summary>

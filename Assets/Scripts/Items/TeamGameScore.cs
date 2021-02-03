@@ -21,7 +21,20 @@ namespace Assets.Scripts.Items
         public int score;
         public int totalScore;
         public int wonRounds;
-        public string Name => "Team " + teamId;
+        public string Name
+        {
+            get
+            {
+                switch (teamId)
+                {
+                    case 0: return "Team Schneesturm";
+                    case 1: return "Team Eiskristall";
+                    case 2: return "Team Frostbeule";
+                    case 3: return "Team Polarstern";
+                    default: return "Team Schneesturm";
+                }
+            }
+        }
 
         public bool HasTheMostWonRounds
             => GameSettings.gameMode.TeamScores.OrderByDescending(t => t.wonRounds).First().wonRounds == wonRounds;

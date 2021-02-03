@@ -71,7 +71,7 @@ public class GamemodeAllVsAllUi : MonoBehaviour, IGameModeUi
         }
         var teamWithMorePoints = GameSettings.gameMode.TeamScores.OrderByDescending(t => t.score).First();
         teamWithMorePoints.wonRounds++;
-        gameEndPanel.SetTitle(teamWithMorePoints.Name + " hat das Spiel gewonnen.");
+        gameEndPanel.SetTitle(teamWithMorePoints.Players.First().name + " hat das Spiel gewonnen.");
     }
 
     public void ShowRoundEndScreen()

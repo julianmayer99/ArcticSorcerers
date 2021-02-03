@@ -36,8 +36,12 @@ public class GamemodeCaptureTheFlag : MonoBehaviour, IGameMode
         {
             var flag = Instantiate(ctfFlagPreFab.gameObject, GameManager.Instance.activeMap.ctfFlagSpawns[i].position, Quaternion.identity)
                 .GetComponent<CtfFlag>();
-            flag.Initialize(GameSettings.gameMode.TeamScores[i], GameManager.Instance.activeMap.ctfFlagSpawns[i].position);
-            ctfFlags.Add(flag);
+            var team = GameSettings.gameMode.TeamScores.SingleOrDefault(t => t.teamId == i);
+            if (team != null)
+            {
+                flag.Initialize(team, GameManager.Instance.activeMap.ctfFlagSpawns[team.teamId].position);
+                ctfFlags.Add(flag);
+            }
         }
     }
 

@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     public ArcticSound[] sounds;
 
     public const string audioMainMenu = "music_mainMenu";
+    public const string audioLevel1 = "music_level1";
     public const string audioSFXJump = "sfx_jump";
     public const string audioSFXShoot = "sfx_shoot";
     public const string audioSFXProjectileAirTime = "sfx_shotAirTime";

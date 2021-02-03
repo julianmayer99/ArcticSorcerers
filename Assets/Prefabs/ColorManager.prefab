@@ -82,10 +82,10 @@ MonoBehaviour:
   - name: Green
     ui_color_dark: {r: 0.16242822, g: 0.41509432, b: 0, a: 1}
     ui_color_normal: {r: 0.55918854, g: 1, b: 0.27843142, a: 1}
-    teamIcon: {fileID: 3286163911610860551, guid: f227e0121c9df014e88a73bc5eebb792, type: 3}
+    teamIcon: {fileID: 21300000, guid: 2c5f8db6d09697d468f308b3a7361bdd, type: 3}
     isInUse: 0
   - name: Blue
     ui_color_dark: {r: 0.26534703, g: 0.040726222, b: 0.41509432, a: 1}
     ui_color_normal: {r: 0.76466066, g: 0.41176474, b: 1, a: 1}
-    teamIcon: {fileID: 3286163911610860551, guid: 5c0f809bd3a7c154e8f9a3ad984013d0, type: 3}
+    teamIcon: {fileID: 21300000, guid: 6079368cb162a1d41999fbe38b659db0, type: 3}
     isInUse: 0

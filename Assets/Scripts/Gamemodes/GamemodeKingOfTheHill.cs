@@ -37,7 +37,8 @@ public class GamemodeKingOfTheHill : MonoBehaviour, IGameMode
 
     public void OnPlayerKilledOtherPlayer(PlayerController attacker, PlayerController victim)
     {
-        OnPlayerStartedObjective(attacker);
+        if (currentKingOfTheHill == null || currentKingOfTheHill == victim)
+            OnPlayerStartedObjective(attacker);
     }
 
     public void OnPlayerScoredObjective(PlayerController player)

@@ -23,6 +23,7 @@ public class PlayerControllerInteractionManager : MonoBehaviour
 
 
     public UnityEvent OnScoreboardPressed;
+    public UnityEvent OnCancelButtonPressed;
     public static PlayerControllerInteractionManager Instance { get; private set; }
 
     private void Awake()
@@ -35,5 +36,7 @@ public class PlayerControllerInteractionManager : MonoBehaviour
 
         if (OnScoreboardPressed == null)
             OnScoreboardPressed = new UnityEvent();
+        if (OnCancelButtonPressed == null)
+            OnCancelButtonPressed = new UnityEvent();
     }
 }

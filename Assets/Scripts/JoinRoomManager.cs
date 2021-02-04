@@ -15,6 +15,7 @@ public class JoinRoomManager : MonoBehaviour
     public GameObject[] gameModePreFabs;
     public GameObject teamSelectInteractable;
     public GameObject controlsInputPanel;
+    public DialogueWindow quitGameWindow;
     public TMP_InputField inp_serverPort;
     [Space]
     public TMP_InputField inp_serverIP;
@@ -32,6 +33,12 @@ public class JoinRoomManager : MonoBehaviour
             ChangeGamemode(Maybers.Prefs.Get("last gamemode", 2));
 
         PlayerControllerInteractionManager.Instance.OnScoreboardPressed.AddListener(OnScoreboardPressed);
+        PlayerControllerInteractionManager.Instance.OnCancelButtonPressed.AddListener(OnPauseButtonPressed);
+    }
+
+    void OnPauseButtonPressed()
+    {
+        quitGameWindow.gameObject.SetActive(!controlsInputPanel.activeSelf);
     }
 
     private void OnScoreboardPressed()
@@ -155,5 +162,11 @@ public class JoinRoomManager : MonoBehaviour
         DontDestroyOnLoad(GameSettings.gameMode.GameObject);
         ResponseVisualizer.Instance.TintScreenBlackOnLongWaitTime();
         SceneManager.LoadScene("Level");
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Quit Game ...");
+        Application.Quit();
     }
 }

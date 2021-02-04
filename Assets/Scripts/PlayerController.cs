@@ -297,10 +297,12 @@ public class PlayerController : MonoBehaviour, IPlayer
 			return; // Der andere Spieler ist über dem Spieler
 
 		Debug.Log(otherPlayer.config.info.name + " jumped on the head of " + config.info.name);
-
-		otherPlayer.OnPlayerHasBeenShot(this, transform.position);
-		otherPlayer.config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.StrongPulse);
-		m_Rigidbody.AddForce(new Vector3(0f, 300f, 0f));
+		if (otherPlayer.config.Team.teamId != this.config.Team.teamId || GameSettings.TeamDamage)
+		{
+			otherPlayer.OnPlayerHasBeenShot(this, transform.position);
+			otherPlayer.config.Input.QueueGamepadVibration(PlayerInputMethod.Rumble.StrongPulse);
+			m_Rigidbody.AddForce(new Vector3(0f, 300f, 0f));
+		}
 	}
 
 	public void Move(float move, float movementSmoothing)
@@ -430,6 +432,7 @@ public class PlayerController : MonoBehaviour, IPlayer
 	public void OnCancelActionPerformed()
 	{
 		OnCancelActionTriggered.Invoke();
+		PlayerControllerInteractionManager.Instance.OnCancelButtonPressed.Invoke();
 	}
 
 	public void OnDashButtonDownPerformed()
